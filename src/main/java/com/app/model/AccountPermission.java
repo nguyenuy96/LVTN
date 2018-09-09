@@ -12,8 +12,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "USER_PERMISSION")
-public class UserPermission implements Serializable {
+@Table(name = "LOAI_TAI_KHOAN")
+public class AccountPermission implements Serializable {
 
 	/**
 	 * 
@@ -21,20 +21,19 @@ public class UserPermission implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "PERMISSON_ID", nullable = false, unique = true)
+	@Column(name = "ID", nullable = false, unique = true)
 	private int PERMISSION_ID;
-	@Column(name = "PERMISSION_TYPE")
+	
+	/******************************************************************************/
+	
+	@Column(name = "LOAI_TAI_KHOAN")
 	private String PERMISSION_TYPE;
-	@Column(name = "LAST_UPD_USR")
-	private String LAST_UPD_USR;
-	@Column(name = "LAST_UPD_DT")
-	private Date LAST_UPD_DT;
+	
+	/******************************************************************************/
 
-	public UserPermission(int permission_id, String permission_type, String last_upd_usr, Date last_upd_dt) {
+	public AccountPermission(int permission_id, String permission_type, String last_upd_usr, Date last_upd_dt) {
 		this.PERMISSION_ID = permission_id;
 		this.PERMISSION_TYPE = permission_type;
-		this.LAST_UPD_USR = last_upd_usr;
-		this.LAST_UPD_DT = last_upd_dt;
 	}
 
 	public int getPERMISSION_ID() {
@@ -53,30 +52,14 @@ public class UserPermission implements Serializable {
 		PERMISSION_TYPE = permission_type;
 	}
 
-	public String getLAST_UPD_USR() {
-		return LAST_UPD_USR;
-	}
-
-	public void setLAST_UPD_USR(String last_upd_usr) {
-		LAST_UPD_USR = last_upd_usr;
-	}
-
-	public Date getLAST_UPD_DT() {
-		return LAST_UPD_DT;
-	}
-
-	public void setLAST_UPD_DT(Date last_upd_dt) {
-		LAST_UPD_DT = last_upd_dt;
-	}
-
 	@OneToOne(mappedBy = "PERMISSION_ID")
-	private UserModel USER_ID;
+	private Accounts USER_ID;
 
-	public UserModel getUSER_ID() {
+	public Accounts getUSER_ID() {
 		return USER_ID;
 	}
 
-	public void setUSER_ID(UserModel user_id) {
+	public void setUSER_ID(Accounts user_id) {
 		USER_ID = user_id;
 	}
 
