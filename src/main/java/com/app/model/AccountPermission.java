@@ -1,7 +1,6 @@
 package com.app.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,45 +21,53 @@ public class AccountPermission implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", nullable = false, unique = true)
-	private int PERMISSION_ID;
+	private int permissionId;
 	
 	/******************************************************************************/
 	
 	@Column(name = "LOAI_TAI_KHOAN")
-	private String PERMISSION_TYPE;
+	private String permissionType;
 	
 	/******************************************************************************/
-
-	public AccountPermission(int permission_id, String permission_type, String last_upd_usr, Date last_upd_dt) {
-		this.PERMISSION_ID = permission_id;
-		this.PERMISSION_TYPE = permission_type;
+	
+	public AccountPermission(int permisstionId) {
+		this.permissionId = permisstionId;
+	}
+	public AccountPermission(int permissionId, String permissionType, Account account) {
+		this.permissionId = permissionId;
+		this.permissionType = permissionType;
+		this.account = account;
 	}
 
-	public int getPERMISSION_ID() {
-		return PERMISSION_ID;
+	/******************************************************************************/
+	
+	public int getPermissionId() {
+		return permissionId;
+	}
+	public void setPermissionId(int permissionId) {
+		this.permissionId = permissionId;
+	}
+	
+	/******************************************************************************/
+	
+	public String getPermissionType() {
+		return permissionType;
+	}
+	public void setPermissionType(String permissionType) {
+		this.permissionType = permissionType;
 	}
 
-	public void setPERMISSION_ID(int permission_id) {
-		PERMISSION_ID = permission_id;
+	/******************************************************************************/
+	
+	@OneToOne(mappedBy = "permission")
+	private Account account;
+
+	public Account getAccount() {
+		return account;
 	}
 
-	public String getPERMISSION_TYPE() {
-		return PERMISSION_TYPE;
-	}
-
-	public void setPERMISSION_TYPE(String permission_type) {
-		PERMISSION_TYPE = permission_type;
-	}
-
-	@OneToOne(mappedBy = "PERMISSION_ID")
-	private Accounts USER_ID;
-
-	public Accounts getUSER_ID() {
-		return USER_ID;
-	}
-
-	public void setUSER_ID(Accounts user_id) {
-		USER_ID = user_id;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 }

@@ -1,13 +1,17 @@
 package com.app.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "CAN_NANG")
@@ -21,34 +25,56 @@ public class Weight implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", nullable = false, unique = true)
-	private int WEIGHT_ID;
+	private int weightId;
+	
+	/******************************************************************************/
 	
 	@Column(name = "CAN_NANG", nullable = false, unique = true)
-	private float WEIGHT;
+	private float weight;
 	
-	public Weight (int weight_id) {
-		this.WEIGHT_ID = weight_id;
+	/******************************************************************************/
+	
+	public Weight (int weightId) {
+		this.weightId = weightId;
 	}
 	
-	public Weight(int weight_id, float weight) {
-		this.WEIGHT_ID = weight_id;
-		this.WEIGHT = weight;
+	public Weight(int weightId, float weight) {
+		this.weightId = weightId;
+		this.weight = weight;
 	}
 	
-	public int getWEIGHT_ID() {
-		return WEIGHT_ID;
+	/******************************************************************************/
+	
+	public int getWeightId() {
+		return weightId;
 	}
 	
-	public void setWEIGHT_ID(int weight_id) {
-		this.WEIGHT_ID = weight_id;
+	public void setWeightId(int weight_id) {
+		this.weightId = weight_id;
+	}
+
+	/******************************************************************************/
+	
+	public float getWeight() {
+		return weight;
 	}
 	
-	public float getWEIGHT() {
-		return WEIGHT;
+	public void setWeight(float weight) {
+		this.weight = weight;
 	}
 	
-	public void setWEIGHT(float weight) {
-		this.WEIGHT = weight;
+	/******************************************************************************/
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "weight")
+	private Set<Item> item;
+
+	public Set<Item> getItem() {
+		return item;
+	}
+
+	public void setItem(Set<Item> item) {
+		this.item = item;
 	}
 	
 }

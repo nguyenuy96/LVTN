@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -23,46 +22,55 @@ public class Country implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", nullable = false, unique = true)
-	private int COUNTRY_ID;
+	private int countryId;
 
+	/******************************************************************************/
+	
 	@Column(name = "QUOC_GIA", nullable = false, unique = true)
-	private String COUNTRY;
+	private String country;
 
-	public Country(int country_id) {
-		this.COUNTRY_ID = country_id;
+	/******************************************************************************/
+	
+	public Country(int countryId) {
+		this.countryId = countryId;
 	}
 
-	public Country(int country_id, String country) {
-		this.COUNTRY_ID = country_id;
-		this.COUNTRY = country;
+	public Country(int countryId, String country) {
+		this.countryId = countryId;
+		this.country = country;
 	}
 
-	public int getCOUNTRY_ID() {
-		return COUNTRY_ID;
+	/******************************************************************************/
+	
+	public int getCountryId() {
+		return countryId;
 	}
 
-	public void setCOUNTRY_ID(int country_id) {
-		COUNTRY_ID = country_id;
+	public void setCountryid(int countryId) {
+		this.countryId = countryId;
 	}
 
-	public String getCOUNTRY() {
-		return COUNTRY;
+	/******************************************************************************/
+	
+	public String getCountry() {
+		return country;
 	}
 
-	public void setCOUNTRY(String country) {
-		COUNTRY = country;
+	public void setCountry(String country) {
+		this.country = country;
 	}
 	
-	@OneToOne
-	@JoinColumn(name = "TRADE_MARK")
-	private TradeMark TRADE_MARK;
+	/******************************************************************************/
+	
+	@OneToOne(mappedBy = "country")
+	private TradeMark tradeMark;
 
-	public TradeMark getTRADE_MARK() {
-		return TRADE_MARK;
+	public TradeMark getTradeMark() {
+		return tradeMark;
 	}
 
-	public void setTRADE_MARK(TradeMark trade_mark) {
-		TRADE_MARK = trade_mark;
+	public void setTradeMark(TradeMark tradeMark) {
+		this.tradeMark = tradeMark;
 	}
 	
 }

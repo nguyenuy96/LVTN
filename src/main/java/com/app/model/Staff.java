@@ -7,12 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "NHAN_VIEN")
-public class Staffs implements Serializable {
+public class Staff implements Serializable {
 
 	/**
 	 * 
@@ -22,129 +23,144 @@ public class Staffs implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", nullable = false, unique = true)
-	private int STAFF_ID;
+	private int staffId;
 	
 	/******************************************************************************/
 	
 	@Column(name = "HO_TEN", nullable = false)
-	private String NAME;
+	private String name;
 	
 	/******************************************************************************/
 	
 	@Column(name = "GIOI_TINH", nullable = false)
-	private String GENDER;
+	private String gender;
 	
 	/******************************************************************************/
 	
 	@Column(name = "SO_DIEN_THOAI", nullable = false, unique = true)
-	private String PHONE_NUMBER;
+	private String phoneNumber;
 	
 	
 	@Column(name = "QUOC_TICH", nullable = false)
-	private String NATIONALITY;
+	private String nationality;
 	
 	/******************************************************************************/
 	
 	@Column(name = "CHUNG_MINH_THU", nullable = false, unique = true)
-	private String IDENTIFICATION;
+	private String identification;
 
 	/******************************************************************************/
 	
 	@Column(name = "DIA_CHI", nullable = false)
-	private String ADDRESS;
+	private String address;
 	
-	public Staffs(int staff_id, String name, String gender, String phone_number,
+	public Staff(int staffId, String name, String gender, String phoneNumber,
 			String nationality, String identification, String address) {
-		this.STAFF_ID = staff_id;
-		this.NAME = name;
-		this.GENDER = gender;
-		this.PHONE_NUMBER = phone_number;
-		this.NATIONALITY = nationality;
-		this.IDENTIFICATION = identification;
-		this.ADDRESS = address;
+		this.staffId = staffId;
+		this.name = name;
+		this.gender = gender;
+		this.phoneNumber = phoneNumber;
+		this.nationality = nationality;
+		this.identification = identification;
+		this.address = address;
 	}
 
 	/******************************************************************************/
 	
-	public int getPERSONAL_ID() {
-		return STAFF_ID;
+	public int getStaffId() {
+		return staffId;
 	}
 
-	public void setPERSONAL_ID(int staff_id) {
-		STAFF_ID = staff_id;
-	}
-
-	/******************************************************************************/
-	
-	public String getNAME() {
-		return NAME;
-	}
-
-	public void setNAME(String name	) {
-		NAME = name;
+	public void setStaffId(int staffId) {
+		this.staffId = staffId;
 	}
 
 	/******************************************************************************/
 	
-	public String getGENDER() {
-		return GENDER;
+	public String getName() {
+		return name;
 	}
 
-	public void setGENDER(String gender) {
-		GENDER = gender;
-	}
-
-	/******************************************************************************/
-	
-	public String getPHONE_NUMBER() {
-		return PHONE_NUMBER;
-	}
-
-	public void setPHONE_NUMBER(String phone_number) {
-		PHONE_NUMBER = phone_number;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/******************************************************************************/
 	
-	public String getNATIONALITY() {
-		return NATIONALITY;
+	public String getGender() {
+		return gender;
 	}
 
-	public void setNATIONALITY(String nationality) {
-		NATIONALITY = nationality;
-	}
-
-	/******************************************************************************/
-	
-	public String getIDENTIFICATION() {
-		return IDENTIFICATION;
-	}
-
-	public void setIDENTIFICATION(String identification) {
-		IDENTIFICATION = identification;
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 
 	/******************************************************************************/
 	
-	public String getADDRESS() {
-		return ADDRESS;
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	/******************************************************************************/
 	
-	public void setADDRESS(String address) {
-		this.ADDRESS = address;
+	public String getNationality() {
+		return nationality;
+	}
+
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
+
+	/******************************************************************************/
+	
+	public String getIdentification() {
+		return identification;
+	}
+
+	public void setIdentification(String identification) {
+		this.identification = identification;
+	}
+
+	/******************************************************************************/
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+	/******************************************************************************/
+	
+	@OneToOne
+	@JoinColumn(name = "TAI_KHOAN")
+	private Account account;
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 	
 	/******************************************************************************/
 	
-	@OneToOne(mappedBy = "STAFF")
-	private Accounts ACCOUNT;
+	@OneToOne(mappedBy = "staff")
+	private Bill bill;
 
-	public Accounts getACCOUNT_ID() {
-		return ACCOUNT;
+	public Bill getBill() {
+		return bill;
 	}
 
-	public void setACCOUNT_ID(Accounts account) {
-		this.ACCOUNT = account;
+	public void setBill(Bill bill) {
+		this.bill = bill;
 	}
 
 }
