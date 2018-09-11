@@ -24,12 +24,12 @@ public class ItemType implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
+	@Column(name = "ID", nullable = false, unique = true)
 	private int itemTypeId;
 	
 	/******************************************************************************/
 	
-	@Column(name = "LOAI_HANG")
+	@Column(name = "LOAI_HANG", nullable = false, unique = true)
 	private String itemType;
 	
 	/******************************************************************************/
@@ -66,7 +66,7 @@ public class ItemType implements Serializable{
 	/******************************************************************************/
 	
 	@JsonManagedReference
-	@OneToMany(mappedBy = "itemType")
+	@OneToMany(mappedBy = "itemTypeId")
 	private Set<Item> item;
 
 	public Set<Item> getItem() {

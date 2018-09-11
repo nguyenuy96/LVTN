@@ -1,6 +1,7 @@
 package com.app.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,8 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "NHAN_VIEN")
@@ -49,13 +53,21 @@ public class Staff implements Serializable {
 	@Column(name = "CHUNG_MINH_THU", nullable = false, unique = true)
 	private String identification;
 
-	/******************************************************************************/
+	
 	
 	@Column(name = "DIA_CHI", nullable = false)
 	private String address;
 	
+	/******************************************************************************/
+	
+	@OneToOne
+	@JoinColumn(name = "MA_TAI_KHOAN", nullable = false)
+	private Account accountId;
+	
+	/******************************************************************************/
+	
 	public Staff(int staffId, String name, String gender, String phoneNumber,
-			String nationality, String identification, String address) {
+			String nationality, String identification, String address, Account accountId) {
 		this.staffId = staffId;
 		this.name = name;
 		this.gender = gender;
@@ -63,6 +75,7 @@ public class Staff implements Serializable {
 		this.nationality = nationality;
 		this.identification = identification;
 		this.address = address;
+		this.accountId = accountId;
 	}
 
 	/******************************************************************************/
@@ -137,22 +150,18 @@ public class Staff implements Serializable {
 
 
 	/******************************************************************************/
-	
-	@OneToOne
-	@JoinColumn(name = "TAI_KHOAN")
-	private Account account;
 
 	public Account getAccount() {
-		return account;
+		return accountId;
 	}
 
-	public void setAccount(Account account) {
-		this.account = account;
+	public void setAccount(Account accountId) {
+		this.accountId = accountId;
 	}
 	
 	/******************************************************************************/
 	
-	@OneToOne(mappedBy = "staff")
+	@OneToOne(mappedBy = "staffId")
 	private Bill bill;
 
 	public Bill getBill() {
@@ -162,5 +171,31 @@ public class Staff implements Serializable {
 	public void setBill(Bill bill) {
 		this.bill = bill;
 	}
+	
+	/******************************************************************************/
+	@JsonManagedReference
+	@OneToMany(mappedBy = "staffId")
+	private Set<ImportRepository> importRepositories;
 
+	public Set<ImportRepository> getImportRepositories() {
+		return importRepositories;
+	}
+
+	public void setImportRepositories(Set<ImportRepository> importRepositories) {
+		this.importRepositories = importRepositories;
+	}
+	
+	/******************************************************************************/
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "staffId")
+	private Set<ExportRepository> exportRepositories;
+
+	public Set<ExportRepository> getExportRepositories() {
+		return exportRepositories;
+	}
+
+	public void setExportRepositories(Set<ExportRepository> exportRepositories) {
+		this.exportRepositories = exportRepositories;
+	}
 }

@@ -19,38 +19,40 @@ public class Account implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(strategy =GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", nullable = false, unique = true)
 	private int accountId;
-	
+
 	/******************************************************************************/
 	@Column(name = "TAI_KHOAN", nullable = false, unique = true)
 	private String userLogin;
-	
+
 	/******************************************************************************/
-	
+
 	@Column(name = "MAT_KHAU", nullable = false, unique = true)
 	private String password;
 
 	/******************************************************************************/
-	
+
+	@OneToOne
+	@JoinColumn(name = "LOAI_TAI_KHOAN", nullable = false, unique = true)
+	private AccountPermission permissionId;
+
+	/******************************************************************************/
+
 	public Account(int accountId) {
 		this.accountId = accountId;
 	}
 
-	public Account(int accountId, String userLogin, String password, AccountPermission permission,
-			Customer customer, Staff staff) {
-		super();
+	public Account(int accountId, String userLogin, String password, AccountPermission permissionId) {
 		this.accountId = accountId;
 		this.userLogin = userLogin;
 		this.password = password;
-		this.permission = permission;
-		this.customer = customer;
-		this.staff = staff;
+		this.permissionId = permissionId;
 	}
 
 	/******************************************************************************/
-	
+
 	public int getAccountId() {
 		return accountId;
 	}
@@ -60,7 +62,7 @@ public class Account implements Serializable {
 	}
 
 	/******************************************************************************/
-	
+
 	public String getUserLogin() {
 		return userLogin;
 	}
@@ -70,7 +72,7 @@ public class Account implements Serializable {
 	}
 
 	/******************************************************************************/
-	
+
 	public String getPassword() {
 		return password;
 	}
@@ -80,22 +82,18 @@ public class Account implements Serializable {
 	}
 
 	/******************************************************************************/
-	
-	@OneToOne
-	@JoinColumn(name = "LOAI_TAI_KHOAN", nullable = false, unique = true)
-	private AccountPermission permission;
 
 	public AccountPermission getPermission() {
-		return permission;
+		return permissionId;
 	}
 
 	public void setPermission(AccountPermission permissionId) {
-		this.permission = permissionId;
+		this.permissionId = permissionId;
 	}
 
 	/******************************************************************************/
-	
-	@OneToOne(mappedBy = "account")
+
+	@OneToOne(mappedBy = "accountId")
 	private Customer customer;
 
 	public Customer getCustomer() {
@@ -105,16 +103,16 @@ public class Account implements Serializable {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-	
+
 	/******************************************************************************/
-	
-	@OneToOne(mappedBy = "account")
+
+	@OneToOne(mappedBy = "accountId")
 	private Staff staff;
-	
+
 	public Staff getStaff() {
 		return staff;
 	}
-	
+
 	public void setStaff(Staff staff) {
 		this.staff = staff;
 	}

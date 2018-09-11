@@ -66,7 +66,7 @@ public class Weight implements Serializable{
 	/******************************************************************************/
 	
 	@JsonManagedReference
-	@OneToMany(mappedBy = "weight")
+	@OneToMany(mappedBy = "weightId")
 	private Set<Item> item;
 
 	public Set<Item> getItem() {

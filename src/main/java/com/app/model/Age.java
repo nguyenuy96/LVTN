@@ -66,7 +66,7 @@ public class Age implements Serializable {
 	/******************************************************************************/
 	
 	@JsonManagedReference
-	@OneToMany(mappedBy = "age")
+	@OneToMany(mappedBy = "ageId")
 	private Set<Item> item;
 
 	public Set<Item> getItem() {

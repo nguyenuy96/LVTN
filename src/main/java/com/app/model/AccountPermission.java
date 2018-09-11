@@ -25,7 +25,7 @@ public class AccountPermission implements Serializable {
 	
 	/******************************************************************************/
 	
-	@Column(name = "LOAI_TAI_KHOAN")
+	@Column(name = "LOAI_TAI_KHOAN", nullable = false, unique = true)
 	private String permissionType;
 	
 	/******************************************************************************/
@@ -33,10 +33,9 @@ public class AccountPermission implements Serializable {
 	public AccountPermission(int permisstionId) {
 		this.permissionId = permisstionId;
 	}
-	public AccountPermission(int permissionId, String permissionType, Account account) {
+	public AccountPermission(int permissionId, String permissionType) {
 		this.permissionId = permissionId;
 		this.permissionType = permissionType;
-		this.account = account;
 	}
 
 	/******************************************************************************/
@@ -59,7 +58,7 @@ public class AccountPermission implements Serializable {
 
 	/******************************************************************************/
 	
-	@OneToOne(mappedBy = "permission")
+	@OneToOne(mappedBy = "permissionId")
 	private Account account;
 
 	public Account getAccount() {

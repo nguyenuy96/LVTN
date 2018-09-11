@@ -13,49 +13,84 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "HOA_DON")
-public class Bill implements Serializable{
+public class Bill implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
+	@Column(name = "ID", nullable = false, unique = true)
 	private int billId;
 
 	/******************************************************************************/
-	
-	@Column(name = "LOAI_THANH_TOAN")
+
+	@Column(name = "LOAI_THANH_TOAN", nullable = false)
 	private String payment;
-	
+
 	/******************************************************************************/
-	
-	@Column(name = "THANH_TOAN")
+
+	@Column(name = "THANH_TOAN", nullable = false)
 	private boolean isPay;
+
+	/******************************************************************************/
+
+	@Column(name = "GIAO_HANG", nullable = false)
+	private boolean isDelivery;
+
+	/******************************************************************************/
+	
+	@Column(name = "NOI_GIAO_HANG", nullable = false)
+	private String addressDelivery;
 	
 	/******************************************************************************/
 	
-	@Column(name = "GIAO_HANG")
-	private boolean isDilivery;
-	
+	@Column(name = "SDT_GIAO_HANG", nullable = false)
+	private String phoneDelivery;
+
 	/******************************************************************************/
 	
+	@OneToOne
+	@JoinColumn(name = "MA_KHACH_HANG", nullable = false)
+	private Customer customerId;
+
+	/******************************************************************************/
+
+	@OneToOne
+	@JoinColumn(name = "MA_NHAN_VIEN", nullable = false)
+	private Staff staffId;
+
+	/******************************************************************************/
+
+	@OneToOne
+	@JoinColumn(name = "MA_GIO_HANG", nullable = false)
+	private Cart cartId;
+
+	/******************************************************************************/
+
 	public Bill(int billId) {
 		this.billId = billId;
 	}
 
-	public Bill(int billId, String payment, boolean isPay, boolean isDilivery) {
-		super();
+	public Bill(int billId, String payment, boolean isPay, boolean isDelivery, String addressDelivery, String phoneDelivery, Customer customerId, Staff staffId,
+			Cart cartId) {
 		this.billId = billId;
 		this.payment = payment;
 		this.isPay = isPay;
-		this.isDilivery = isDilivery;
+		this.isDelivery = isDelivery;
+		this.addressDelivery = addressDelivery;
+		this.phoneDelivery = phoneDelivery;
+		this.customerId = customerId;
+		this.staffId = staffId;
+		this.cartId = cartId;
 	}
 
+
+
 	/******************************************************************************/
-	
+
 	public int getBillId() {
 		return billId;
 	}
@@ -65,7 +100,7 @@ public class Bill implements Serializable{
 	}
 
 	/******************************************************************************/
-	
+
 	public String getPayment() {
 		return payment;
 	}
@@ -75,7 +110,7 @@ public class Bill implements Serializable{
 	}
 
 	/******************************************************************************/
-	
+
 	public boolean isPay() {
 		return isPay;
 	}
@@ -85,41 +120,63 @@ public class Bill implements Serializable{
 	}
 
 	/******************************************************************************/
-	
-	public boolean isDilivery() {
-		return isDilivery;
+
+	public boolean isDelivery() {
+		return isDelivery;
 	}
 
-	public void setDilivery(boolean isDilivery) {
-		this.isDilivery = isDilivery;
+	public void setDelivery(boolean isDelivery) {
+		this.isDelivery = isDelivery;
+	}
+
+	/******************************************************************************/
+
+	public String getAddressDelivery() {
+		return addressDelivery;
+	}
+	
+	public void setAddressDelivery(String addressDelivery) {
+		this.addressDelivery = addressDelivery;
 	}
 	
 	/******************************************************************************/
 	
-	@OneToOne
-	@JoinColumn(name = "KHACH_HANG")
-	private Customer customer;
-
+	public String getPhoneDelivery() {
+		return phoneDelivery;
+	}
+	
+	public void setPhoneDelivery(String phoneDelivery) {
+		this.phoneDelivery = phoneDelivery;
+	}
+	
+	/******************************************************************************/
+	
 	public Customer getCustomer() {
-		return customer;
+		return customerId;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setCustomer(Customer customerId) {
+		this.customerId = customerId;
 	}
-	
+
 	/******************************************************************************/
-	
-	@OneToOne
-	@JoinColumn(name = "NHAN_VIEN")
-	private Staff staff;
 
 	public Staff getStaff() {
-		return staff;
+		return staffId;
 	}
 
-	public void setStaff(Staff staff) {
-		this.staff = staff;
+	public void setStaff(Staff staffId) {
+		this.staffId = staffId;
 	}
-	
+
+	/******************************************************************************/
+
+	public Cart getCart() {
+		return cartId;
+	}
+
+	public void setCart(Cart cartId) {
+		this.cartId = cartId;
+	}
+
 }

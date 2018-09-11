@@ -62,7 +62,7 @@ public class Country implements Serializable {
 	
 	/******************************************************************************/
 	
-	@OneToOne(mappedBy = "country")
+	@OneToOne(mappedBy = "countryId")
 	private TradeMark tradeMark;
 
 	public TradeMark getTradeMark() {

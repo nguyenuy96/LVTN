@@ -42,16 +42,22 @@ public class Customer implements Serializable{
 	
 	/******************************************************************************/
 	
+	@OneToOne
+	@JoinColumn(name = "MA_TAI_KHOAN", nullable = false)
+	private Account accountId;
+	
+	/******************************************************************************/
+	
 	public Customer(int customerId) {
 		this.customerId = customerId;
 	}
 	
-	public Customer(int customerId, String name, String phoneNumber, String address, Account account) {
+	public Customer(int customerId, String name, String phoneNumber, String address, Account accountId) {
 		this.customerId = customerId;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
-		this.account = account;
+		this.accountId = accountId;
 	}
 
 	/******************************************************************************/
@@ -97,21 +103,17 @@ public class Customer implements Serializable{
 
 	/******************************************************************************/
 	
-	@OneToOne
-	@JoinColumn(name = "TAI_KHOAN")
-	private Account account;
-	
 	public Account getAccount() {
-		return account;
+		return accountId;
 	}
 	
-	public void setAccount(Account account) {
-		this.account = account;
+	public void setAccount(Account accountId) {
+		this.accountId = accountId;
 	}
 	
 	/******************************************************************************/
 	
-	@OneToOne(mappedBy = "customer")
+	@OneToOne(mappedBy = "customerId")
 	private Bill bill;
 
 	public Bill getBill() {

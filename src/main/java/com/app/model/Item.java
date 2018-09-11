@@ -2,6 +2,7 @@ package com.app.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,10 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "SAN_PHAM")
@@ -86,11 +89,6 @@ public class Item implements Serializable {
 
 	/******************************************************************************/
 
-	@Column(name = "SO_LUONG")
-	private int amount;
-
-	/******************************************************************************/
-
 	@Column(name = "BAO_QUAN")
 	private String preservation;
 
@@ -106,13 +104,48 @@ public class Item implements Serializable {
 
 	/******************************************************************************/
 
+	@OneToOne
+	@JoinColumn(name = "MA_THUONG_HIEU")
+	private TradeMark tradeMarkId;
+
+	/******************************************************************************/
+
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "MA_CAN_NANG")
+	private Weight weightId;
+
+	/******************************************************************************/
+
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "MA_DO_TUOI")
+	private Age ageId;
+
+	/******************************************************************************/
+
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "MA_KHUYEN_MAI")
+	private Promotion promotionId;
+
+	/******************************************************************************/
+
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "MA_LOAI_HANG")
+	private ItemType itemTypeId;
+
+	/******************************************************************************/
+
 	public Item(int itemId) {
 		this.itemId = itemId;
 	}
 
 	public Item(int itemId, String itemName, String ingredient, Date manufDate, Date expiryDate, String useObject,
-			String image, String useGuide, float net, String note, String guarantee, double unitPrice, int amount,
-			String preservation, String outstdFeatures, String description) {
+			String image, String useGuide, float net, String note, String guarantee, double unitPrice,
+			String preservation, String outstdFeatures, String description, TradeMark tradeMarkId, Weight weightId,
+			Age ageId, Promotion promotionId, ItemType itemTypeId) {
 		this.itemId = itemId;
 		this.itemName = itemName;
 		this.ingredient = ingredient;
@@ -125,10 +158,14 @@ public class Item implements Serializable {
 		this.note = note;
 		this.guarantee = guarantee;
 		this.unitPrice = unitPrice;
-		this.amount = amount;
 		this.preservation = preservation;
 		this.outstdFeatures = outstdFeatures;
 		this.description = description;
+		this.tradeMarkId = tradeMarkId;
+		this.weightId = weightId;
+		this.ageId = ageId;
+		this.promotionId = promotionId;
+		this.itemTypeId = itemTypeId;
 	}
 
 	/******************************************************************************/
@@ -253,16 +290,6 @@ public class Item implements Serializable {
 
 	/******************************************************************************/
 
-	public int getAmount() {
-		return amount;
-	}
-
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
-
-	/******************************************************************************/
-
 	public String getPreservation() {
 		return preservation;
 	}
@@ -293,77 +320,93 @@ public class Item implements Serializable {
 
 	/******************************************************************************/
 
-	@OneToOne
-	@JoinColumn(name = "THUONG_HIEU")
-	private TradeMark tradeMark;
-
 	public TradeMark getTradeMark() {
-		return tradeMark;
+		return tradeMarkId;
 	}
 
-	public void setTradeMark(TradeMark tradeMark) {
-		this.tradeMark = tradeMark;
+	public void setTradeMark(TradeMark tradeMarkId) {
+		this.tradeMarkId = tradeMarkId;
 	}
 
 	/******************************************************************************/
-
-	@JsonBackReference
-	@ManyToOne
-	@JoinColumn(name = "CAN_NANG")
-	private Weight weight;
 
 	public Weight getWeight() {
-		return weight;
+		return weightId;
 	}
 
-	public void setWeight(Weight weight) {
-		this.weight = weight;
+	public void setWeight(Weight weightId) {
+		this.weightId = weightId;
 	}
 
 	/******************************************************************************/
-	@JsonBackReference
-	@ManyToOne
-	@JoinColumn(name = "DO_TUOI")
-	private Age age;
 
 	public Age getAge() {
-		return age;
+		return ageId;
 	}
 
-	public void setAge(Age age) {
-		this.age = age;
+	public void setAge(Age ageId) {
+		this.ageId = ageId;
 	}
 
 	/******************************************************************************/
-
-	@JsonBackReference
-	@ManyToOne
-	@JoinColumn(name = "KHUYEN_MAI")
-	private Promotion promotion;
 
 	public Promotion getPromotion() {
-		return promotion;
+		return promotionId;
 	}
 
-	public void setPromotion(Promotion promotion) {
-		this.promotion = promotion;
+	public void setPromotion(Promotion promotionId) {
+		this.promotionId = promotionId;
 	}
 
 	/******************************************************************************/
-
-	@JsonBackReference
-	@ManyToOne
-	@JoinColumn(name = "LOAI_HANG")
-	private ItemType itemType;
 
 	public ItemType getItemType() {
-		return itemType;
+		return itemTypeId;
 	}
 
-	public void setItemType(ItemType itemType) {
-		this.itemType = itemType;
+	public void setItemType(ItemType itemTypeId) {
+		this.itemTypeId = itemTypeId;
 	}
 
 	/******************************************************************************/
+
+	@OneToOne(mappedBy = "itemId")
+	private Cart cart;
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
+
+	/******************************************************************************/
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "itemId")
+	private Set<ImportRepository> importRepository;
+
+	public Set<ImportRepository> getImportRepository() {
+		return importRepository;
+	}
+
+	public void setImportRepository(Set<ImportRepository> importRepository) {
+		this.importRepository = importRepository;
+	}
+
+	/******************************************************************************/
+
+	@JsonManagedReference
+	@OneToMany(mappedBy = "itemId")
+	private Set<ExportRepository> exportRepositories;
+
+	public Set<ExportRepository> getExportRepositories() {
+		return exportRepositories;
+	}
+
+	public void setExportRepositories(Set<ExportRepository> exportRepositories) {
+		this.exportRepositories = exportRepositories;
+	}
 
 }
