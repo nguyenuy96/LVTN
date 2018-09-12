@@ -34,9 +34,7 @@ public class Repository implements Serializable{
 	
 	/******************************************************************************/
 	
-	public Repository(int respositoryId) {
-		this.repositoryId = respositoryId;
-	}
+	public Repository() {}
 	
 	public Repository(int repositoryId, String repositoryName) {
 		this.repositoryId = repositoryId;

@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -29,7 +30,7 @@ public class Item implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "MA_SAN_PHAM", nullable = false, unique = true)
 	private int itemId;
 
 	/******************************************************************************/
@@ -105,7 +106,9 @@ public class Item implements Serializable {
 	/******************************************************************************/
 
 	@OneToOne
-	@JoinColumn(name = "MA_THUONG_HIEU")
+	@JoinTable(name = "THUONGHIEU_SANPHAM", joinColumns = {
+			@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_THUONG_HIEU", referencedColumnName = "MA_THUONG_HIEU", unique = true) })
 	private TradeMark tradeMarkId;
 
 	/******************************************************************************/
@@ -138,9 +141,7 @@ public class Item implements Serializable {
 
 	/******************************************************************************/
 
-	public Item(int itemId) {
-		this.itemId = itemId;
-	}
+	public Item() {	}
 
 	public Item(int itemId, String itemName, String ingredient, Date manufDate, Date expiryDate, String useObject,
 			String image, String useGuide, float net, String note, String guarantee, double unitPrice,

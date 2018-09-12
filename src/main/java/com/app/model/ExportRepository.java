@@ -60,6 +60,8 @@ public class ExportRepository implements Serializable{
 	private Date importDate;
 
 	/******************************************************************************/
+	
+	public ExportRepository() { }
 
 	public ExportRepository(int expRespId, Repository repositoryId, Item itemId, Staff staffId, double amount, Date importDate) {
 		this.expRespId = expRespId;

@@ -34,9 +34,7 @@ public class Weight implements Serializable{
 	
 	/******************************************************************************/
 	
-	public Weight (int weightId) {
-		this.weightId = weightId;
-	}
+	public Weight () {}
 	
 	public Weight(int weightId, float weight) {
 		this.weightId = weightId;

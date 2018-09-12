@@ -34,9 +34,7 @@ public class Age implements Serializable {
 
 	/******************************************************************************/
 	
-	public Age(int ageId) {
-		this.ageId = ageId;
-	}
+	public Age() { }
 
 	public Age(int age_id, int age) {
 		this.ageId = age_id;

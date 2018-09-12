@@ -8,12 +8,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "HOA_DON")
-public class Bill implements Serializable {
+@Table(name = "DON_HANG")
+public class Order implements Serializable {
 
 	/**
 	 * 
@@ -22,8 +23,8 @@ public class Bill implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
-	private int billId;
+	@Column(name = "MA_DON_HANG", nullable = false, unique = true)
+	private int orderId;
 
 	/******************************************************************************/
 
@@ -41,42 +42,46 @@ public class Bill implements Serializable {
 	private boolean isDelivery;
 
 	/******************************************************************************/
-	
+
 	@Column(name = "NOI_GIAO_HANG", nullable = false)
 	private String addressDelivery;
-	
+
 	/******************************************************************************/
-	
+
 	@Column(name = "SDT_GIAO_HANG", nullable = false)
 	private String phoneDelivery;
 
 	/******************************************************************************/
-	
+
 	@OneToOne
-	@JoinColumn(name = "MA_KHACH_HANG", nullable = false)
+	@JoinTable(name = "DONHANG_KHACHHANG", joinColumns = {
+			@JoinColumn(name = "MA_DON_HANG", referencedColumnName = "MA_DON_HANG") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_KHACH_HANG", referencedColumnName = "MA_KHACH_HANG", unique = true) })
 	private Customer customerId;
 
 	/******************************************************************************/
 
 	@OneToOne
-	@JoinColumn(name = "MA_NHAN_VIEN", nullable = false)
+	@JoinTable(name = "DONHANG_NHANVIEN", joinColumns = {
+			@JoinColumn(name = "MA_DON_HANG", referencedColumnName = "MA_DON_HANG") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_NHAN_VIEN", referencedColumnName = "MA_NHAN_VIEN", unique = true) })
 	private Staff staffId;
 
 	/******************************************************************************/
 
 	@OneToOne
-	@JoinColumn(name = "MA_GIO_HANG", nullable = false)
+	@JoinTable(name = "DONHANG_GIOHANG", joinColumns = {
+			@JoinColumn(name = "MA_DON_HANG", referencedColumnName = "MA_DON_HANG") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_GIO_HANG", referencedColumnName = "MA_GIO_HANG", unique = true) })
 	private Cart cartId;
 
 	/******************************************************************************/
 
-	public Bill(int billId) {
-		this.billId = billId;
-	}
+	public Order() {}
 
-	public Bill(int billId, String payment, boolean isPay, boolean isDelivery, String addressDelivery, String phoneDelivery, Customer customerId, Staff staffId,
-			Cart cartId) {
-		this.billId = billId;
+	public Order(int orderId, String payment, boolean isPay, boolean isDelivery, String addressDelivery,
+			String phoneDelivery, Customer customerId, Staff staffId, Cart cartId) {
+		this.orderId = orderId;
 		this.payment = payment;
 		this.isPay = isPay;
 		this.isDelivery = isDelivery;
@@ -87,16 +92,14 @@ public class Bill implements Serializable {
 		this.cartId = cartId;
 	}
 
-
-
 	/******************************************************************************/
 
-	public int getBillId() {
-		return billId;
+	public int getOrderId() {
+		return orderId;
 	}
 
-	public void setBillId(int billId) {
-		this.billId = billId;
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
 	}
 
 	/******************************************************************************/
@@ -134,23 +137,23 @@ public class Bill implements Serializable {
 	public String getAddressDelivery() {
 		return addressDelivery;
 	}
-	
+
 	public void setAddressDelivery(String addressDelivery) {
 		this.addressDelivery = addressDelivery;
 	}
-	
+
 	/******************************************************************************/
-	
+
 	public String getPhoneDelivery() {
 		return phoneDelivery;
 	}
-	
+
 	public void setPhoneDelivery(String phoneDelivery) {
 		this.phoneDelivery = phoneDelivery;
 	}
-	
+
 	/******************************************************************************/
-	
+
 	public Customer getCustomer() {
 		return customerId;
 	}

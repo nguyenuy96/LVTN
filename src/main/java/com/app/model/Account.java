@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -20,7 +21,7 @@ public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "MA_TAI_KHOAN", nullable = false, unique = true)
 	private int accountId;
 
 	/******************************************************************************/
@@ -35,14 +36,12 @@ public class Account implements Serializable {
 	/******************************************************************************/
 
 	@OneToOne
-	@JoinColumn(name = "LOAI_TAI_KHOAN", nullable = false, unique = true)
+	@JoinColumn(name = "MA_PHAN_QUYEN")
 	private AccountPermission permissionId;
 
 	/******************************************************************************/
 
-	public Account(int accountId) {
-		this.accountId = accountId;
-	}
+	public Account() {	}
 
 	public Account(int accountId, String userLogin, String password, AccountPermission permissionId) {
 		this.accountId = accountId;
@@ -92,29 +91,5 @@ public class Account implements Serializable {
 	}
 
 	/******************************************************************************/
-
-	@OneToOne(mappedBy = "accountId")
-	private Customer customer;
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	/******************************************************************************/
-
-	@OneToOne(mappedBy = "accountId")
-	private Staff staff;
-
-	public Staff getStaff() {
-		return staff;
-	}
-
-	public void setStaff(Staff staff) {
-		this.staff = staff;
-	}
 
 }

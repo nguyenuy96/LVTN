@@ -34,9 +34,7 @@ public class ItemType implements Serializable{
 	
 	/******************************************************************************/
 	
-	public ItemType(int itemTypeId) {
-		this.itemTypeId = itemTypeId;
-	}
+	public ItemType() {	}
 	
 	public ItemType(int itemTypeId, String itemType) {
 		this.itemTypeId = itemTypeId;

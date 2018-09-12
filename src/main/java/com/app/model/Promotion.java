@@ -45,9 +45,7 @@ public class Promotion implements Serializable{
 	
 	/******************************************************************************/
 	
-	public Promotion(int promId) {
-		this.promId = promId;
-	}
+	public Promotion() {}
 	
 	public Promotion(int promId, String promation, Date startDate, Date endDate) {
 		this.promId = promId;

@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "LOAI_TAI_KHOAN")
+@Table(name = "PHAN_QUYEN")
 public class AccountPermission implements Serializable {
 
 	/**
@@ -20,7 +20,7 @@ public class AccountPermission implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "MA_PHAN_QUYEN", nullable = false, unique = true)
 	private int permissionId;
 	
 	/******************************************************************************/
@@ -30,9 +30,12 @@ public class AccountPermission implements Serializable {
 	
 	/******************************************************************************/
 	
-	public AccountPermission(int permisstionId) {
-		this.permissionId = permisstionId;
+	public AccountPermission() {}
+	
+	public AccountPermission(int permissionId) {
+		this.permissionId = permissionId;
 	}
+	
 	public AccountPermission(int permissionId, String permissionType) {
 		this.permissionId = permissionId;
 		this.permissionType = permissionType;
@@ -57,16 +60,15 @@ public class AccountPermission implements Serializable {
 	}
 
 	/******************************************************************************/
-	
+
 	@OneToOne(mappedBy = "permissionId")
-	private Account account;
+	private Account accountId;
 
-	public Account getAccount() {
-		return account;
+	public Account getAccountId() {
+		return accountId;
 	}
 
-	public void setAccount(Account account) {
-		this.account = account;
+	public void setAccountId(Account accountId) {
+		this.accountId = accountId;
 	}
-
 }

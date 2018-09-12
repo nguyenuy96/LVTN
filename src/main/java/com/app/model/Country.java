@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,7 +20,7 @@ public class Country implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "MA_QUOC_GIA", nullable = false, unique = true)
 	private int countryId;
 
 	/******************************************************************************/
@@ -31,9 +30,7 @@ public class Country implements Serializable {
 
 	/******************************************************************************/
 	
-	public Country(int countryId) {
-		this.countryId = countryId;
-	}
+	public Country() { }
 
 	public Country(int countryId, String country) {
 		this.countryId = countryId;
@@ -58,19 +55,6 @@ public class Country implements Serializable {
 
 	public void setCountry(String country) {
 		this.country = country;
-	}
-	
-	/******************************************************************************/
-	
-	@OneToOne(mappedBy = "countryId")
-	private TradeMark tradeMark;
-
-	public TradeMark getTradeMark() {
-		return tradeMark;
-	}
-
-	public void setTradeMark(TradeMark tradeMark) {
-		this.tradeMark = tradeMark;
 	}
 	
 }

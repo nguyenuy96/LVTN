@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -23,51 +24,51 @@ public class Staff implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "MA_NHAN_VIEN", nullable = false, unique = true)
 	private int staffId;
-	
+
 	/******************************************************************************/
-	
+
 	@Column(name = "HO_TEN", nullable = false)
 	private String name;
-	
+
 	/******************************************************************************/
-	
+
 	@Column(name = "GIOI_TINH", nullable = false)
 	private String gender;
-	
+
 	/******************************************************************************/
-	
+
 	@Column(name = "SO_DIEN_THOAI", nullable = false, unique = true)
 	private String phoneNumber;
-	
-	
+
 	@Column(name = "QUOC_TICH", nullable = false)
 	private String nationality;
-	
+
 	/******************************************************************************/
-	
+
 	@Column(name = "CHUNG_MINH_THU", nullable = false, unique = true)
 	private String identification;
 
-	
-	
 	@Column(name = "DIA_CHI", nullable = false)
 	private String address;
-	
+
 	/******************************************************************************/
-	
+
 	@OneToOne
-	@JoinColumn(name = "MA_TAI_KHOAN", nullable = false)
+	@JoinTable(name = "TAI_KHOAN_NHAN_VIEN", joinColumns = {
+			@JoinColumn(name = "MA_NHAN_VIEN", referencedColumnName = "MA_NHAN_VIEN") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_TAI_KHOAN", referencedColumnName = "MA_TAI_KHOAN", unique = true) })
 	private Account accountId;
-	
+
 	/******************************************************************************/
-	
-	public Staff(int staffId, String name, String gender, String phoneNumber,
-			String nationality, String identification, String address, Account accountId) {
+
+	public Staff() {}
+	public Staff(int staffId, String name, String gender, String phoneNumber, String nationality, String identification,
+			String address, Account accountId) {
 		this.staffId = staffId;
 		this.name = name;
 		this.gender = gender;
@@ -79,7 +80,7 @@ public class Staff implements Serializable {
 	}
 
 	/******************************************************************************/
-	
+
 	public int getStaffId() {
 		return staffId;
 	}
@@ -89,7 +90,7 @@ public class Staff implements Serializable {
 	}
 
 	/******************************************************************************/
-	
+
 	public String getName() {
 		return name;
 	}
@@ -99,7 +100,7 @@ public class Staff implements Serializable {
 	}
 
 	/******************************************************************************/
-	
+
 	public String getGender() {
 		return gender;
 	}
@@ -109,7 +110,7 @@ public class Staff implements Serializable {
 	}
 
 	/******************************************************************************/
-	
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -119,7 +120,7 @@ public class Staff implements Serializable {
 	}
 
 	/******************************************************************************/
-	
+
 	public String getNationality() {
 		return nationality;
 	}
@@ -129,7 +130,7 @@ public class Staff implements Serializable {
 	}
 
 	/******************************************************************************/
-	
+
 	public String getIdentification() {
 		return identification;
 	}
@@ -139,7 +140,7 @@ public class Staff implements Serializable {
 	}
 
 	/******************************************************************************/
-	
+
 	public String getAddress() {
 		return address;
 	}
@@ -147,7 +148,6 @@ public class Staff implements Serializable {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
 
 	/******************************************************************************/
 
@@ -158,20 +158,7 @@ public class Staff implements Serializable {
 	public void setAccount(Account accountId) {
 		this.accountId = accountId;
 	}
-	
-	/******************************************************************************/
-	
-	@OneToOne(mappedBy = "staffId")
-	private Bill bill;
 
-	public Bill getBill() {
-		return bill;
-	}
-
-	public void setBill(Bill bill) {
-		this.bill = bill;
-	}
-	
 	/******************************************************************************/
 	@JsonManagedReference
 	@OneToMany(mappedBy = "staffId")
@@ -184,9 +171,9 @@ public class Staff implements Serializable {
 	public void setImportRepositories(Set<ImportRepository> importRepositories) {
 		this.importRepositories = importRepositories;
 	}
-	
+
 	/******************************************************************************/
-	
+
 	@JsonManagedReference
 	@OneToMany(mappedBy = "staffId")
 	private Set<ExportRepository> exportRepositories;

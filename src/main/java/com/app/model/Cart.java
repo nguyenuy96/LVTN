@@ -22,7 +22,7 @@ public class Cart implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
+	@Column(name = "MA_GIO_HANG")
 	private int cartId;
 	
 	/******************************************************************************/
@@ -43,9 +43,7 @@ public class Cart implements Serializable{
 	
 	/******************************************************************************/
 	
-	public Cart(int cardtId) {
-		this.cartId = cardtId;
-	}
+	public Cart() { }
 	
 	public Cart(int cartId, int amount, double totalPrice, Item itemId) {
 		this.cartId = cartId;
@@ -95,16 +93,5 @@ public class Cart implements Serializable{
 	}
 	
 	/******************************************************************************/
-	
-	@OneToOne(mappedBy = "cartId")
-	private Bill bill;
-
-	public Bill getBill() {
-		return bill;
-	}
-
-	public void setBill(Bill bill) {
-		this.bill = bill;
-	}
 	
 }

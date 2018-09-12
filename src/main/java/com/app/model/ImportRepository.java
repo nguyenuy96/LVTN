@@ -61,6 +61,8 @@ public class ImportRepository implements Serializable {
 
 	/******************************************************************************/
 
+	public ImportRepository() {}
+	
 	public ImportRepository(int impRespId, Repository repositoryId, Item itemId, Staff staffId, double amount, Date importDate) {
 		this.impRespId = impRespId;
 		this.repositoryId = repositoryId;
