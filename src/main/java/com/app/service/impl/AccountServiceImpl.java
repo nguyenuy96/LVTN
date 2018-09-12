@@ -25,8 +25,7 @@ public class AccountServiceImpl implements AccountService{
 
 	@Override
 	public Account loginAccount(Account account) {
-		// TODO Auto-generated method stub
-		return null;
+		return accountDao.loginAccount(account) == null ? null : account;
 	}
 
 	@Override

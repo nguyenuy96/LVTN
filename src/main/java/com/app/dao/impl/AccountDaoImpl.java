@@ -1,7 +1,11 @@
 package com.app.dao.impl;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +18,7 @@ public class AccountDaoImpl implements AccountDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+
 	@Override
 	public Account registerAccount(Account account) {
 		Session session = sessionFactory.getCurrentSession();
@@ -24,8 +28,16 @@ public class AccountDaoImpl implements AccountDao {
 
 	@Override
 	public Account loginAccount(Account account) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		CriteriaQuery<Account> criteriaQuery = criteriaBuilder.createQuery(Account.class);
+		Root<Account> root = criteriaQuery.from(Account.class);
+		criteriaQuery.select(root)
+				.where(criteriaBuilder.and(criteriaBuilder.equal(root.get("userLogin"), account.getUserLogin()),
+						criteriaBuilder.equal(root.get("password"), account.getPassword())));
+		Query<Account> query = session.createQuery(criteriaQuery);
+		Account loginAccount = query.getSingleResult();
+		return loginAccount;
 	}
 
 	@Override

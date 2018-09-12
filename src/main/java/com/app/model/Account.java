@@ -36,12 +36,15 @@ public class Account implements Serializable {
 	/******************************************************************************/
 
 	@OneToOne
-	@JoinColumn(name = "MA_PHAN_QUYEN")
+	@JoinTable(name = "PHAN_QUYEN_TAI_KHOAN", joinColumns = {
+			@JoinColumn(name = "MA_TAI_KHOAN", referencedColumnName = "MA_TAI_KHOAN") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_PHAN_QUYEN", referencedColumnName = "MA_PHAN_QUYEN", unique = true) })
 	private AccountPermission permissionId;
 
 	/******************************************************************************/
 
-	public Account() {	}
+	public Account() {
+	}
 
 	public Account(int accountId, String userLogin, String password, AccountPermission permissionId) {
 		this.accountId = accountId;

@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -59,16 +58,4 @@ public class AccountPermission implements Serializable {
 		this.permissionType = permissionType;
 	}
 
-	/******************************************************************************/
-
-	@OneToOne(mappedBy = "permissionId")
-	private Account accountId;
-
-	public Account getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(Account accountId) {
-		this.accountId = accountId;
-	}
 }
