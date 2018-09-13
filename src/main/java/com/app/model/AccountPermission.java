@@ -20,7 +20,7 @@ public class AccountPermission implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "MA_PHAN_QUYEN", nullable = false, unique = true)
-	private int permissionId;
+	private Integer permissionId;
 	
 	/******************************************************************************/
 	
@@ -31,21 +31,21 @@ public class AccountPermission implements Serializable {
 	
 	public AccountPermission() {}
 	
-	public AccountPermission(int permissionId) {
+	public AccountPermission(Integer permissionId) {
 		this.permissionId = permissionId;
 	}
 	
-	public AccountPermission(int permissionId, String permissionType) {
+	public AccountPermission(Integer permissionId, String permissionType) {
 		this.permissionId = permissionId;
 		this.permissionType = permissionType;
 	}
 
 	/******************************************************************************/
 	
-	public int getPermissionId() {
+	public Integer getPermissionId() {
 		return permissionId;
 	}
-	public void setPermissionId(int permissionId) {
+	public void setPermissionId(Integer permissionId) {
 		this.permissionId = permissionId;
 	}
 	

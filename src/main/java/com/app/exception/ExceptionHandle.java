@@ -3,7 +3,7 @@ package com.app.exception;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ExceptionHanlder extends Exception {
+public class ExceptionHandle extends Exception {
 
 	/**
 	 * 
