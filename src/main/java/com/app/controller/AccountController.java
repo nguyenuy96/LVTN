@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.exception.ExceptionHanlder;
 import com.app.model.Account;
 import com.app.model.AccountPermission;
 import com.app.service.AccountService;
@@ -30,7 +32,7 @@ public class AccountController {
 		return new ResponseEntity<AccountPermission>(permissionSaved, HttpStatus.CREATED);
 	}
 
-	@PostMapping(path = "/register")
+	@RequestMapping(path = "/register", method = RequestMethod.POST)
 	public ResponseEntity<Account> registerAccount(@RequestBody Account account) {
 		AccountPermission accountPermission = new AccountPermission(account.getPermission().getPermissionId());
 		account.setPermission(accountPermission);
@@ -38,9 +40,11 @@ public class AccountController {
 		return new ResponseEntity<Account>(accountSaved, HttpStatus.CREATED);
 	}
 
-	@PostMapping(path = "/login")
-	public ResponseEntity<HttpStatus> loginAccount(@RequestBody Account account){
-		accountService.loginAccount(account);
+	@RequestMapping(path = "/login", method = RequestMethod.POST)
+	public ResponseEntity<HttpStatus> loginAccount(@RequestBody Account account) throws ExceptionHanlder{
+		if(accountService.loginAccount(account) != null) {
+		
+		};
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
