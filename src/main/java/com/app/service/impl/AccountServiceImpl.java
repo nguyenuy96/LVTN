@@ -2,6 +2,7 @@ package com.app.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,20 +24,18 @@ public class AccountServiceImpl implements AccountService {
 	@Transactional
 	@Override
 	public Account registerAccountSrvc(Account account) throws ExceptionHandle {
-		if (account.getPermission().getPermissionType().equals(null)) {
-			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Account permission is required!");
+		if (accountDao.checkAccount(account)) {
+			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Existed account!");
+		}
+		if (account.getPermission() == null || account.getUserLogin() == null || account.getPassword() == null) {
+			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Please fill in all required fields!");
 		}
 		AccountPermission accountPermission = accountDao.getPermissionType(account.getPermission().getPermissionType());
 		if (accountPermission == null) {
 			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Permission type is incorrect!");
 		}
-		if (account.getUserLogin() == null || account.getPassword() == null) {
-			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Username and password are required!");
-		}
-		if (accountDao.checkAccount(account)) {
-			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Existed account!");
-		}
 		account.setPermission(accountPermission);
+		account.setPassword(encrytePassword(account.getPassword()));
 		return accountDao.registerAccountDao(account);
 	}
 
@@ -78,14 +77,18 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public AccountPermission savePermissionSrvc(AccountPermission permission) throws ExceptionHandle {
-		AccountPermission ret = accountDao.getPermissionType(permission.getPermissionType());
-		if (ret != null) {
+		AccountPermission retPermission = accountDao.getPermissionType(permission.getPermissionType());
+		if (retPermission != null) {
 			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Existed permission!");
 		}
 		if (permission.getPermissionType() == null) {
 			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Permisstion type is required");
 		}
 		return accountDao.savePermissionDao(permission);
+	}
+	public static String encrytePassword(String password) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		return encoder.encode(password);
 	}
 
 }

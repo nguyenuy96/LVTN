@@ -38,7 +38,7 @@ public class Account implements Serializable {
 	@OneToOne
 	@JoinTable(name = "PHAN_QUYEN_TAI_KHOAN", joinColumns = {
 			@JoinColumn(name = "MA_TAI_KHOAN", referencedColumnName = "MA_TAI_KHOAN") }, inverseJoinColumns = {
-					@JoinColumn(name = "MA_PHAN_QUYEN", referencedColumnName = "MA_PHAN_QUYEN", unique = true) })
+					@JoinColumn(name = "MA_PHAN_QUYEN", referencedColumnName = "MA_PHAN_QUYEN") })
 	private AccountPermission permissionId;
 
 	/******************************************************************************/
@@ -95,4 +95,8 @@ public class Account implements Serializable {
 
 	/******************************************************************************/
 
+	@Override
+	public String toString() {
+		return this.userLogin + this.getPassword();
+	}
 }

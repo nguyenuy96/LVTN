@@ -94,5 +94,6 @@ public class AccountDaoImpl implements AccountDao {
 		Query<AccountPermission> query = session.createQuery(criteriaQuery);
 		return (query.list().size() == 1) ? query.getSingleResult() : null;
 	}
+	
 
 }
