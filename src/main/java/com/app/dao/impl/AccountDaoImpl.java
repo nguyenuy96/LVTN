@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.app.dao.AccountDao;
@@ -20,9 +21,14 @@ public class AccountDaoImpl implements AccountDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Override
 	public Account registerAccountDao(Account account) {
 		Session session = sessionFactory.getCurrentSession();
+		String saltPassword = passwordEncoder.encode(account.getPassword());
+		account.setPassword(saltPassword);
 		session.save(account);
 		return account;
 	}
@@ -33,9 +39,7 @@ public class AccountDaoImpl implements AccountDao {
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 		CriteriaQuery<Account> criteriaQuery = criteriaBuilder.createQuery(Account.class);
 		Root<Account> root = criteriaQuery.from(Account.class);
-		criteriaQuery.select(root)
-				.where(criteriaBuilder.and(criteriaBuilder.equal(root.get("userLogin"), account.getUserLogin()),
-						criteriaBuilder.equal(root.get("password"), account.getPassword())));
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("userLogin"), account.getUserLogin()));
 		Query<Account> query = session.createQuery(criteriaQuery);
 		return (query.list().size() == 1) ? query.getSingleResult() : null;
 	}
@@ -77,8 +81,7 @@ public class AccountDaoImpl implements AccountDao {
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 		CriteriaQuery<Account> criteriaQuery = criteriaBuilder.createQuery(Account.class);
 		Root<Account> root = criteriaQuery.from(Account.class);
-		criteriaQuery.select(root)
-				.where(criteriaBuilder.equal(root.get("userLogin"), account.getUserLogin()));
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("userLogin"), account.getUserLogin()));
 		Query<Account> query = session.createQuery(criteriaQuery);
 		return (query.list().size() == 1) ? true : false;
 	}
@@ -89,11 +92,9 @@ public class AccountDaoImpl implements AccountDao {
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 		CriteriaQuery<AccountPermission> criteriaQuery = criteriaBuilder.createQuery(AccountPermission.class);
 		Root<AccountPermission> root = criteriaQuery.from(AccountPermission.class);
-		criteriaQuery.select(root)
-				.where(criteriaBuilder.equal(root.get("permissionType"), permissionType));
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("permissionType"), permissionType));
 		Query<AccountPermission> query = session.createQuery(criteriaQuery);
 		return (query.list().size() == 1) ? query.getSingleResult() : null;
 	}
-	
 
 }

@@ -2,7 +2,7 @@ package com.app.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +21,9 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
 	private AccountDao accountDao;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Transactional
 	@Override
 	public Account registerAccountSrvc(Account account) throws ExceptionHandle {
@@ -35,14 +38,16 @@ public class AccountServiceImpl implements AccountService {
 			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Permission type is incorrect!");
 		}
 		account.setPermission(accountPermission);
-		account.setPassword(encrytePassword(account.getPassword()));
 		return accountDao.registerAccountDao(account);
 	}
 
 	@Override
 	public Account loginAccountSrvc(Account account) throws ExceptionHandle {
+		if(account.getUserLogin() == null || account.getPassword() == null) {
+			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Username and password are required!");
+		}
 		Account retAccount = accountDao.loginAccountDao(account);
-		if (retAccount == null) {
+		if (retAccount == null || passwordEncoder.matches(account.getPassword(), retAccount.getPassword())) {
 			new ExceptionThrower().throwException(HttpStatus.NOT_FOUND, "Invalid username or password!");
 		}
 		return retAccount;
@@ -85,10 +90,6 @@ public class AccountServiceImpl implements AccountService {
 			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Permisstion type is required");
 		}
 		return accountDao.savePermissionDao(permission);
-	}
-	public static String encrytePassword(String password) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		return encoder.encode(password);
 	}
 
 }
