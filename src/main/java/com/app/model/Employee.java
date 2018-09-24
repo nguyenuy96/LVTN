@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "NHAN_VIEN")
-public class Staff implements Serializable {
+public class Employee implements Serializable {
 
 	/**
 	 * 
@@ -66,8 +66,8 @@ public class Staff implements Serializable {
 
 	/******************************************************************************/
 
-	public Staff() {}
-	public Staff(int staffId, String name, String gender, String phoneNumber, String nationality, String identification,
+	public Employee() {}
+	public Employee(int staffId, String name, String gender, String phoneNumber, String nationality, String identification,
 			String address, Account accountId) {
 		this.staffId = staffId;
 		this.name = name;

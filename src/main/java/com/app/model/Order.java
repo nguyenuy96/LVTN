@@ -65,7 +65,7 @@ public class Order implements Serializable {
 	@JoinTable(name = "DONHANG_NHANVIEN", joinColumns = {
 			@JoinColumn(name = "MA_DON_HANG", referencedColumnName = "MA_DON_HANG") }, inverseJoinColumns = {
 					@JoinColumn(name = "MA_NHAN_VIEN", referencedColumnName = "MA_NHAN_VIEN", unique = true) })
-	private Staff staffId;
+	private Employee staffId;
 
 	/******************************************************************************/
 
@@ -80,7 +80,7 @@ public class Order implements Serializable {
 	public Order() {}
 
 	public Order(int orderId, String payment, boolean isPay, boolean isDelivery, String addressDelivery,
-			String phoneDelivery, Customer customerId, Staff staffId, Cart cartId) {
+			String phoneDelivery, Customer customerId, Employee staffId, Cart cartId) {
 		this.orderId = orderId;
 		this.payment = payment;
 		this.isPay = isPay;
@@ -164,11 +164,11 @@ public class Order implements Serializable {
 
 	/******************************************************************************/
 
-	public Staff getStaff() {
+	public Employee getStaff() {
 		return staffId;
 	}
 
-	public void setStaff(Staff staffId) {
+	public void setStaff(Employee staffId) {
 		this.staffId = staffId;
 	}
 

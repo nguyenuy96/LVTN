@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.app.dao.AccountDao;
@@ -22,12 +22,12 @@ public class AccountDaoImpl implements AccountDao {
 	private SessionFactory sessionFactory;
 
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
 	public Account registerAccountDao(Account account) {
 		Session session = sessionFactory.getCurrentSession();
-		String saltPassword = passwordEncoder.encode(account.getPassword());
+		String saltPassword = bCryptPasswordEncoder.encode(account.getPassword());
 		account.setPassword(saltPassword);
 		session.save(account);
 		return account;
@@ -94,6 +94,17 @@ public class AccountDaoImpl implements AccountDao {
 		Root<AccountPermission> root = criteriaQuery.from(AccountPermission.class);
 		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("permissionType"), permissionType));
 		Query<AccountPermission> query = session.createQuery(criteriaQuery);
+		return (query.list().size() == 1) ? query.getSingleResult() : null;
+	}
+
+	@Override
+	public Account findAccountByUsername(String username) {
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		CriteriaQuery<Account> criteriaQuery = criteriaBuilder.createQuery(Account.class);
+		Root<Account> root = criteriaQuery.from(Account.class);
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("userLogin"), username));
+		Query<Account> query = session.createQuery(criteriaQuery);
 		return (query.list().size() == 1) ? query.getSingleResult() : null;
 	}
 

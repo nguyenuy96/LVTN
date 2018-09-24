@@ -47,7 +47,7 @@ public class ImportRepository implements Serializable {
 	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "MA_NHAN_VIEN", nullable = false)
-	private Staff staffId;
+	private Employee staffId;
 	
 	/******************************************************************************/
 
@@ -63,7 +63,7 @@ public class ImportRepository implements Serializable {
 
 	public ImportRepository() {}
 	
-	public ImportRepository(int impRespId, Repository repositoryId, Item itemId, Staff staffId, double amount, Date importDate) {
+	public ImportRepository(int impRespId, Repository repositoryId, Item itemId, Employee staffId, double amount, Date importDate) {
 		this.impRespId = impRespId;
 		this.repositoryId = repositoryId;
 		this.itemId = itemId;
@@ -123,11 +123,11 @@ public class ImportRepository implements Serializable {
 
 	/******************************************************************************/
 	
-	public Staff getStaff() {
+	public Employee getStaff() {
 		return staffId;
 	}
 
-	public void setStaff(Staff staffId) {
+	public void setStaff(Employee staffId) {
 		this.staffId = staffId;
 	}
 

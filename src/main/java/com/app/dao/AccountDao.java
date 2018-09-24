@@ -21,4 +21,6 @@ public interface AccountDao {
 	boolean checkAccount(Account account);
 
 	AccountPermission getPermissionType(String permissionType);
+
+	Account findAccountByUsername(String username);
 }

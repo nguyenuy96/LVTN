@@ -18,4 +18,5 @@ public interface AccountService {
 	void deleteAccountSrvc(int accountId) throws ExceptionHandle;
 
 	AccountPermission savePermissionSrvc(AccountPermission permission) throws ExceptionHandle;
+	
 }
