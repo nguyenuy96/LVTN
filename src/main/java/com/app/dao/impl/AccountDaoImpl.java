@@ -39,7 +39,7 @@ public class AccountDaoImpl implements AccountDao {
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 		CriteriaQuery<Account> criteriaQuery = criteriaBuilder.createQuery(Account.class);
 		Root<Account> root = criteriaQuery.from(Account.class);
-		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("userLogin"), account.getUserLogin()));
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("userLogin"), account.getUsername()));
 		Query<Account> query = session.createQuery(criteriaQuery);
 		return (query.list().size() == 1) ? query.getSingleResult() : null;
 	}
@@ -81,7 +81,7 @@ public class AccountDaoImpl implements AccountDao {
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 		CriteriaQuery<Account> criteriaQuery = criteriaBuilder.createQuery(Account.class);
 		Root<Account> root = criteriaQuery.from(Account.class);
-		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("userLogin"), account.getUserLogin()));
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("username"), account.getUsername()));
 		Query<Account> query = session.createQuery(criteriaQuery);
 		return (query.list().size() == 1) ? true : false;
 	}
@@ -103,7 +103,7 @@ public class AccountDaoImpl implements AccountDao {
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 		CriteriaQuery<Account> criteriaQuery = criteriaBuilder.createQuery(Account.class);
 		Root<Account> root = criteriaQuery.from(Account.class);
-		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("userLogin"), username));
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("username"), username));
 		Query<Account> query = session.createQuery(criteriaQuery);
 		return (query.list().size() == 1) ? query.getSingleResult() : null;
 	}

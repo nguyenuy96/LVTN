@@ -1,15 +1,15 @@
 package com.app.model;
 
 public class AccountCredentials {
-	private String userLogin;
+	private String username;
 	private String password;
 
-	public String getUserLogin() {
-		return userLogin;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserLogin(String userLogin) {
-		this.userLogin = userLogin;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {

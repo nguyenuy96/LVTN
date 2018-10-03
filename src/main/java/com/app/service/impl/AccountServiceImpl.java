@@ -30,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
 		if (accountDao.checkAccount(account)) {
 			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Existed account!");
 		}
-		if (account.getPermission() == null || account.getUserLogin() == null || account.getPassword() == null) {
+		if (account.getPermission() == null || account.getUsername() == null || account.getPassword() == null) {
 			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Please fill in all required fields!");
 		}
 		AccountPermission accountPermission = accountDao.getPermissionType(account.getPermission().getPermissionType());
@@ -43,7 +43,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Account loginAccountSrvc(Account account) throws ExceptionHandle {
-		if (account.getUserLogin() == null || account.getPassword() == null) {
+		if (account.getUsername() == null || account.getPassword() == null) {
 			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Username and password are required!");
 		}
 		Account retAccount = accountDao.loginAccountDao(account);

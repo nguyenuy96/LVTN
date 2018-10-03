@@ -26,7 +26,7 @@ public class Account implements Serializable {
 
 	/******************************************************************************/
 	@Column(name = "TAI_KHOAN", nullable = false, unique = true)
-	private String userLogin;
+	private String username;
 
 	/******************************************************************************/
 
@@ -46,9 +46,9 @@ public class Account implements Serializable {
 	public Account() {
 	}
 
-	public Account(int accountId, String userLogin, String password, AccountPermission permissionId) {
+	public Account(int accountId, String username, String password, AccountPermission permissionId) {
 		this.accountId = accountId;
-		this.userLogin = userLogin;
+		this.username = username;
 		this.password = password;
 		this.permissionId = permissionId;
 	}
@@ -65,12 +65,12 @@ public class Account implements Serializable {
 
 	/******************************************************************************/
 
-	public String getUserLogin() {
-		return userLogin;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserLogin(String userLogin) {
-		this.userLogin = userLogin;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	/******************************************************************************/
@@ -97,6 +97,6 @@ public class Account implements Serializable {
 
 	@Override
 	public String toString() {
-		return this.userLogin + this.getPassword();
+		return this.username + this.getPassword();
 	}
 }

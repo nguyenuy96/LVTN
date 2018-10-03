@@ -36,7 +36,7 @@ public class AccountController {
 		return new ResponseEntity<Account>(accountService.registerAccountSrvc(account), HttpStatus.CREATED);
 	}
 
-	@RequestMapping(path = "/login", method = RequestMethod.POST)
+	@RequestMapping(path = "/login", method = RequestMethod.GET)
 	public ResponseEntity<Account> loginAccount(@RequestBody Account account) throws ExceptionHandle {
 		return new ResponseEntity<Account>(accountService.loginAccountSrvc(account), HttpStatus.OK);
 	}
