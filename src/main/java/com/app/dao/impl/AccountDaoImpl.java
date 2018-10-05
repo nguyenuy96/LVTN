@@ -34,37 +34,33 @@ public class AccountDaoImpl implements AccountDao {
 	}
 
 	@Override
-	public Account loginAccountDao(Account account) {
+	public Account accountDetailDao(Account account) {
 		Session session = sessionFactory.getCurrentSession();
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 		CriteriaQuery<Account> criteriaQuery = criteriaBuilder.createQuery(Account.class);
 		Root<Account> root = criteriaQuery.from(Account.class);
-		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("userLogin"), account.getUsername()));
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("username"), account.getUsername()));
 		Query<Account> query = session.createQuery(criteriaQuery);
 		return (query.list().size() == 1) ? query.getSingleResult() : null;
 	}
 
 	@Override
 	public Account findAccountByPhoneNumDao(String phoneNumber) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void updatePasswordDao(int accountId, Account account) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void updateAccountInfDao(int accountId, Account account) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteAccountDao(int accountId) {
-		// TODO Auto-generated method stub
 
 	}
 

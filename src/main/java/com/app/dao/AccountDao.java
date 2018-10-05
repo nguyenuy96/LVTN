@@ -6,7 +6,7 @@ import com.app.model.AccountPermission;
 public interface AccountDao {
 	Account registerAccountDao(Account account);
 
-	Account loginAccountDao(Account account);
+	Account accountDetailDao(Account account);
 
 	Account findAccountByPhoneNumDao(String phoneNumber);
 

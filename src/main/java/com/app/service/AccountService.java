@@ -7,7 +7,7 @@ import com.app.model.AccountPermission;
 public interface AccountService {
 	Account registerAccountSrvc(Account account) throws ExceptionHandle;
 
-	Account loginAccountSrvc(Account account) throws ExceptionHandle;
+	Account accountDetailSrvc(Account account) throws ExceptionHandle;
 
 	Account findAccountByPhoneNumSrvc(String phoneNumber) throws ExceptionHandle;
 

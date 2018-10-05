@@ -2,7 +2,6 @@ package com.app.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +19,6 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private AccountDao accountDao;
-
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Transactional
 	@Override
@@ -42,14 +38,8 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account loginAccountSrvc(Account account) throws ExceptionHandle {
-		if (account.getUsername() == null || account.getPassword() == null) {
-			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Username and password are required!");
-		}
-		Account retAccount = accountDao.loginAccountDao(account);
-		if (retAccount == null || !bCryptPasswordEncoder.matches(account.getPassword(), retAccount.getPassword())) {
-			new ExceptionThrower().throwException(HttpStatus.NOT_FOUND, "Invalid username or password!");
-		}
+	public Account accountDetailSrvc(Account account) throws ExceptionHandle {
+		Account retAccount = accountDao.accountDetailDao(account);
 		return retAccount;
 	}
 
