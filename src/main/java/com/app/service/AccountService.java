@@ -1,5 +1,7 @@
 package com.app.service;
 
+import java.util.List;
+
 import com.app.exception.ExceptionHandle;
 import com.app.model.Account;
 import com.app.model.AccountPermission;
@@ -18,5 +20,12 @@ public interface AccountService {
 	void deleteAccountSrvc(int accountId) throws ExceptionHandle;
 
 	AccountPermission savePermissionSrvc(AccountPermission permission) throws ExceptionHandle;
+
+	List<Account> getCustomerAccount(int customerRole);
+
+	List<Account> getEmployeeAccount(int employeeRole);
 	
+	boolean checkUsername(String username) throws ExceptionHandle;
+
+	void createUser(List<Object> lstUserProp) throws ExceptionHandle;
 }
