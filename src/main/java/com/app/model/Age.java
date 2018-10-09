@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "DO_TUOI")
@@ -24,11 +25,13 @@ public class Age implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonProperty("id")
 	@Column(name = "ID", nullable = false, unique = true)
 	private int ageId;
 
 	/******************************************************************************/
 	
+	@JsonProperty("age")
 	@Column(name = "DO_TUOI", nullable = false, unique = true)
 	private int age;
 

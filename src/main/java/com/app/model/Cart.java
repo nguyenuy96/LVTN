@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "GIO_HANG")
 public class Cart implements Serializable{
@@ -22,16 +24,19 @@ public class Cart implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonProperty("id")
 	@Column(name = "MA_GIO_HANG")
 	private int cartId;
 	
 	/******************************************************************************/
 	
+	@JsonProperty("amount")
 	@Column(name = "SO_LUONG", nullable = false)
 	private int amount;
 	
 	/******************************************************************************/
 	
+	@JsonProperty("total_price")
 	@Column(name = "TONG_GIA", nullable = false)
 	private double totalPrice;
 

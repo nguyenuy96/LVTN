@@ -39,29 +39,28 @@ public class AccountDaoImpl implements AccountDao {
 	}
 
 	@Override
-	public Account accountDetailDao(Account account) {
-		Session session = sessionFactory.getCurrentSession();
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		CriteriaQuery<Account> criteriaQuery = criteriaBuilder.createQuery(Account.class);
-		Root<Account> root = criteriaQuery.from(Account.class);
-		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("username"), account.getUsername()));
-		Query<Account> query = session.createQuery(criteriaQuery);
-		return (query.list().size() == 1) ? query.getSingleResult() : null;
-	}
-
-	@Override
 	public Account findAccountByPhoneNumDao(String phoneNumber) {
 		return null;
 	}
 
 	@Override
-	public void updatePasswordDao(int accountId, Account account) {
-
+	public void updatePasswordDao(Account modifiedAccount) {
+		Session session = sessionFactory.getCurrentSession();
+		String newPassword = bCryptPasswordEncoder.encode(modifiedAccount.getPassword());
+		modifiedAccount.setPassword(newPassword);
+		session.update(modifiedAccount);
 	}
 
 	@Override
-	public void updateAccountInfDao(int accountId, Account account) {
+	public void updateCusProfile(Customer customer) {
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(customer);
+	}
 
+	@Override
+	public void udpateEmpProfile(Employee employee) {
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(employee);
 	}
 
 	@Override
@@ -77,17 +76,6 @@ public class AccountDaoImpl implements AccountDao {
 	}
 
 	@Override
-	public boolean checkAccount(Account account) {
-		Session session = sessionFactory.getCurrentSession();
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		CriteriaQuery<Account> criteriaQuery = criteriaBuilder.createQuery(Account.class);
-		Root<Account> root = criteriaQuery.from(Account.class);
-		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("username"), account.getUsername()));
-		Query<Account> query = session.createQuery(criteriaQuery);
-		return (query.list().size() == 1) ? true : false;
-	}
-
-	@Override
 	public AccountPermission getPermissionType(String permissionType) {
 		Session session = sessionFactory.getCurrentSession();
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
@@ -99,7 +87,7 @@ public class AccountDaoImpl implements AccountDao {
 	}
 
 	@Override
-	public Account findAccountByUsername(String username) {
+	public Account checkAccountDao(String username) {
 		Session session = sessionFactory.getCurrentSession();
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 		CriteriaQuery<Account> criteriaQuery = criteriaBuilder.createQuery(Account.class);
@@ -111,22 +99,20 @@ public class AccountDaoImpl implements AccountDao {
 
 	@Override
 	public List<Account> getCustomerAccount(int customerRole) {
-		Session session = sessionFactory.getCurrentSession();
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		CriteriaQuery<Account> criteriaQuery = criteriaBuilder.createQuery(Account.class);
-		Root<Account> root = criteriaQuery.from(Account.class);
-		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("permissionId"), customerRole));
-		Query<Account> query = session.createQuery(criteriaQuery);
-		return query.getResultList();
+		return getAccountByRole(customerRole);
 	}
 
 	@Override
 	public List<Account> getEmployeeAccount(int employeeRole) {
+		return getAccountByRole(employeeRole);
+	}
+
+	public List<Account> getAccountByRole(int role) {
 		Session session = sessionFactory.getCurrentSession();
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 		CriteriaQuery<Account> criteriaQuery = criteriaBuilder.createQuery(Account.class);
 		Root<Account> root = criteriaQuery.from(Account.class);
-		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("permissionId"), employeeRole));
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("permissionId"), role));
 		Query<Account> query = session.createQuery(criteriaQuery);
 		return query.getResultList();
 	}
@@ -155,14 +141,25 @@ public class AccountDaoImpl implements AccountDao {
 	}
 
 	@Override
-	public boolean checkUsername(String username) {
+	public Customer getCusProfile(int acctId) {
 		Session session = sessionFactory.getCurrentSession();
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		CriteriaQuery<Account> criteriaQuery = criteriaBuilder.createQuery(Account.class);
-		Root<Account> root = criteriaQuery.from(Account.class);
-		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("username"), username));
-		Query<Account> query = session.createQuery(criteriaQuery);
-		return (query.list().size() == 1) ? true : false;
+		CriteriaQuery<Customer> criteriaQuery = criteriaBuilder.createQuery(Customer.class);
+		Root<Customer> root = criteriaQuery.from(Customer.class);
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("accountId"), acctId));
+		Query<Customer> query = session.createQuery(criteriaQuery);
+		return (query.list().size() == 1) ? query.getSingleResult() : null;
+	}
+
+	@Override
+	public Employee getEmpProfile(int accId) {
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		CriteriaQuery<Employee> criteriaQuery = criteriaBuilder.createQuery(Employee.class);
+		Root<Employee> root = criteriaQuery.from(Employee.class);
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("accountId"), accId));
+		Query<Employee> query = session.createQuery(criteriaQuery);
+		return (query.list().size() == 1) ? query.getSingleResult() : null;
 	}
 
 }

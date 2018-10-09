@@ -12,6 +12,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "KHACH_HANG")
 public class Customer implements Serializable {
@@ -23,21 +25,23 @@ public class Customer implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonProperty("id")
 	@Column(name = "MA_KHACH_HANG", nullable = false, unique = true)
 	private int customerId;
 
 	/******************************************************************************/
 
+	@JsonProperty("fullname")
 	@Column(name = "HO_TEN", nullable = false)
 	private String name;
 
 	/******************************************************************************/
-
+	@JsonProperty("phone")
 	@Column(name = "SO_DIEN_THOAI", nullable = false, unique = true)
 	private String phoneNumber;
 
 	/******************************************************************************/
-
+	@JsonProperty("address")
 	@Column(name = "DIA_CHI", nullable = false)
 	private String address;
 
@@ -51,7 +55,8 @@ public class Customer implements Serializable {
 
 	/******************************************************************************/
 
-	public Customer() {	}
+	public Customer() {
+	}
 
 	public Customer(int customerId, String name, String phoneNumber, String address, Account accountId) {
 		this.customerId = customerId;

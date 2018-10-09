@@ -12,6 +12,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "TAI_KHOAN")
 public class Account implements Serializable {
@@ -21,15 +23,18 @@ public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonProperty("id")
 	@Column(name = "MA_TAI_KHOAN", nullable = false, unique = true)
 	private int accountId;
 
 	/******************************************************************************/
+	@JsonProperty("username")
 	@Column(name = "TAI_KHOAN", nullable = false, unique = true)
 	private String username;
 
 	/******************************************************************************/
 
+	@JsonProperty("password")
 	@Column(name = "MAT_KHAU", nullable = false, unique = true)
 	private String password;
 
