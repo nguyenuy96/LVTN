@@ -3,18 +3,18 @@ package com.app.dao;
 import java.util.List;
 
 import com.app.model.Account;
-import com.app.model.AccountPermission;
+import com.app.model.Role;
 import com.app.model.Customer;
 import com.app.model.Employee;
 
-public interface AccountDao {
+public interface UserDao {
 	Account registerAccountDao(Account account);
 
 	Account findAccountByPhoneNumDao(String phoneNumber);
 
-	AccountPermission savePermissionDao(AccountPermission permission);
+	Role savePermissionDao(Role permission);
 
-	AccountPermission getPermissionType(String permissionType);
+	Role getRole(String role);
 
 	Account checkAccountDao(String username);
 
@@ -38,5 +38,5 @@ public interface AccountDao {
 
 	void saveOrUpdateEmpProf(Employee employee);
 
-	void saveOrUpdateAccount(Account account);
+	void saveAccount(Account account);
 }

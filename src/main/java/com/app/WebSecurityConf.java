@@ -31,8 +31,9 @@ public class WebSecurityConf extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_IN_URL).permitAll().anyRequest()
-				.authenticated().and().addFilterBefore(new CORSFilter(), ChannelProcessingFilter.class)
+		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_IN_URL).permitAll().and()
+				.authorizeRequests().antMatchers(HttpMethod.POST, "/user/saveuser").permitAll().anyRequest().authenticated().and()
+				.addFilterBefore(new CORSFilter(), ChannelProcessingFilter.class)
 				.addFilterBefore(new JWTLoginFilter(SIGN_IN_URL, authenticationManager()),
 						UsernamePasswordAuthenticationFilter.class)
 				.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -11,23 +11,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.dao.impl.AccountDaoImpl;
+import com.app.dao.impl.UserDaoImpl;
 import com.app.model.Account;
 
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
-	private AccountDaoImpl accountDaoImpl;
+	private UserDaoImpl userDaoImpl;
 
-	public UserDetailsServiceImpl(AccountDaoImpl accountDaoImpl) {
-		this.accountDaoImpl = accountDaoImpl;
+	public UserDetailsServiceImpl(UserDaoImpl userDaoImpl) {
+		this.userDaoImpl = userDaoImpl;
 	}
 
 	@Transactional
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Account retAccount = accountDaoImpl.checkAccountDao(username);
+		Account retAccount = userDaoImpl.checkAccountDao(username);
 		if (retAccount == null) {
 			throw new UsernameNotFoundException("Not found user" + username);
 		}

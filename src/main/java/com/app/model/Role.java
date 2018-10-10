@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "PHAN_QUYEN")
-public class AccountPermission implements Serializable {
+public class Role implements Serializable {
 
 	/**
 	 * 
@@ -23,42 +23,42 @@ public class AccountPermission implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonProperty("id")
 	@Column(name = "MA_PHAN_QUYEN", nullable = false, unique = true)
-	private Integer permissionId;
+	private Integer roleId;
 	
 	/******************************************************************************/
-	@JsonProperty("permission")
+	@JsonProperty("account_role")
 	@Column(name = "LOAI_TAI_KHOAN", nullable = false, unique = true)
-	private String permissionType;
+	private String role;
 	
 	/******************************************************************************/
 	
-	public AccountPermission() {}
+	public Role() {}
 	
-	public AccountPermission(Integer permissionId) {
-		this.permissionId = permissionId;
+	public Role(Integer roleId) {
+		this.roleId = roleId;
 	}
 	
-	public AccountPermission(Integer permissionId, String permissionType) {
-		this.permissionId = permissionId;
-		this.permissionType = permissionType;
+	public Role(Integer roleId, String role) {
+		this.roleId = roleId;
+		this.role = role;
 	}
 
 	/******************************************************************************/
 	
-	public Integer getPermissionId() {
-		return permissionId;
+	public Integer getRoleId() {
+		return roleId;
 	}
-	public void setPermissionId(Integer permissionId) {
-		this.permissionId = permissionId;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 	
 	/******************************************************************************/
 	
-	public String getPermissionType() {
-		return permissionType;
+	public String getRole() {
+		return role;
 	}
-	public void setPermissionType(String permissionType) {
-		this.permissionType = permissionType;
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 }

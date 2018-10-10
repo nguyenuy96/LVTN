@@ -44,18 +44,18 @@ public class Account implements Serializable {
 	@JoinTable(name = "PHAN_QUYEN_TAI_KHOAN", joinColumns = {
 			@JoinColumn(name = "MA_TAI_KHOAN", referencedColumnName = "MA_TAI_KHOAN") }, inverseJoinColumns = {
 					@JoinColumn(name = "MA_PHAN_QUYEN", referencedColumnName = "MA_PHAN_QUYEN") })
-	private AccountPermission permissionId;
+	private Role role;
 
 	/******************************************************************************/
 
 	public Account() {
 	}
 
-	public Account(int accountId, String username, String password, AccountPermission permissionId) {
+	public Account(int accountId, String username, String password, Role role) {
 		this.accountId = accountId;
 		this.username = username;
 		this.password = password;
-		this.permissionId = permissionId;
+		this.role = role;
 	}
 
 	/******************************************************************************/
@@ -90,12 +90,12 @@ public class Account implements Serializable {
 
 	/******************************************************************************/
 
-	public AccountPermission getPermission() {
-		return permissionId;
+	public Role getAccountRole() {
+		return role;
 	}
 
-	public void setPermission(AccountPermission permissionId) {
-		this.permissionId = permissionId;
+	public void setAccountRole(Role role) {
+		this.role = role;
 	}
 
 	/******************************************************************************/
