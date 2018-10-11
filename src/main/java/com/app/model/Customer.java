@@ -2,6 +2,7 @@ package com.app.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,22 +33,22 @@ public class Customer implements Serializable {
 	/******************************************************************************/
 
 	@JsonProperty("fullname")
-	@Column(name = "HO_TEN", nullable = false)
+	@Column(name = "HO_TEN")
 	private String name;
 
 	/******************************************************************************/
 	@JsonProperty("phone")
-	@Column(name = "SO_DIEN_THOAI", nullable = false, unique = true)
+	@Column(name = "SO_DIEN_THOAI")
 	private String phoneNumber;
 
 	/******************************************************************************/
 	@JsonProperty("address")
-	@Column(name = "DIA_CHI", nullable = false)
+	@Column(name = "DIA_CHI")
 	private String address;
 
 	/******************************************************************************/
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable(name = "TAI_KHOAN_KHACH_HANG", joinColumns = {
 			@JoinColumn(name = "MA_KHACH_HANG", referencedColumnName = "MA_KHACH_HANG") }, inverseJoinColumns = {
 					@JoinColumn(name = "MA_TAI_KHOAN", referencedColumnName = "MA_TAI_KHOAN", unique = true) })

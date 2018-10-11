@@ -5,6 +5,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDao accountDao;
+
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
 	public Account accountDetailSrvc(Account account) throws ExceptionHandle {
@@ -64,10 +68,10 @@ public class UserServiceImpl implements UserService {
 	public Role saveOrUpdateRoleSrvc(Role role) throws ExceptionHandle {
 		Role retPermission = accountDao.getRole(role.getRole());
 		if (retPermission != null) {
-			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Existed permission!");
+			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Existed role!");
 		}
 		if (role.getRole() == null) {
-			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Permisstion type is required");
+			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Role is required");
 		}
 		return accountDao.savePermissionDao(role);
 	}
@@ -98,38 +102,69 @@ public class UserServiceImpl implements UserService {
 		return (name == null || address == null || phone == null);
 	}
 
-	public boolean isInvalidEmpProf(Employee employee) {
+	public boolean isInvalidEmpProf(Employee employee) throws ExceptionHandle {
 		String name = employee.getName();
 		String gender = employee.getGender();
 		String phone = employee.getPhoneNumber();
 		String nationality = employee.getNationality();
 		String identification = employee.getIdentification();
 		String address = employee.getAddress();
-		return (name != null || gender != null || phone != null || nationality != null || identification != null
-				|| address != null);
+		boolean validIdentification = accountDao.checkIdentification(identification) ? false : true;
+		if (!validIdentification)
+			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Identification is used!");
+		return (name == null || gender == null || phone == null || nationality == null || identification == null
+				|| address == null);
+	}
+
+	public Role checkRoleBeforeSave(Role role) throws ExceptionHandle {
+		String roleName = role.getRole();
+		if (roleName == null)
+			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Role is required!");
+		Role getRole = accountDao.getRole(roleName);
+		if (getRole == null) {
+			new ExceptionThrower().throwException(HttpStatus.NOT_FOUND,
+					roleName + " does't match one of role types: Manager; Employee; Customer");
+		}
+		return getRole;
+	}
+
+	public Account checkUserBeforeSave(Account account) throws ExceptionHandle {
+		String username = account.getUsername();
+		String password = account.getPassword();
+		Role role = account.getAccountRole();
+		if (username == null || password == null)
+			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Username and password are required!");
+		if (accountDao.checkAccountDao(account.getUsername()) != null)
+			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Existed user!");
+		if (role == null)
+			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Role cant be null");
+		String salt_password = bCryptPasswordEncoder.encode(password);
+		account.setPassword(salt_password);
+		account.setAccountRole(checkRoleBeforeSave(role));
+		return account;
 	}
 
 	@Transactional
 	@Override
 	public void saveUserSrvc(List<Object> listUserProp) throws ExceptionHandle {
+		if (listUserProp.size() != 2)
+			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST,
+					"Account information and Profile cant be null!");
 		Account account = convertToAccount(listUserProp.get(0));
-		if (accountDao.checkAccountDao(account.getUsername()) != null)
-			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Existed user!");
-		Role role = accountDao.getRole(account.getAccountRole().getRole());
-		if (role == null)
-			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Role is required!");
-		account.setAccountRole(role);
-		accountDao.saveAccount(account);
+		checkUserBeforeSave(account);
 		if (account.getAccountRole().getRole().equals("Customer")) {
 			Customer customer = convertToCustomer(listUserProp.get(1));
 			if (isInvalidCusProf(customer))
-				new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Please fill in the required field!");
+				new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST,
+						"Customer profile requried fields {name: String, phoneNumber: String, address:String}");
 			customer.setAccount(account);
 			accountDao.saveOrUpdateCusProf(customer);
 		} else {
 			Employee employee = convertToEmployee(listUserProp.get(1));
 			if (isInvalidEmpProf(employee))
-				new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Please fill in the required field!");
+				new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST,
+						"Employee profile requried fields {name: String, "
+								+ "gender: String, phoneNumber: String, nationality: String, identification: String, address:String}");
 			employee.setAccount(account);
 			accountDao.saveOrUpdateEmpProf(employee);
 		}
@@ -155,31 +190,34 @@ public class UserServiceImpl implements UserService {
 		return employee;
 	}
 
-	public Employee saveEmpProf(EmpProfDTO empProfDTO, int accId) {
+	public Employee saveEmpProf(EmpProfDTO empProfDTO, int accId) throws ExceptionHandle {
 		String address = empProfDTO.getAddress();
 		String gender = empProfDTO.getGender();
 		String identification = empProfDTO.getIdentification();
 		String name = empProfDTO.getFullname();
 		String nationality = empProfDTO.getNationality();
 		String phone = empProfDTO.getPhone();
+		boolean validIdentification = accountDao.checkIdentification(identification) ? false : true;
+		if (!validIdentification)
+			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Identification is used!");
 		Employee modifyEmp = accountDao.getEmpProfile(accId);
 		if (address != null) {
-			empProfDTO.setAddress(address);
+			modifyEmp.setAddress(address);
 		}
 		if (gender != null) {
-			empProfDTO.setGender(gender);
+			modifyEmp.setGender(gender);
 		}
 		if (identification != null) {
-			empProfDTO.setIdentification(identification);
+			modifyEmp.setIdentification(identification);
 		}
 		if (name != null) {
-			empProfDTO.setFullname(name);
+			modifyEmp.setName(name);
 		}
 		if (nationality != null) {
-			empProfDTO.setNationality(nationality);
+			modifyEmp.setNationality(nationality);
 		}
 		if (phone != null) {
-			empProfDTO.setPhone(phone);
+			modifyEmp.setPhoneNumber(phone);
 		}
 		return modifyEmp;
 	}
@@ -201,6 +239,7 @@ public class UserServiceImpl implements UserService {
 		return modifyCus;
 	}
 
+	@Transactional
 	@Override
 	public void updateProfile(Object obj) throws ExceptionHandle {
 		AccountDTO accDTO = new AccountDTO();

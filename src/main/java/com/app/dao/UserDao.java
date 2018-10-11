@@ -8,7 +8,6 @@ import com.app.model.Customer;
 import com.app.model.Employee;
 
 public interface UserDao {
-	Account registerAccountDao(Account account);
 
 	Account findAccountByPhoneNumDao(String phoneNumber);
 
@@ -39,4 +38,6 @@ public interface UserDao {
 	void saveOrUpdateEmpProf(Employee employee);
 
 	void saveAccount(Account account);
+	
+	boolean checkIdentification(String identification);
 }

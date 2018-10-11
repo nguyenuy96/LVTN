@@ -3,6 +3,7 @@ package com.app.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +35,7 @@ public class Employee implements Serializable {
 
 	/******************************************************************************/
 
-	@JsonProperty("fullname")
+	@JsonProperty("name")
 	@Column(name = "HO_TEN", nullable = false)
 	private String name;
 
@@ -63,7 +64,7 @@ public class Employee implements Serializable {
 
 	/******************************************************************************/
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable(name = "TAI_KHOAN_NHAN_VIEN", joinColumns = {
 			@JoinColumn(name = "MA_NHAN_VIEN", referencedColumnName = "MA_NHAN_VIEN") }, inverseJoinColumns = {
 					@JoinColumn(name = "MA_TAI_KHOAN", referencedColumnName = "MA_TAI_KHOAN", unique = true) })

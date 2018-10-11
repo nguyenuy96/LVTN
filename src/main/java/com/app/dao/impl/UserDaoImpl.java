@@ -30,15 +30,6 @@ public class UserDaoImpl implements UserDao {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
-	public Account registerAccountDao(Account account) {
-		Session session = sessionFactory.getCurrentSession();
-		String saltPassword = bCryptPasswordEncoder.encode(account.getPassword());
-		account.setPassword(saltPassword);
-		session.save(account);
-		return account;
-	}
-
-	@Override
 	public Account findAccountByPhoneNumDao(String phoneNumber) {
 		return null;
 	}
@@ -134,12 +125,14 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	public List<Account> getAccountByRole(int roleId) {
-//		Session session = sessionFactory.getCurrentSession();
-//		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-//		CriteriaQuery<Account> criteriaQuery = criteriaBuilder.createQuery(Account.class);
-//		Root<Account> root = criteriaQuery.from(Account.class);
-//		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("roleId"), roleId));
-//		Query<Account> query = session.createQuery(criteriaQuery);
+		// Session session = sessionFactory.getCurrentSession();
+		// CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		// CriteriaQuery<Account> criteriaQuery =
+		// criteriaBuilder.createQuery(Account.class);
+		// Root<Account> root = criteriaQuery.from(Account.class);
+		// criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("roleId"),
+		// roleId));
+		// Query<Account> query = session.createQuery(criteriaQuery);
 		Query<Account> query = inputIntQuery(Account.class, "roleId", roleId);
 		return query.getResultList();
 	}
@@ -169,26 +162,36 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public Customer getCusProfile(int accId) {
-//		Session session = sessionFactory.getCurrentSession();
-//		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-//		CriteriaQuery<Customer> criteriaQuery = criteriaBuilder.createQuery(Customer.class);
-//		Root<Customer> root = criteriaQuery.from(Customer.class);
-//		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("accountId"), acctId));
-//		Query<Customer> query = session.createQuery(criteriaQuery);
+		// Session session = sessionFactory.getCurrentSession();
+		// CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		// CriteriaQuery<Customer> criteriaQuery =
+		// criteriaBuilder.createQuery(Customer.class);
+		// Root<Customer> root = criteriaQuery.from(Customer.class);
+		// criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("accountId"),
+		// acctId));
+		// Query<Customer> query = session.createQuery(criteriaQuery);
 		Query<Customer> query = inputIntQuery(Customer.class, "accountId", accId);
 		return (query.list().size() == 1) ? query.getSingleResult() : null;
 	}
 
 	@Override
 	public Employee getEmpProfile(int accId) {
-//		Session session = sessionFactory.getCurrentSession();
-//		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-//		CriteriaQuery<Employee> criteriaQuery = criteriaBuilder.createQuery(Employee.class);
-//		Root<Employee> root = criteriaQuery.from(Employee.class);
-//		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("accountId"), accId));
-//		Query<Employee> query = session.createQuery(criteriaQuery);
+		// Session session = sessionFactory.getCurrentSession();
+		// CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		// CriteriaQuery<Employee> criteriaQuery =
+		// criteriaBuilder.createQuery(Employee.class);
+		// Root<Employee> root = criteriaQuery.from(Employee.class);
+		// criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("accountId"),
+		// accId));
+		// Query<Employee> query = session.createQuery(criteriaQuery);
 		Query<Employee> query = inputIntQuery(Employee.class, "accountId", accId);
 		return (query.list().size() == 1) ? query.getSingleResult() : null;
+	}
+
+	@Override
+	public boolean checkIdentification(String identification) {
+		Query<Employee> empQuery = inputStringQuery(Employee.class, "identification", identification);
+		return (empQuery.list().size() == 1) ? true : false;
 	}
 
 }

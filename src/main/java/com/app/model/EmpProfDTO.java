@@ -1,7 +1,7 @@
 package com.app.model;
 
 public class EmpProfDTO {
-	private String fullname;
+	private String name;
 
 	/******************************************************************************/
 	private String gender;
@@ -11,11 +11,11 @@ public class EmpProfDTO {
 	private String phone;
 
 	public String getFullname() {
-		return fullname;
+		return name;
 	}
 
 	public void setFullname(String fullname) {
-		this.fullname = fullname;
+		this.name = fullname;
 	}
 
 	public String getGender() {
