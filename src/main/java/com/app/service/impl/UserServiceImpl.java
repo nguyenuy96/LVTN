@@ -18,6 +18,7 @@ import com.app.model.Role;
 import com.app.model.CusProfDTO;
 import com.app.model.Customer;
 import com.app.model.Employee;
+import com.app.model.ModifyPassword;
 import com.app.model.EmpProfDTO;
 import com.app.model.AccountDTO;
 import com.app.service.UserService;
@@ -32,6 +33,84 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	// role
+	@Override
+	public Role saveOrUpdateRoleSrvc(Role role) throws ExceptionHandle {
+		Role retPermission = accountDao.getRole(role.getRole());
+		if (retPermission != null) {
+			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Existed role!");
+		}
+		if (role.getRole() == null) {
+			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Role is required");
+		}
+		return accountDao.savePermissionDao(role);
+	}
+
+	// create user
+	@Transactional
+	@Override
+	public void saveUserSrvc(List<Object> listUserProp) throws ExceptionHandle {
+		if (listUserProp.size() != 2)
+			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST,
+					"Account information and Profile cant be null!");
+		Account account = convertToAccount(listUserProp.get(0));
+		checkUserBeforeSave(account);
+		if (account.getAccountRole().getRole().equals("Customer")) {
+			Customer customer = convertToCustomer(listUserProp.get(1));
+			checkCusProf(customer);
+			customer.setAccount(account);
+			accountDao.saveOrUpdateCusProf(customer);
+		} else {
+			Employee employee = convertToEmployee(listUserProp.get(1));
+			checkEmpProf(employee);
+			employee.setAccount(account);
+			accountDao.saveOrUpdateEmpProf(employee);
+		}
+	}
+
+	@Override
+	public void registerUserSrvc(Customer customer) throws ExceptionHandle {
+		Account account = accountDao.checkAccountDao(customer.getAccount().getUsername());
+		checkUserBeforeSave(account);
+		checkCusProf(customer);
+		accountDao.saveOrUpdateCusProf(customer);
+	}
+
+	// modify user
+	@Transactional
+	@Override
+	public void modifyPasswordSrvc(ModifyPassword modifyPassword) throws ExceptionHandle {
+		Account modifiedAccount = accountDao.checkAccountDao(modifyPassword.getUsername());
+		if (modifiedAccount == null)
+			new ExceptionThrower().throwException(HttpStatus.NOT_FOUND, "Invalid user");
+		String oldPassword = modifiedAccount.getPassword();
+		checkPassword(oldPassword, modifyPassword);
+		String salt_password = bCryptPasswordEncoder.encode(modifyPassword.getNewPassword());
+		modifiedAccount.setPassword(salt_password);
+		accountDao.modifyPassword(modifiedAccount);
+	}
+
+	@Transactional
+	@Override
+	public void updateProfile(Object obj) throws ExceptionHandle {
+		AccountDTO accDTO = new AccountDTO();
+		if(accDTO.equals(null)) new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Profile format { {account:{username: String}}, (options to update)}");
+		modelMapper.map(obj, accDTO);
+		Account account = accountDao.checkAccountDao(accDTO.getAccount().getUsername());
+		if (account == null)
+			new ExceptionThrower().throwException(HttpStatus.NOT_FOUND, "Cant find user!");
+		int accId = accountDao.checkAccountDao(account.getUsername()).getAccountId();
+		if (account.getAccountRole().getRole().equals("Customer")) {
+			CusProfDTO cusProfDTO = new CusProfDTO();
+			modelMapper.map(obj, cusProfDTO);
+			accountDao.saveOrUpdateCusProf(saveCusProf(cusProfDTO, accId));
+		} else {
+			EmpProfDTO empProfDTO = new EmpProfDTO();
+			modelMapper.map(obj, empProfDTO);
+			accountDao.saveOrUpdateEmpProf(saveEmpProf(empProfDTO, accId));
+		}
+	}
+
 	@Override
 	public Account accountDetailSrvc(Account account) throws ExceptionHandle {
 		Account retAccount = accountDao.checkAccountDao(account.getUsername());
@@ -45,16 +124,11 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
-	@Transactional
-	@Override
-	public void updatePasswordSrvc(Account account) throws ExceptionHandle {
-		Account modifiedAccount = accountDao.checkAccountDao(account.getUsername());
-		if (modifiedAccount == null) {
-			new ExceptionThrower().throwException(HttpStatus.NOT_FOUND, "Invalid user");
-		} else {
-			modifiedAccount.setPassword(account.getPassword());
-			accountDao.updatePasswordDao(modifiedAccount);
-		}
+	public void checkPassword(String oldPassword, ModifyPassword modifyPassword) throws ExceptionHandle {
+		if (!bCryptPasswordEncoder.matches(modifyPassword.getOldPassword().toString(), oldPassword))
+			new ExceptionThrower().throwException(HttpStatus.NOT_FOUND, "Old Password is incorrect!");
+		if (!modifyPassword.getNewPassword().equals(modifyPassword.getRetypePassword()))
+			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Password doesnt match Retype Password!");
 	}
 
 	@Transactional
@@ -62,18 +136,6 @@ public class UserServiceImpl implements UserService {
 	public void deleteAccountSrvc(int accountId) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public Role saveOrUpdateRoleSrvc(Role role) throws ExceptionHandle {
-		Role retPermission = accountDao.getRole(role.getRole());
-		if (retPermission != null) {
-			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Existed role!");
-		}
-		if (role.getRole() == null) {
-			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Role is required");
-		}
-		return accountDao.savePermissionDao(role);
 	}
 
 	@Override
@@ -95,14 +157,16 @@ public class UserServiceImpl implements UserService {
 		return isValidUsername;
 	}
 
-	public boolean isInvalidCusProf(Customer customer) {
+	public void checkCusProf(Customer customer) throws ExceptionHandle {
 		String name = customer.getName();
 		String address = customer.getAddress();
 		String phone = customer.getPhoneNumber();
-		return (name == null || address == null || phone == null);
+		if (name == null || address == null || phone == null)
+			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST,
+					"Customer profile requried fields {name: String, phoneNumber: String, address:String}");
 	}
 
-	public boolean isInvalidEmpProf(Employee employee) throws ExceptionHandle {
+	public void checkEmpProf(Employee employee) throws ExceptionHandle {
 		String name = employee.getName();
 		String gender = employee.getGender();
 		String phone = employee.getPhoneNumber();
@@ -112,8 +176,11 @@ public class UserServiceImpl implements UserService {
 		boolean validIdentification = accountDao.checkIdentification(identification) ? false : true;
 		if (!validIdentification)
 			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Identification is used!");
-		return (name == null || gender == null || phone == null || nationality == null || identification == null
-				|| address == null);
+		if (name == null || gender == null || phone == null || nationality == null || identification == null
+				|| address == null)
+			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST,
+					"Employee profile requried fields {name: String, "
+							+ "gender: String, phoneNumber: String, nationality: String, identification: String, address:String}");
 	}
 
 	public Role checkRoleBeforeSave(Role role) throws ExceptionHandle {
@@ -131,43 +198,17 @@ public class UserServiceImpl implements UserService {
 	public Account checkUserBeforeSave(Account account) throws ExceptionHandle {
 		String username = account.getUsername();
 		String password = account.getPassword();
-		Role role = account.getAccountRole();
 		if (username == null || password == null)
 			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Username and password are required!");
 		if (accountDao.checkAccountDao(account.getUsername()) != null)
 			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Existed user!");
+		Role role = account.getAccountRole();
 		if (role == null)
 			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Role cant be null");
 		String salt_password = bCryptPasswordEncoder.encode(password);
 		account.setPassword(salt_password);
 		account.setAccountRole(checkRoleBeforeSave(role));
 		return account;
-	}
-
-	@Transactional
-	@Override
-	public void saveUserSrvc(List<Object> listUserProp) throws ExceptionHandle {
-		if (listUserProp.size() != 2)
-			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST,
-					"Account information and Profile cant be null!");
-		Account account = convertToAccount(listUserProp.get(0));
-		checkUserBeforeSave(account);
-		if (account.getAccountRole().getRole().equals("Customer")) {
-			Customer customer = convertToCustomer(listUserProp.get(1));
-			if (isInvalidCusProf(customer))
-				new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST,
-						"Customer profile requried fields {name: String, phoneNumber: String, address:String}");
-			customer.setAccount(account);
-			accountDao.saveOrUpdateCusProf(customer);
-		} else {
-			Employee employee = convertToEmployee(listUserProp.get(1));
-			if (isInvalidEmpProf(employee))
-				new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST,
-						"Employee profile requried fields {name: String, "
-								+ "gender: String, phoneNumber: String, nationality: String, identification: String, address:String}");
-			employee.setAccount(account);
-			accountDao.saveOrUpdateEmpProf(employee);
-		}
 	}
 
 	private ModelMapper modelMapper = new ModelMapper();
@@ -237,26 +278,6 @@ public class UserServiceImpl implements UserService {
 			modifyCus.setPhoneNumber(phone);
 		}
 		return modifyCus;
-	}
-
-	@Transactional
-	@Override
-	public void updateProfile(Object obj) throws ExceptionHandle {
-		AccountDTO accDTO = new AccountDTO();
-		modelMapper.map(obj, accDTO);
-		Account account = accountDao.checkAccountDao(accDTO.getAccount().getUsername());
-		if (account == null)
-			new ExceptionThrower().throwException(HttpStatus.NOT_FOUND, "Cant find user!");
-		int accId = accountDao.checkAccountDao(account.getUsername()).getAccountId();
-		if (account.getAccountRole().getRole().equals("Customer")) {
-			CusProfDTO cusProfDTO = new CusProfDTO();
-			modelMapper.map(obj, cusProfDTO);
-			accountDao.saveOrUpdateCusProf(saveCusProf(cusProfDTO, accId));
-		} else {
-			EmpProfDTO empProfDTO = new EmpProfDTO();
-			modelMapper.map(obj, empProfDTO);
-			accountDao.saveOrUpdateEmpProf(saveEmpProf(empProfDTO, accId));
-		}
 	}
 
 	@Override

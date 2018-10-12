@@ -29,162 +29,113 @@ public class UserDaoImpl implements UserDao {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	@Override
-	public Account findAccountByPhoneNumDao(String phoneNumber) {
-		return null;
+	public Session getSession() {
+		return sessionFactory.getCurrentSession();
 	}
 
-	@Override
-	public void updatePasswordDao(Account modifiedAccount) {
-		Session session = sessionFactory.getCurrentSession();
-		String newPassword = bCryptPasswordEncoder.encode(modifiedAccount.getPassword());
-		modifiedAccount.setPassword(newPassword);
-		session.update(modifiedAccount);
-	}
+	// Query
+	public <T> Query<T> inputStringQuery(Class<T> resultClass, String condition, String value) {
+		CriteriaBuilder criteriaBuilder = getSession().getCriteriaBuilder();
+		CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(resultClass);
+		Root<T> root = criteriaQuery.from(resultClass);
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get(condition), value));
+		Query<T> query = getSession().createQuery(criteriaQuery);
+		return query;
+	};
 
-	@Override
-	public void updateCusProfile(Customer customer) {
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(customer);
-	}
+	public <T> Query<T> inputIntQuery(Class<T> resultClass, String condition, int value) {
+		CriteriaBuilder criteriaBuilder = getSession().getCriteriaBuilder();
+		CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(resultClass);
+		Root<T> root = criteriaQuery.from(resultClass);
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get(condition), value));
+		Query<T> query = getSession().createQuery(criteriaQuery);
+		return query;
+	};
 
-	@Override
-	public void udpateEmpProfile(Employee employee) {
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(employee);
-	}
-
-	@Override
-	public void deleteAccountDao(int accountId) {
-
-	}
-
+	// Role
 	@Override
 	public Role savePermissionDao(Role permission) {
-		Session session = sessionFactory.getCurrentSession();
-		session.save(permission);
+		getSession().save(permission);
 		return permission;
 	}
 
 	@Override
 	public Role getRole(String role) {
-		// Session session = sessionFactory.getCurrentSession();
-		// CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		// CriteriaQuery<Role> criteriaQuery = criteriaBuilder.createQuery(Role.class);
-		// Root<Role> root = criteriaQuery.from(Role.class);
-		// criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("role"),
-		// role));
-		// Query<Role> query = session.createQuery(criteriaQuery);
 		Query<Role> query = inputStringQuery(Role.class, "role", role);
 		return (query.list().size() == 1) ? query.getSingleResult() : null;
 	}
 
-	public <T> Query<T> inputStringQuery(Class<T> resultClass, String condition, String value) {
-		Session session = sessionFactory.getCurrentSession();
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(resultClass);
-		Root<T> root = criteriaQuery.from(resultClass);
-		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get(condition), value));
-		Query<T> query = session.createQuery(criteriaQuery);
-		return query;
-	};
-
-	public <T> Query<T> inputIntQuery(Class<T> resultClass, String condition, int value) {
-		Session session = sessionFactory.getCurrentSession();
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(resultClass);
-		Root<T> root = criteriaQuery.from(resultClass);
-		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get(condition), value));
-		Query<T> query = session.createQuery(criteriaQuery);
-		return query;
-	};
-
+	// create user
+	@Transactional
 	@Override
-	public Account checkAccountDao(String username) {
-		/*
-		 * Session session = sessionFactory.getCurrentSession(); CriteriaQuery<Account>
-		 * CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		 * CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(Account.class);
-		 * Root<Account> root = criteriaQuery.from(Account.class);
-		 * criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("username"),
-		 * username)); Query<Account> query = session.createQuery(criteriaQuery);
-		 */
-
-		Query<Account> query = inputStringQuery(Account.class, "username", username);
-		return (query.list().size() == 1) ? query.getSingleResult() : null;
+	public void saveAccount(Account account) {
+		String saltPassword = bCryptPasswordEncoder.encode(account.getPassword());
+		account.setPassword(saltPassword);
+		getSession().save(account);
 	}
 
+	@Transactional
+	@Override
+	public void saveOrUpdateEmpProf(Employee employee) {
+		getSession().saveOrUpdate(employee);
+	}
+
+	@Transactional
+	@Override
+	public void saveOrUpdateCusProf(Customer customer) {
+		getSession().saveOrUpdate(customer);
+	}
+
+	// Modify user
+	@Override
+	public void modifyPassword(Account account) {
+		getSession().update(account);
+	}
+
+	@Override
+	public void updateCusProfile(Customer customer) {
+		getSession().saveOrUpdate(customer);
+	}
+
+	@Override
+	public void udpateEmpProfile(Employee employee) {
+		getSession().saveOrUpdate(employee);
+	}
+
+	// get user by role
+	public List<Account> getAccountByRole(int roleId) {
+		Query<Account> query = inputIntQuery(Account.class, "roleId", roleId);
+		return query.getResultList();
+	}
+
+	// get customer
 	@Override
 	public List<Account> getCustomerAccount(int customerRole) {
 		return getAccountByRole(customerRole);
 	}
 
 	@Override
-	public List<Account> getEmployeeAccount(int employeeRole) {
-		return getAccountByRole(employeeRole);
-	}
-
-	public List<Account> getAccountByRole(int roleId) {
-		// Session session = sessionFactory.getCurrentSession();
-		// CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		// CriteriaQuery<Account> criteriaQuery =
-		// criteriaBuilder.createQuery(Account.class);
-		// Root<Account> root = criteriaQuery.from(Account.class);
-		// criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("roleId"),
-		// roleId));
-		// Query<Account> query = session.createQuery(criteriaQuery);
-		Query<Account> query = inputIntQuery(Account.class, "roleId", roleId);
-		return query.getResultList();
-	}
-
-	@Transactional
-	@Override
-	public void saveAccount(Account account) {
-		Session session = sessionFactory.getCurrentSession();
-		String saltPassword = bCryptPasswordEncoder.encode(account.getPassword());
-		account.setPassword(saltPassword);
-		session.save(account);
-	}
-
-	@Transactional
-	@Override
-	public void saveOrUpdateEmpProf(Employee employee) {
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(employee);
-	}
-
-	@Transactional
-	@Override
-	public void saveOrUpdateCusProf(Customer customer) {
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(customer);
-	}
-
-	@Override
 	public Customer getCusProfile(int accId) {
-		// Session session = sessionFactory.getCurrentSession();
-		// CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		// CriteriaQuery<Customer> criteriaQuery =
-		// criteriaBuilder.createQuery(Customer.class);
-		// Root<Customer> root = criteriaQuery.from(Customer.class);
-		// criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("accountId"),
-		// acctId));
-		// Query<Customer> query = session.createQuery(criteriaQuery);
 		Query<Customer> query = inputIntQuery(Customer.class, "accountId", accId);
 		return (query.list().size() == 1) ? query.getSingleResult() : null;
 	}
 
+	// get employee
+	@Override
+	public List<Account> getEmployeeAccount(int employeeRole) {
+		return getAccountByRole(employeeRole);
+	}
+
 	@Override
 	public Employee getEmpProfile(int accId) {
-		// Session session = sessionFactory.getCurrentSession();
-		// CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		// CriteriaQuery<Employee> criteriaQuery =
-		// criteriaBuilder.createQuery(Employee.class);
-		// Root<Employee> root = criteriaQuery.from(Employee.class);
-		// criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("accountId"),
-		// accId));
-		// Query<Employee> query = session.createQuery(criteriaQuery);
 		Query<Employee> query = inputIntQuery(Employee.class, "accountId", accId);
+		return (query.list().size() == 1) ? query.getSingleResult() : null;
+	}
+
+	// check
+	@Override
+	public Account checkAccountDao(String username) {
+		Query<Account> query = inputStringQuery(Account.class, "username", username);
 		return (query.list().size() == 1) ? query.getSingleResult() : null;
 	}
 
@@ -192,6 +143,17 @@ public class UserDaoImpl implements UserDao {
 	public boolean checkIdentification(String identification) {
 		Query<Employee> empQuery = inputStringQuery(Employee.class, "identification", identification);
 		return (empQuery.list().size() == 1) ? true : false;
+	}
+
+	// other
+	@Override
+	public Account findAccountByPhoneNumDao(String phoneNumber) {
+		return null;
+	}
+
+	@Override
+	public void deleteAccountDao(int accountId) {
+
 	}
 
 }

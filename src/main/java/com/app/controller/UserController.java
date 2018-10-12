@@ -17,6 +17,7 @@ import com.app.exception.ExceptionHandle;
 import com.app.model.Account;
 import com.app.model.Role;
 import com.app.model.Customer;
+import com.app.model.ModifyPassword;
 import com.app.service.UserService;
 
 @CrossOrigin
@@ -30,8 +31,7 @@ public class UserController {
 	private UserService userService;
 
 	@RequestMapping(path = "/role", method = RequestMethod.POST)
-	public ResponseEntity<Role> savePermission(@RequestBody Role role)
-			throws ExceptionHandle {
+	public ResponseEntity<Role> savePermission(@RequestBody Role role) throws ExceptionHandle {
 		return new ResponseEntity<Role>(userService.saveOrUpdateRoleSrvc(role), HttpStatus.CREATED);
 	}
 
@@ -62,19 +62,20 @@ public class UserController {
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/updatepassword")
-	public ResponseEntity<HttpStatus> updatePassword(@RequestBody Account account) throws ExceptionHandle {
-		userService.updatePasswordSrvc(account);
+	@RequestMapping(path = "/updatepassword", method = RequestMethod.PATCH)
+	public ResponseEntity<HttpStatus> updatePassword(@RequestBody ModifyPassword modifyPassword)
+			throws ExceptionHandle {
+		userService.modifyPasswordSrvc(modifyPassword);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/checkaccount")
+	@RequestMapping(path = "/checkaccount", method = RequestMethod.GET)
 	public ResponseEntity<HttpStatus> checkAccount(@RequestBody Account account) {
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/updateprofile")
-	public ResponseEntity<HttpStatus> updateProfile(@RequestBody Object profile) throws ExceptionHandle{
+	@RequestMapping(path = "/updateprofile", method = RequestMethod.PATCH)
+	public ResponseEntity<HttpStatus> updateProfile(@RequestBody Object profile) throws ExceptionHandle {
 		userService.updateProfile(profile);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
@@ -83,5 +84,11 @@ public class UserController {
 	public ResponseEntity<Customer> getCusProfile(@RequestBody Account account) {
 		Customer customer = userService.getCusProfile(account);
 		return new ResponseEntity<Customer>(customer, HttpStatus.OK);
+	}
+
+	@RequestMapping(path = "/register", method = RequestMethod.POST)
+	public ResponseEntity<HttpStatus> registerUser(@RequestBody Customer customer) throws ExceptionHandle {
+		userService.registerUserSrvc(customer);
+		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 }
