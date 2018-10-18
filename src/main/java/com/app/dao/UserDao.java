@@ -12,6 +12,8 @@ public interface UserDao {
 	Role savePermissionDao(Role permission);
 
 	Role getRole(String role);
+	
+	List<Role> listRole();
 
 	// create an user
 	void saveAccount(Account account);

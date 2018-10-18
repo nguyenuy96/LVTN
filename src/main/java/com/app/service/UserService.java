@@ -12,9 +12,11 @@ public interface UserService {
 
 	// role
 	Role saveOrUpdateRoleSrvc(Role role) throws ExceptionHandle;
+	
+	List<Role> listRole();
 
 	// create user
-	void saveUserSrvc(List<Object> lstUserProp) throws ExceptionHandle;
+	void saveUserSrvc(Object userObj) throws ExceptionHandle;
 
 	void registerUserSrvc(Customer customer) throws ExceptionHandle;
 

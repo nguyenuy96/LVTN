@@ -60,6 +60,17 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
+	public List<Role> listRole() {
+		CriteriaBuilder criteriaBuilder = getSession().getCriteriaBuilder();
+		CriteriaQuery<Role> criteriaQuery = criteriaBuilder.createQuery(Role.class);
+		Root<Role> root = criteriaQuery.from(Role.class);
+		criteriaQuery.select(root);
+		Query<Role> query = getSession().createQuery(criteriaQuery);
+		List<Role> listRole = query.getResultList();
+		return listRole;
+	}
+
+	@Override
 	public Role getRole(String role) {
 		Query<Role> query = inputStringQuery(Role.class, "role", role);
 		return (query.list().size() == 1) ? query.getSingleResult() : null;

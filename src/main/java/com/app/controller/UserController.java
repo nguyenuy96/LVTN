@@ -30,6 +30,11 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@RequestMapping(path = "list-role", method = RequestMethod.GET)
+	public ResponseEntity<List<Role>> getListRole() {
+		return new ResponseEntity<List<Role>>(userService.listRole(), HttpStatus.OK);
+	}
+
 	@RequestMapping(path = "/role", method = RequestMethod.POST)
 	public ResponseEntity<Role> savePermission(@RequestBody Role role) throws ExceptionHandle {
 		return new ResponseEntity<Role>(userService.saveOrUpdateRoleSrvc(role), HttpStatus.CREATED);
@@ -57,8 +62,8 @@ public class UserController {
 	}
 
 	@RequestMapping(path = "/saveuser", method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> saveOrUpdate(@RequestBody List<Object> lstUserProp) throws ExceptionHandle {
-		userService.saveUserSrvc(lstUserProp);
+	public ResponseEntity<HttpStatus> saveOrUpdate(@RequestBody Object userObj) throws ExceptionHandle {
+		userService.saveUserSrvc(userObj);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
