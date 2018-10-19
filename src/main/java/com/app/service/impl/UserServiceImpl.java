@@ -76,16 +76,14 @@ public class UserServiceImpl implements UserService {
 		Account account = convertToAccount(accDTO.getAccount());
 		checkUserBeforeSave(account);
 		if (account.getAccountRole().getRole().equals("Customer")) {
-			CusProfDTO cusProfDTO = new CusProfDTO();
-			modelMapper.map(userObj, cusProfDTO);
-			Customer customer = convertToCustomer(cusProfDTO);
+			Customer customer = new Customer();
+			modelMapper.map(userObj, customer);
 			checkCusProf(customer);
 			customer.setAccount(account);
 			accountDao.saveOrUpdateCusProf(customer);
 		} else {
-			EmpProfDTO empProfDTO = new EmpProfDTO();
-			modelMapper.map(userObj, empProfDTO);
-			Employee employee = convertToEmployee(empProfDTO);
+			Employee employee = new Employee();
+			modelMapper.map(userObj, employee);
 			checkEmpProf(employee);
 			employee.setAccount(account);
 			accountDao.saveOrUpdateEmpProf(employee);

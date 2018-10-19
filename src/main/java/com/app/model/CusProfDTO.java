@@ -2,16 +2,16 @@ package com.app.model;
 
 public class CusProfDTO {
 
-	private String fullname;
+	private String name;
 	private String address;
-	private String phone;
+	private String phoneNumber;
 
 	public String getFullname() {
-		return fullname;
+		return name;
 	}
 
 	public void setFullname(String fullname) {
-		this.fullname = fullname;
+		this.name = fullname;
 	}
 
 	public String getAddress() {
@@ -23,10 +23,10 @@ public class CusProfDTO {
 	}
 
 	public String getPhone() {
-		return phone;
+		return phoneNumber;
 	}
 
 	public void setPhone(String phone) {
-		this.phone = phone;
+		this.phoneNumber = phone;
 	}
 }

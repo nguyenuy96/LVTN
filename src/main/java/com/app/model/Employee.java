@@ -16,7 +16,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "NHAN_VIEN")
@@ -29,36 +28,29 @@ public class Employee implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonProperty("id")
 	@Column(name = "MA_NHAN_VIEN", nullable = false, unique = true)
 	private int staffId;
 
 	/******************************************************************************/
 
-	@JsonProperty("name")
 	@Column(name = "HO_TEN", nullable = false)
 	private String name;
 
 	/******************************************************************************/
-	@JsonProperty("gender")
 	@Column(name = "GIOI_TINH", nullable = false)
 	private String gender;
 
 	/******************************************************************************/
-	@JsonProperty("phone")
 	@Column(name = "SO_DIEN_THOAI", nullable = false, unique = true)
 	private String phoneNumber;
 	/******************************************************************************/
-	@JsonProperty("nationality")
 	@Column(name = "QUOC_TICH", nullable = false)
 	private String nationality;
 
 	/******************************************************************************/
-	@JsonProperty("identification")
 	@Column(name = "CHUNG_MINH_THU", nullable = false, unique = true)
 	private String identification;
 	/******************************************************************************/
-	@JsonProperty("address")
 	@Column(name = "DIA_CHI", nullable = false)
 	private String address;
 
