@@ -17,6 +17,7 @@ import com.app.exception.ExceptionHandle;
 import com.app.model.Account;
 import com.app.model.Role;
 import com.app.model.Customer;
+import com.app.model.Employee;
 import com.app.model.ModifyPassword;
 import com.app.service.UserService;
 
@@ -45,14 +46,14 @@ public class UserController {
 		return new ResponseEntity<Account>(userService.accountDetailSrvc(account), HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/customer/{role}", method = RequestMethod.GET)
-	public ResponseEntity<List<Account>> customerAccount(@PathVariable int role) {
-		return new ResponseEntity<List<Account>>(userService.getCustomerAccount(role), HttpStatus.OK);
+	@RequestMapping(path = "/list-customer", method = RequestMethod.GET)
+	public ResponseEntity<List<Customer>> customerAccount() {
+		return new ResponseEntity<List<Customer>>(userService.getCustomerAccount(), HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/employee/{role}", method = RequestMethod.GET)
-	public ResponseEntity<List<Account>> employeeAccount(@PathVariable int role) {
-		return new ResponseEntity<List<Account>>(userService.getEmployeeAccount(role), HttpStatus.OK);
+	@RequestMapping(path = "/list-employee", method = RequestMethod.GET)
+	public ResponseEntity<List<Employee>> employeeAccount() {
+		return new ResponseEntity<List<Employee>>(userService.getEmployeeAccount(), HttpStatus.OK);
 	}
 
 	@RequestMapping(path = "/validate/{username}", method = RequestMethod.GET)

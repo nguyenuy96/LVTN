@@ -163,13 +163,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<Account> getCustomerAccount(int customerRole) {
-		return accountDao.getCustomerAccount(customerRole);
+	public List<Customer> getCustomerAccount() {
+		return accountDao.getCustomerAccount();
 	}
 
 	@Override
-	public List<Account> getEmployeeAccount(int employeeRole) {
-		return accountDao.getEmployeeAccount(employeeRole);
+	public List<Employee> getEmployeeAccount() {
+		return accountDao.getEmployeeAccount();
 	}
 
 	@Override

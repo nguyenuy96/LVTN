@@ -33,12 +33,12 @@ public interface UserDao {
 	// get customer
 	Customer getCusProfile(int accId);
 
-	List<Account> getCustomerAccount(int customerRole);
+	List<Customer> getCustomerAccount();
 
 	// get employee
 	Employee getEmpProfile(int accId);
 
-	List<Account> getEmployeeAccount(int EmployeeRole);
+	List<Employee> getEmployeeAccount();
 
 	// check
 	Account checkAccountDao(String username);

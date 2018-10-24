@@ -6,6 +6,7 @@ import com.app.exception.ExceptionHandle;
 import com.app.model.Account;
 import com.app.model.Role;
 import com.app.model.Customer;
+import com.app.model.Employee;
 import com.app.model.ModifyPassword;
 
 public interface UserService {
@@ -26,9 +27,9 @@ public interface UserService {
 	void updateProfile(Object profile) throws ExceptionHandle;
 
 	// get user
-	List<Account> getCustomerAccount(int customerRole);
+	List<Customer> getCustomerAccount();
 
-	List<Account> getEmployeeAccount(int employeeRole);
+	List<Employee> getEmployeeAccount();
 
 	Customer getCusProfile(Account account);
 

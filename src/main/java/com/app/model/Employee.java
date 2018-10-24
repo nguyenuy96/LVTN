@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +30,7 @@ public class Employee implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "MA_NHAN_VIEN", nullable = false, unique = true)
-	private int staffId;
+	private int empId;
 
 	/******************************************************************************/
 
@@ -67,9 +68,9 @@ public class Employee implements Serializable {
 	public Employee() {
 	}
 
-	public Employee(int staffId, String name, String gender, String phoneNumber, String nationality,
+	public Employee(int empId, String name, String gender, String phoneNumber, String nationality,
 			String identification, String address, Account accountId) {
-		this.staffId = staffId;
+		this.empId = empId;
 		this.name = name;
 		this.gender = gender;
 		this.phoneNumber = phoneNumber;
@@ -81,12 +82,12 @@ public class Employee implements Serializable {
 
 	/******************************************************************************/
 
-	public int getStaffId() {
-		return staffId;
+	public int getEmplId() {
+		return empId;
 	}
 
-	public void setStaffId(int staffId) {
-		this.staffId = staffId;
+	public void setEmplId(int empId) {
+		this.empId = empId;
 	}
 
 	/******************************************************************************/
@@ -161,7 +162,7 @@ public class Employee implements Serializable {
 
 	/******************************************************************************/
 	@JsonManagedReference
-	@OneToMany(mappedBy = "staffId")
+	@OneToMany(mappedBy = "empId", fetch = FetchType.EAGER)
 	private Set<ImportRepository> importRepositories;
 
 	public Set<ImportRepository> getImportRepositories() {
@@ -175,7 +176,7 @@ public class Employee implements Serializable {
 	/******************************************************************************/
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "staffId")
+	@OneToMany(mappedBy = "empId", fetch = FetchType.EAGER)
 	private Set<ExportRepository> exportRepositories;
 
 	public Set<ExportRepository> getExportRepositories() {

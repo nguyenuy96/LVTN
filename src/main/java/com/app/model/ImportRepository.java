@@ -5,6 +5,7 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +32,7 @@ public class ImportRepository implements Serializable {
 	/******************************************************************************/
 	
 	@JsonBackReference
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MA_KHO_HANG", nullable = false)
 	private Repository repositoryId;
 
@@ -45,9 +46,9 @@ public class ImportRepository implements Serializable {
 	/******************************************************************************/
 	
 	@JsonBackReference
-	@ManyToOne
-	@JoinColumn(name = "MA_NHAN_VIEN", nullable = false)
-	private Employee staffId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MA_NHAN_VIEN")
+	private Employee empId;
 	
 	/******************************************************************************/
 
@@ -63,11 +64,11 @@ public class ImportRepository implements Serializable {
 
 	public ImportRepository() {}
 	
-	public ImportRepository(int impRespId, Repository repositoryId, Item itemId, Employee staffId, double amount, Date importDate) {
+	public ImportRepository(int impRespId, Repository repositoryId, Item itemId, Employee empId, double amount, Date importDate) {
 		this.impRespId = impRespId;
 		this.repositoryId = repositoryId;
 		this.itemId = itemId;
-		this.staffId = staffId;
+		this.empId = empId;
 		this.amount = amount;
 		this.importDate = importDate;
 	}
@@ -123,12 +124,12 @@ public class ImportRepository implements Serializable {
 
 	/******************************************************************************/
 	
-	public Employee getStaff() {
-		return staffId;
+	public Employee getEmployee() {
+		return empId;
 	}
 
-	public void setStaff(Employee staffId) {
-		this.staffId = staffId;
+	public void setEmployee(Employee empId) {
+		this.empId = empId;
 	}
 
 }

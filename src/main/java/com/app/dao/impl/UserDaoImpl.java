@@ -114,15 +114,17 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	// get user by role
-	public List<Account> getAccountByRole(int roleId) {
-		Query<Account> query = inputIntQuery(Account.class, "roleId", roleId);
-		return query.getResultList();
-	}
+
 
 	// get customer
 	@Override
-	public List<Account> getCustomerAccount(int customerRole) {
-		return getAccountByRole(customerRole);
+	public List<Customer> getCustomerAccount() {
+		CriteriaBuilder criteriaBuilder = getSession().getCriteriaBuilder();
+		CriteriaQuery<Customer> criteriaQuery = criteriaBuilder.createQuery(Customer.class);
+		Root<Customer> root = criteriaQuery.from(Customer.class);
+		criteriaQuery.select(root);
+		Query<Customer> query = getSession().createQuery(criteriaQuery);
+		return query.getResultList();
 	}
 
 	@Override
@@ -133,8 +135,13 @@ public class UserDaoImpl implements UserDao {
 
 	// get employee
 	@Override
-	public List<Account> getEmployeeAccount(int employeeRole) {
-		return getAccountByRole(employeeRole);
+	public List<Employee> getEmployeeAccount() {
+		CriteriaBuilder criteriaBuilder = getSession().getCriteriaBuilder();
+		CriteriaQuery<Employee> criteriaQuery = criteriaBuilder.createQuery(Employee.class);
+		Root<Employee> root = criteriaQuery.from(Employee.class);
+		criteriaQuery.select(root);
+		Query<Employee> query = getSession().createQuery(criteriaQuery);
+		return query.getResultList();
 	}
 
 	@Override
