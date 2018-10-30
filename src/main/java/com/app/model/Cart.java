@@ -24,37 +24,34 @@ public class Cart implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonProperty("id")
 	@Column(name = "MA_GIO_HANG")
 	private int cartId;
 	
 	/******************************************************************************/
 	
-	@JsonProperty("amount")
 	@Column(name = "SO_LUONG", nullable = false)
 	private int amount;
 	
 	/******************************************************************************/
 	
-	@JsonProperty("total_price")
 	@Column(name = "TONG_GIA", nullable = false)
 	private double totalPrice;
 
 	/******************************************************************************/
-	
-	@OneToOne
-	@JoinColumn(name = "MA_SAN_PHAM", nullable = false)
-	private Item itemId;
-	
-	/******************************************************************************/
+//	
+//	@OneToOne
+//	@JoinColumn(name = "MA_SAN_PHAM", nullable = false)
+//	private Product product;
+//	
+//	/******************************************************************************/
 	
 	public Cart() { }
 	
-	public Cart(int cartId, int amount, double totalPrice, Item itemId) {
+	public Cart(int cartId, int amount, double totalPrice) {
 		this.cartId = cartId;
 		this.amount = amount;
 		this.totalPrice = totalPrice;
-		this.itemId = itemId;
+//		this.product = product;
 	}
 
 	/******************************************************************************/
@@ -88,14 +85,14 @@ public class Cart implements Serializable{
 	}
 	
 	/******************************************************************************/
-
-	public Item getItem() {
-		return itemId;
-	}
-
-	public void setItem(Item itemId) {
-		this.itemId = itemId;
-	}
+//
+//	public Product getProduct() {
+//		return product;
+//	}
+//
+//	public void setProduct(Product product) {
+//		this.product = product;
+//	}
 	
 	/******************************************************************************/
 	

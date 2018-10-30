@@ -26,15 +26,15 @@ public class Country implements Serializable {
 	/******************************************************************************/
 	
 	@Column(name = "QUOC_GIA", nullable = false, unique = true)
-	private String country;
+	private String countryName;
 
 	/******************************************************************************/
 	
 	public Country() { }
 
-	public Country(int countryId, String country) {
+	public Country(int countryId, String countryName) {
 		this.countryId = countryId;
-		this.country = country;
+		this.countryName = countryName;
 	}
 
 	/******************************************************************************/
@@ -49,12 +49,12 @@ public class Country implements Serializable {
 
 	/******************************************************************************/
 	
-	public String getCountry() {
-		return country;
+	public String getCountryName() {
+		return countryName;
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
 	}
 	
 }

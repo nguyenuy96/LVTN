@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "SAN_PHAM")
-public class Item implements Serializable {
+public class Product implements Serializable {
 
 	/**
 	 * 
@@ -31,16 +31,16 @@ public class Item implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "MA_SAN_PHAM", nullable = false, unique = true)
-	private int itemId;
+	private int productId;
 
 	/******************************************************************************/
 
 	@Column(name = "TEN_SAN_PHAM", nullable = false, unique = true)
-	private String itemName;
+	private String productName;
 
 	/******************************************************************************/
 
-	@Column(name = "THANH_PHAN", nullable = false)
+	@Column(name = "THANH_PHAN")
 	private String ingredient;
 
 	/******************************************************************************/
@@ -108,47 +108,48 @@ public class Item implements Serializable {
 	@OneToOne
 	@JoinTable(name = "THUONGHIEU_SANPHAM", joinColumns = {
 			@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") }, inverseJoinColumns = {
-					@JoinColumn(name = "MA_THUONG_HIEU", referencedColumnName = "MA_THUONG_HIEU", unique = true) })
-	private TradeMark tradeMarkId;
+					@JoinColumn(name = "MA_THUONG_HIEU", referencedColumnName = "MA_THUONG_HIEU") })
+	private TradeMark tradeMark;
 
+	@OneToOne
+	@JoinTable(name = "SANPHAM_GIOHANG", joinColumns = {
+			@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_GIO_HANG", referencedColumnName = "MA_GIO_HANG") })
+	private Cart cart;
 	/******************************************************************************/
 
-	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "MA_CAN_NANG")
-	private Weight weightId;
+	private Weight weight;
 
 	/******************************************************************************/
 
-	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "MA_DO_TUOI")
-	private Age ageId;
+	private Age age;
 
 	/******************************************************************************/
 
-	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "MA_KHUYEN_MAI")
 	private Promotion promotionId;
 
 	/******************************************************************************/
 
-	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "MA_LOAI_HANG")
-	private ItemType itemTypeId;
+	private ProductType productType;
 
 	/******************************************************************************/
 
-	public Item() {	}
+	public Product() {	}
 
-	public Item(int itemId, String itemName, String ingredient, Date manufDate, Date expiryDate, String useObject,
+	public Product(int productId, String productName, String ingredient, Date manufDate, Date expiryDate, String useObject,
 			String image, String useGuide, float net, String note, String guarantee, double unitPrice,
-			String preservation, String outstdFeatures, String description, TradeMark tradeMarkId, Weight weightId,
-			Age ageId, Promotion promotionId, ItemType itemTypeId) {
-		this.itemId = itemId;
-		this.itemName = itemName;
+			String preservation, String outstdFeatures, String description, TradeMark tradeMark, Weight weight,
+			Age age, Promotion promotionId, ProductType productType, Cart cart) {
+		this.productId = productId;
+		this.productName = productName;
 		this.ingredient = ingredient;
 		this.manufDate = manufDate;
 		this.expiryDate = expiryDate;
@@ -162,34 +163,30 @@ public class Item implements Serializable {
 		this.preservation = preservation;
 		this.outstdFeatures = outstdFeatures;
 		this.description = description;
-		this.tradeMarkId = tradeMarkId;
-		this.weightId = weightId;
-		this.ageId = ageId;
+		this.tradeMark = tradeMark;
+		this.weight = weight;
+		this.age = age;
 		this.promotionId = promotionId;
-		this.itemTypeId = itemTypeId;
+		this.productType = productType;
+		this.cart = cart;
 	}
 
-	/******************************************************************************/
-
-	public int getItemId() {
-		return itemId;
+	
+	public int getProductId() {
+		return productId;
 	}
 
-	public void setItemId(int itemId) {
-		this.itemId = itemId;
+	public void setProductId(int productId) {
+		this.productId = productId;
 	}
 
-	/******************************************************************************/
-
-	public String getItemName() {
-		return itemName;
+	public String getProductName() {
+		return productName;
 	}
 
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
-
-	/******************************************************************************/
 
 	public String getIngredient() {
 		return ingredient;
@@ -199,8 +196,6 @@ public class Item implements Serializable {
 		this.ingredient = ingredient;
 	}
 
-	/******************************************************************************/
-
 	public Date getManufDate() {
 		return manufDate;
 	}
@@ -208,8 +203,6 @@ public class Item implements Serializable {
 	public void setManufDate(Date manufDate) {
 		this.manufDate = manufDate;
 	}
-
-	/******************************************************************************/
 
 	public Date getExpiryDate() {
 		return expiryDate;
@@ -219,8 +212,6 @@ public class Item implements Serializable {
 		this.expiryDate = expiryDate;
 	}
 
-	/******************************************************************************/
-
 	public String getUseObject() {
 		return useObject;
 	}
@@ -228,8 +219,6 @@ public class Item implements Serializable {
 	public void setUseObject(String useObject) {
 		this.useObject = useObject;
 	}
-
-	/******************************************************************************/
 
 	public String getImage() {
 		return image;
@@ -239,8 +228,6 @@ public class Item implements Serializable {
 		this.image = image;
 	}
 
-	/******************************************************************************/
-
 	public String getUseGuide() {
 		return useGuide;
 	}
@@ -248,8 +235,6 @@ public class Item implements Serializable {
 	public void setUseGuide(String useGuide) {
 		this.useGuide = useGuide;
 	}
-
-	/******************************************************************************/
 
 	public float getNet() {
 		return net;
@@ -259,8 +244,6 @@ public class Item implements Serializable {
 		this.net = net;
 	}
 
-	/******************************************************************************/
-
 	public String getNote() {
 		return note;
 	}
@@ -268,8 +251,6 @@ public class Item implements Serializable {
 	public void setNote(String note) {
 		this.note = note;
 	}
-
-	/******************************************************************************/
 
 	public String getGuarantee() {
 		return guarantee;
@@ -279,8 +260,6 @@ public class Item implements Serializable {
 		this.guarantee = guarantee;
 	}
 
-	/******************************************************************************/
-
 	public double getUnitPrice() {
 		return unitPrice;
 	}
@@ -288,8 +267,6 @@ public class Item implements Serializable {
 	public void setUnitPrice(double unitPrice) {
 		this.unitPrice = unitPrice;
 	}
-
-	/******************************************************************************/
 
 	public String getPreservation() {
 		return preservation;
@@ -299,8 +276,6 @@ public class Item implements Serializable {
 		this.preservation = preservation;
 	}
 
-	/******************************************************************************/
-
 	public String getOutstdFeatures() {
 		return outstdFeatures;
 	}
@@ -308,8 +283,6 @@ public class Item implements Serializable {
 	public void setOutstdFeatures(String outstdFeatures) {
 		this.outstdFeatures = outstdFeatures;
 	}
-
-	/******************************************************************************/
 
 	public String getDescription() {
 		return description;
@@ -319,60 +292,13 @@ public class Item implements Serializable {
 		this.description = description;
 	}
 
-	/******************************************************************************/
-
 	public TradeMark getTradeMark() {
-		return tradeMarkId;
+		return tradeMark;
 	}
 
-	public void setTradeMark(TradeMark tradeMarkId) {
-		this.tradeMarkId = tradeMarkId;
+	public void setTradeMark(TradeMark tradeMark) {
+		this.tradeMark = tradeMark;
 	}
-
-	/******************************************************************************/
-
-	public Weight getWeight() {
-		return weightId;
-	}
-
-	public void setWeight(Weight weightId) {
-		this.weightId = weightId;
-	}
-
-	/******************************************************************************/
-
-	public Age getAge() {
-		return ageId;
-	}
-
-	public void setAge(Age ageId) {
-		this.ageId = ageId;
-	}
-
-	/******************************************************************************/
-
-	public Promotion getPromotion() {
-		return promotionId;
-	}
-
-	public void setPromotion(Promotion promotionId) {
-		this.promotionId = promotionId;
-	}
-
-	/******************************************************************************/
-
-	public ItemType getItemType() {
-		return itemTypeId;
-	}
-
-	public void setItemType(ItemType itemTypeId) {
-		this.itemTypeId = itemTypeId;
-	}
-
-	/******************************************************************************/
-
-	@OneToOne(mappedBy = "itemId")
-	private Cart cart;
 
 	public Cart getCart() {
 		return cart;
@@ -382,32 +308,66 @@ public class Item implements Serializable {
 		this.cart = cart;
 	}
 
-	/******************************************************************************/
-
-	@JsonManagedReference
-	@OneToMany(mappedBy = "itemId")
-	private Set<ImportRepository> importRepository;
-
-	public Set<ImportRepository> getImportRepository() {
-		return importRepository;
+	public Weight getWeight() {
+		return weight;
 	}
 
-	public void setImportRepository(Set<ImportRepository> importRepository) {
-		this.importRepository = importRepository;
+	public void setWeight(Weight weight) {
+		this.weight = weight;
 	}
 
-	/******************************************************************************/
-
-	@JsonManagedReference
-	@OneToMany(mappedBy = "itemId")
-	private Set<ExportRepository> exportRepositories;
-
-	public Set<ExportRepository> getExportRepositories() {
-		return exportRepositories;
+	public Age getAge() {
+		return age;
 	}
 
-	public void setExportRepositories(Set<ExportRepository> exportRepositories) {
-		this.exportRepositories = exportRepositories;
+	public void setAge(Age age) {
+		this.age = age;
 	}
+
+	public Promotion getPromotionId() {
+		return promotionId;
+	}
+
+	public void setPromotionId(Promotion promotionId) {
+		this.promotionId = promotionId;
+	}
+
+	public ProductType getProductType() {
+		return productType;
+	}
+
+	public void setProductType(ProductType productType) {
+		this.productType = productType;
+	}
+
+
+
+
+
+//	@JsonManagedReference
+//	@OneToMany(mappedBy = "product")
+//	private Set<ImportRepository> importRepository;
+//
+//	public Set<ImportRepository> getImportRepository() {
+//		return importRepository;
+//	}
+//
+//	public void setImportRepository(Set<ImportRepository> importRepository) {
+//		this.importRepository = importRepository;
+//	}
+//
+//	/******************************************************************************/
+//
+//	@JsonManagedReference
+//	@OneToMany(mappedBy = "product")
+//	private Set<ExportRepository> exportRepositories;
+//
+//	public Set<ExportRepository> getExportRepositories() {
+//		return exportRepositories;
+//	}
+//
+//	public void setExportRepositories(Set<ExportRepository> exportRepositories) {
+//		this.exportRepositories = exportRepositories;
+//	}
 
 }

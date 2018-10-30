@@ -96,15 +96,14 @@ public class Promotion implements Serializable{
 	
 	/******************************************************************************/
 	
-	@JsonManagedReference
 	@OneToMany(mappedBy = "promotionId")
-	private Set<Item> item;
+	private Set<Product> item;
 
-	public Set<Item> getItem() {
+	public Set<Product> getItem() {
 		return item;
 	}
 
-	public void setItem(Set<Item> item) {
+	public void setItem(Set<Product> item) {
 		this.item = item;
 	}
 	

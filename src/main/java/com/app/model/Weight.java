@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "CAN_NANG")
-public class Weight implements Serializable{
+public class Weight implements Serializable {
 
 	/**
 	 * 
@@ -26,53 +26,84 @@ public class Weight implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", nullable = false, unique = true)
 	private int weightId;
-	
+
 	/******************************************************************************/
-	
-	@Column(name = "CAN_NANG", nullable = false, unique = true)
-	private float weight;
-	
+
+	@Column(name = "CAN_NANG_BAT_DAU")
+	private int startWeight;
+
 	/******************************************************************************/
-	
-	public Weight () {}
-	
-	public Weight(int weightId, float weight) {
-		this.weightId = weightId;
-		this.weight = weight;
+
+	@Column(name = "CAN_NANG_KET_THUC")
+	private int endWeight;
+
+	/******************************************************************************/
+
+	@Column(name = "KICH_THUOC")
+	private String size;
+
+	/******************************************************************************/
+	public Weight() {
 	}
-	
+
+	public Weight(int weightId, int startWeight, int endWeight, String size) {
+		this.weightId = weightId;
+		this.startWeight = startWeight;
+		this.endWeight = endWeight;
+		this.size = size;
+	}
+
 	/******************************************************************************/
-	
+
 	public int getWeightId() {
 		return weightId;
 	}
-	
+
 	public void setWeightId(int weight_id) {
 		this.weightId = weight_id;
 	}
 
 	/******************************************************************************/
-	
-	public float getWeight() {
-		return weight;
+
+	public int getStartWeight() {
+		return startWeight;
 	}
-	
-	public void setWeight(float weight) {
-		this.weight = weight;
+
+	public void setStartWeight(int startWeight) {
+		this.startWeight = startWeight;
 	}
-	
+
+	/******************************************************************************/
+
+	public int getEndWeight() {
+		return endWeight;
+	}
+
+	public void setEndWeight(int endWeight) {
+		this.endWeight = endWeight;
+	}
+
+	/******************************************************************************/
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
 	/******************************************************************************/
 	
-	@JsonManagedReference
-	@OneToMany(mappedBy = "weightId")
-	private Set<Item> item;
+	@OneToMany(mappedBy = "weight")
+	private Set<Product> product;
 
-	public Set<Item> getItem() {
-		return item;
+	public Set<Product> getProduct() {
+		return product;
 	}
 
-	public void setItem(Set<Item> item) {
-		this.item = item;
+	public void setProduct(Set<Product> product) {
+		this.product = product;
 	}
-	
+
 }

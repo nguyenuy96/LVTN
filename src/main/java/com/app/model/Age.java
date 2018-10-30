@@ -12,7 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "DO_TUOI")
@@ -25,57 +24,70 @@ public class Age implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonProperty("id")
 	@Column(name = "ID", nullable = false, unique = true)
 	private int ageId;
 
 	/******************************************************************************/
-	
-	@JsonProperty("age")
-	@Column(name = "DO_TUOI", nullable = false, unique = true)
-	private int age;
+
+	@Column(name = "TUOI_BAT_DAU")
+	private int startAge;
 
 	/******************************************************************************/
-	
-	public Age() { }
 
-	public Age(int age_id, int age) {
+	@Column(name = "TUOI_KET_THUC")
+	private int endAge;
+
+	/******************************************************************************/
+	public Age() {
+	}
+
+	public Age(int age_id, int startAge, int endAge) {
 		this.ageId = age_id;
-		this.age = age;
+		this.startAge = startAge;
+		this.endAge = endAge;
 	}
 
 	/******************************************************************************/
-	
+
 	public int getAgeId() {
 		return ageId;
 	}
 
 	public void setAgeId(int ageId) {
-		this.age = ageId;
-	}
-	
-	/******************************************************************************/
-	
-	public int getAge() {
-		return age;
-	}
-	
-	public void setAge(int age) {
-		this.age = age;
+		this.ageId = ageId;
 	}
 
 	/******************************************************************************/
-	
-	@JsonManagedReference
-	@OneToMany(mappedBy = "ageId")
-	private Set<Item> item;
 
-	public Set<Item> getItem() {
-		return item;
+	public int getStartAge() {
+		return startAge;
 	}
 
-	public void setItem(Set<Item> item) {
-		this.item = item;
+	public void setStartAge(int startAge) {
+		this.startAge = startAge;
 	}
-	
+
+	/******************************************************************************/
+
+	public int getEndAge() {
+		return endAge;
+	}
+
+	public void setEndAge(int endAge) {
+		this.endAge = endAge;
+	}
+
+	/******************************************************************************/
+
+	@OneToMany(mappedBy = "age")
+	private Set<Product> product;
+
+	public Set<Product> getProduct() {
+		return product;
+	}
+
+	public void setProduct(Set<Product> product) {
+		this.product = product;
+	}
+
 }

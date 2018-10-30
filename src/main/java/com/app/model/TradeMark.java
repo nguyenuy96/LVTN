@@ -36,17 +36,17 @@ public class TradeMark implements Serializable {
 	@OneToOne
 	@JoinTable(name = "THUONGHIEU_XUATXU", joinColumns = {
 			@JoinColumn(name = "MA_THUONG_HIEU", referencedColumnName = "MA_THUONG_HIEU") }, inverseJoinColumns = {
-					@JoinColumn(name = "MA_QUOC_GIA", referencedColumnName = "MA_QUOC_GIA", unique = true) })
-	private Country countryId;
+					@JoinColumn(name = "MA_QUOC_GIA", referencedColumnName = "MA_QUOC_GIA") })
+	private Country country;
 
 	/******************************************************************************/
 
 	public TradeMark() {}
 
-	public TradeMark(int tradeMarkId, String tradeMark, Country countryId) {
+	public TradeMark(int tradeMarkId, String tradeMark, Country country) {
 		this.tradeMarkId = tradeMarkId;
 		this.tradeMark = tradeMark;
-		this.countryId = countryId;
+		this.country = country;
 	}
 
 	/******************************************************************************/
@@ -72,24 +72,11 @@ public class TradeMark implements Serializable {
 	/******************************************************************************/
 
 	public Country getCountry() {
-		return countryId;
+		return country;
 	}
 
-	public void setCountry(Country countryId) {
-		this.countryId = countryId;
-	}
-
-	/******************************************************************************/
-
-	@OneToOne(mappedBy = "tradeMarkId")
-	private Item item;
-
-	public Item getItem() {
-		return item;
-	}
-
-	public void setItem(Item item) {
-		this.item = item;
+	public void setCountry(Country country) {
+		this.country = country;
 	}
 
 }

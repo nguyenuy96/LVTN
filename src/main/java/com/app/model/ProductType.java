@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "LOAI_HANG")
-public class ItemType implements Serializable{
+public class ProductType implements Serializable{
 
 	/**
 	 * 
@@ -25,54 +25,53 @@ public class ItemType implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", nullable = false, unique = true)
-	private int itemTypeId;
+	private int productTypeId;
 	
 	/******************************************************************************/
 	
 	@Column(name = "LOAI_HANG", nullable = false, unique = true)
-	private String itemType;
+	private String productType;
 	
 	/******************************************************************************/
 	
-	public ItemType() {	}
+	public ProductType() {	}
 	
-	public ItemType(int itemTypeId, String itemType) {
-		this.itemTypeId = itemTypeId;
-		this.itemType = itemType;
-	}
-
-	/******************************************************************************/
-	
-	public int getItemTypeId() {
-		return itemTypeId;
-	}
-
-	public void setItemTypeId(int itemTypeId) {
-		this.itemTypeId = itemTypeId;
+	public ProductType(int productTypeId, String productType) {
+		this.productTypeId = productTypeId;
+		this.productType = productType;
 	}
 
 	/******************************************************************************/
 	
-	public String getItemType() {
-		return itemType;
+	public int getProductTypeId() {
+		return productTypeId;
 	}
 
-	public void setItemType(String itemType) {
-		this.itemType = itemType;
+	public void setProductTypeId(int productTypeId) {
+		this.productTypeId = productTypeId;
+	}
+
+	/******************************************************************************/
+	
+	public String getProductType() {
+		return productType;
+	}
+
+	public void setProductType(String productType) {
+		this.productType = productType;
 	}
 	
 	/******************************************************************************/
 	
-	@JsonManagedReference
-	@OneToMany(mappedBy = "itemTypeId")
-	private Set<Item> item;
+	@OneToMany(mappedBy = "productType")
+	private Set<Product> product;
 
-	public Set<Item> getItem() {
-		return item;
+	public Set<Product> getProduct() {
+		return product;
 	}
 
-	public void setItem(Set<Item> item) {
-		this.item = item;
+	public void setProduct(Set<Product> product) {
+		this.product = product;
 	}
 	
 }
