@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "CAN_NANG")
@@ -24,7 +23,7 @@ public class Weight implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "MA_CAN_NANG", nullable = false, unique = true)
 	private int weightId;
 
 	/******************************************************************************/
@@ -95,15 +94,15 @@ public class Weight implements Serializable {
 
 	/******************************************************************************/
 	
-	@OneToMany(mappedBy = "weight")
-	private Set<Product> product;
-
-	public Set<Product> getProduct() {
-		return product;
-	}
-
-	public void setProduct(Set<Product> product) {
-		this.product = product;
-	}
+//	@OneToMany(mappedBy = "weight")
+//	private Set<Product> product;
+//
+//	public Set<Product> getProduct() {
+//		return product;
+//	}
+//
+//	public void setProduct(Set<Product> product) {
+//		this.product = product;
+//	}
 
 }

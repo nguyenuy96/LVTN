@@ -26,7 +26,7 @@ public class ExportRepository implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "MA_XUAT_KHO", nullable = false, unique = true)
 	private int expRespId;
 	
 	/******************************************************************************/
@@ -37,11 +37,11 @@ public class ExportRepository implements Serializable{
 	private Repository repositoryId;
 
 	/******************************************************************************/
-
+//
 //	@JsonBackReference
-//	@ManyToOne
+//	@ManyToOne(fetch = FetchType.LAZY)
 //	@JoinColumn(name = "MA_SAN_PHAM", nullable = false)
-//	private Product product;
+//	private Product productId;
 
 	/******************************************************************************/
 	
@@ -64,10 +64,10 @@ public class ExportRepository implements Serializable{
 	
 	public ExportRepository() { }
 
-	public ExportRepository(int expRespId, Repository repositoryId,/* Product product,*/ Employee empId, double amount, Date importDate) {
+	public ExportRepository(int expRespId, Repository repositoryId,/* Product productId,*/ Employee empId, double amount, Date importDate) {
 		this.expRespId = expRespId;
 		this.repositoryId = repositoryId;
-//		this.product = product;
+//		this.productId = productId;
 		this.empId = empId;
 		this.amount = amount;
 		this.importDate = importDate;
@@ -96,11 +96,11 @@ public class ExportRepository implements Serializable{
 	/******************************************************************************/
 
 //	public Product getProduct() {
-//		return product;
+//		return productId;
 //	}
 //
-//	public void setProduct(Product itemId) {
-//		this.product = itemId;
+//	public void setProduct(Product productId) {
+//		this.productId = productId;
 //	}
 
 	/******************************************************************************/

@@ -25,7 +25,7 @@ public interface ProductDao {
 	
 	TradeMark getLabel(int labelId);
 	
-	Weight getWeight(int weightId);
+	Weight getWeightById(int weightId);
 	
 	Age getAge(int ageId);
 	

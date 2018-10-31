@@ -11,11 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "LOAI_HANG")
-public class ProductType implements Serializable{
+public class ProductType implements Serializable {
 
 	/**
 	 * 
@@ -24,25 +24,26 @@ public class ProductType implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "MA_LOAI_HANG", nullable = false, unique = true)
 	private int productTypeId;
-	
+
 	/******************************************************************************/
-	
+
 	@Column(name = "LOAI_HANG", nullable = false, unique = true)
 	private String productType;
-	
+
 	/******************************************************************************/
-	
-	public ProductType() {	}
-	
+
+	public ProductType() {
+	}
+
 	public ProductType(int productTypeId, String productType) {
 		this.productTypeId = productTypeId;
 		this.productType = productType;
 	}
 
 	/******************************************************************************/
-	
+
 	public int getProductTypeId() {
 		return productTypeId;
 	}
@@ -52,7 +53,7 @@ public class ProductType implements Serializable{
 	}
 
 	/******************************************************************************/
-	
+
 	public String getProductType() {
 		return productType;
 	}
@@ -60,9 +61,10 @@ public class ProductType implements Serializable{
 	public void setProductType(String productType) {
 		this.productType = productType;
 	}
-	
+
 	/******************************************************************************/
-	
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "productType")
 	private Set<Product> product;
 
@@ -73,5 +75,5 @@ public class ProductType implements Serializable{
 	public void setProduct(Set<Product> product) {
 		this.product = product;
 	}
-	
+
 }

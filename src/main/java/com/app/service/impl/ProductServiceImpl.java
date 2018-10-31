@@ -31,14 +31,26 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional
 	@Override
 	public void saveOrUpdate(Product product) {
-//		TradeMark tradeMark = productDao.getLabel(product.getAge().getAgeId());
-//		Weight weight = productDao.getWeight(product.getWeight().getWeightId());
-//		Age age = productDao.getAge(product.getAge().getAgeId());
-//		ProductType productType = productDao.getProductType(product.getProductType().getProductTypeId());
-//		product.setTradeMark(tradeMark);;
-//		product.setWeight(weight);
-//		product.setAge(age);
-//		product.setProductType(productType);
+		TradeMark tradeMark = product.getTradeMark();
+		if(tradeMark != null) {
+			tradeMark = productDao.getLabel(tradeMark.getTradeMarkId());
+			product.setTradeMark(tradeMark);
+		}
+		Weight weight = product.getWeight();
+		if(weight != null) {
+			weight = productDao.getWeightById(weight.getWeightId());
+			product.setWeight(weight);
+		}
+		Age age = product.getAge();
+		if(age != null) {
+			age = productDao.getAge(age.getAgeId());
+			product.setAge(age);
+		}
+		ProductType productType = product.getProductType();
+		if(productType != null) {
+			productType = productDao.getProductType(productType.getProductTypeId());
+			product.setProductType(productType);
+		}
 		productDao.saveOrUpdate(product);
 	}
 

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -40,7 +40,7 @@ public class Product implements Serializable {
 
 	/******************************************************************************/
 
-	@Column(name = "THANH_PHAN")
+	@Column(name = "THANH_PHAN", length = 1000)
 	private String ingredient;
 
 	/******************************************************************************/
@@ -65,12 +65,12 @@ public class Product implements Serializable {
 
 	/******************************************************************************/
 
-	@Column(name = "HUONG_DAN_SU_DUNG")
+	@Column(name = "HUONG_DAN_SU_DUNG", length = 1000)
 	private String useGuide;
 
 	/******************************************************************************/
 
-	@Column(name = "KHOI_LUONG")
+	@Column(name = "KHOI_LUONG_TINH")
 	private float net;
 
 	/******************************************************************************/
@@ -80,7 +80,7 @@ public class Product implements Serializable {
 
 	/******************************************************************************/
 
-	@Column(name = "BAO_HANH")
+	@Column(name = "BAO_HANH", length = 1000)
 	private String guarantee;
 
 	/******************************************************************************/
@@ -90,17 +90,17 @@ public class Product implements Serializable {
 
 	/******************************************************************************/
 
-	@Column(name = "BAO_QUAN")
+	@Column(name = "BAO_QUAN", length = 1000)
 	private String preservation;
 
 	/******************************************************************************/
 
-	@Column(name = "DAC_DIEM_NOI_BAT")
+	@Column(name = "DAC_DIEM_NOI_BAT", length = 1000)
 	private String outstdFeatures;
 
 	/******************************************************************************/
 
-	@Column(name = "MO_TA")
+	@Column(name = "MO_TA", length = 1000)
 	private String description;
 
 	/******************************************************************************/
@@ -119,35 +119,43 @@ public class Product implements Serializable {
 	/******************************************************************************/
 
 	@ManyToOne
-	@JoinColumn(name = "MA_CAN_NANG")
+	@JoinTable(name = "SANPHAM_CANNANG", joinColumns = {
+			@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_CAN_NANG", referencedColumnName = "MA_CAN_NANG") })
 	private Weight weight;
 
 	/******************************************************************************/
-
 	@ManyToOne
-	@JoinColumn(name = "MA_DO_TUOI")
+	@JoinTable(name = "SANPHAM_DOTUOI", joinColumns = {
+			@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_DO_TUOI", referencedColumnName = "MA_DO_TUOI") })
 	private Age age;
 
 	/******************************************************************************/
 
 	@ManyToOne
-	@JoinColumn(name = "MA_KHUYEN_MAI")
+	@JoinTable(name = "SANPHAM_KHUYENMAI", joinColumns = {
+			@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_KHUYEN_MAI", referencedColumnName = "MA_KHUYEN_MAI") })
 	private Promotion promotionId;
 
 	/******************************************************************************/
 
 	@ManyToOne
-	@JoinColumn(name = "MA_LOAI_HANG")
+	@JoinTable(name = "SANPHAM_LOAIHANG", joinColumns = {
+			@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_LOAI_HANG", referencedColumnName = "MA_LOAI_HANG") })
 	private ProductType productType;
 
 	/******************************************************************************/
 
-	public Product() {	}
+	public Product() {
+	}
 
-	public Product(int productId, String productName, String ingredient, Date manufDate, Date expiryDate, String useObject,
-			String image, String useGuide, float net, String note, String guarantee, double unitPrice,
-			String preservation, String outstdFeatures, String description, TradeMark tradeMark, Weight weight,
-			Age age, Promotion promotionId, ProductType productType, Cart cart) {
+	public Product(int productId, String productName, String ingredient, Date manufDate, Date expiryDate,
+			String useObject, String image, String useGuide, float net, String note, String guarantee, double unitPrice,
+			String preservation, String outstdFeatures, String description, TradeMark tradeMark, Weight weight, Age age,
+			Promotion promotionId, ProductType productType, Cart cart) {
 		this.productId = productId;
 		this.productName = productName;
 		this.ingredient = ingredient;
@@ -171,7 +179,6 @@ public class Product implements Serializable {
 		this.cart = cart;
 	}
 
-	
 	public int getProductId() {
 		return productId;
 	}
@@ -340,34 +347,34 @@ public class Product implements Serializable {
 		this.productType = productType;
 	}
 
+	@OneToMany
+	@JoinTable(name = "SANPHAM_NHAPKHO", joinColumns = {
+			@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_NHAP_KHO", referencedColumnName = "MA_NHAP_KHO") })
+	private Set<ImportRepository> importRepositories;
 
+	public Set<ImportRepository> getImportRepositories() {
+		return importRepositories;
+	}
 
+	public void setImportRepositories(Set<ImportRepository> importRepositories) {
+		this.importRepositories = importRepositories;
+	}
 
+	/******************************************************************************/
 
-//	@JsonManagedReference
-//	@OneToMany(mappedBy = "product")
-//	private Set<ImportRepository> importRepository;
-//
-//	public Set<ImportRepository> getImportRepository() {
-//		return importRepository;
-//	}
-//
-//	public void setImportRepository(Set<ImportRepository> importRepository) {
-//		this.importRepository = importRepository;
-//	}
-//
-//	/******************************************************************************/
-//
-//	@JsonManagedReference
-//	@OneToMany(mappedBy = "product")
-//	private Set<ExportRepository> exportRepositories;
-//
-//	public Set<ExportRepository> getExportRepositories() {
-//		return exportRepositories;
-//	}
-//
-//	public void setExportRepositories(Set<ExportRepository> exportRepositories) {
-//		this.exportRepositories = exportRepositories;
-//	}
+	@OneToMany
+	@JoinTable(name = "SANPHAM_XUATKHO", joinColumns = {
+			@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_XUAT_KHO", referencedColumnName = "MA_XUAT_KHO") })
+	private Set<ExportRepository> exportRepositories;
+
+	public Set<ExportRepository> getExportRepositories() {
+		return exportRepositories;
+	}
+
+	public void setExportRepositories(Set<ExportRepository> exportRepositories) {
+		this.exportRepositories = exportRepositories;
+	}
 
 }

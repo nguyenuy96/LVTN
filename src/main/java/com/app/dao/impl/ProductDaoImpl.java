@@ -96,7 +96,7 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public Weight getWeight(int weightId) {
+	public Weight getWeightById(int weightId) {
 		Weight weight = getSession().byId(Weight.class).load(weightId);
 		return weight;
 	}

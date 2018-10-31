@@ -43,6 +43,9 @@ public class TradeMark implements Serializable {
 
 	public TradeMark() {}
 
+	public TradeMark(int tradeMarkId) {
+		this.tradeMarkId = tradeMarkId;
+	}
 	public TradeMark(int tradeMarkId, String tradeMark, Country country) {
 		this.tradeMarkId = tradeMarkId;
 		this.tradeMark = tradeMark;

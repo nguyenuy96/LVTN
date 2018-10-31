@@ -5,13 +5,11 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "DO_TUOI")
@@ -24,7 +22,7 @@ public class Age implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "MA_DO_TUOI", nullable = false, unique = true)
 	private int ageId;
 
 	/******************************************************************************/
@@ -78,16 +76,5 @@ public class Age implements Serializable {
 	}
 
 	/******************************************************************************/
-
-	@OneToMany(mappedBy = "age")
-	private Set<Product> product;
-
-	public Set<Product> getProduct() {
-		return product;
-	}
-
-	public void setProduct(Set<Product> product) {
-		this.product = product;
-	}
 
 }

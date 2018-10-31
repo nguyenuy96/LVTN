@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "KHUYEN_MAI")
@@ -25,7 +24,7 @@ public class Promotion implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "MA_KHUYEN_MAI", nullable = false, unique = true)
 	private int promId;
 	
 	/******************************************************************************/
