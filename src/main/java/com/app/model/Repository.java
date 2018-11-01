@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,7 +25,7 @@ public class Repository implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", nullable = false, unique = true)
+	@Column(name = "MA_KHO_HANG", nullable = false, unique = true)
 	private int repositoryId;
 	
 	/******************************************************************************/
@@ -63,29 +64,29 @@ public class Repository implements Serializable{
 	
 	/******************************************************************************/
 	
-	@JsonManagedReference
-	@OneToMany(mappedBy = "repositoryId")
-	private Set<ImportRepository> importRepository;
-
-	public Set<ImportRepository> getImportRepository() {
-		return importRepository;
-	}
-
-	public void setImportRepository(Set<ImportRepository> importRepository) {
-		this.importRepository = importRepository;
-	}
+//	@JsonManagedReference
+//	@OneToMany(mappedBy = "repositoryId", fetch = FetchType.EAGER)
+//	private Set<ImportRepository> importRepository;
+//
+//	public Set<ImportRepository> getImportRepository() {
+//		return importRepository;
+//	}
+//
+//	public void setImportRepository(Set<ImportRepository> importRepository) {
+//		this.importRepository = importRepository;
+//	}
 	
 	/******************************************************************************/
-	@JsonManagedReference
-	@OneToMany(mappedBy = "repositoryId")
-	private Set<ExportRepository> exportRepositories;
-
-	public Set<ExportRepository> getExportRepositories() {
-		return exportRepositories;
-	}
-
-	public void setExportRepositories(Set<ExportRepository> exportRepositories) {
-		this.exportRepositories = exportRepositories;
-	}
+//	@JsonManagedReference
+//	@OneToMany(mappedBy = "repositoryId", fetch = FetchType.EAGER)
+//	private Set<ExportRepository> exportRepositories;
+//
+//	public Set<ExportRepository> getExportRepositories() {
+//		return exportRepositories;
+//	}
+//
+//	public void setExportRepositories(Set<ExportRepository> exportRepositories) {
+//		this.exportRepositories = exportRepositories;
+//	}
 		
 }

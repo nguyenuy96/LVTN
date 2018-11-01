@@ -87,14 +87,18 @@ public class UserDaoImpl implements UserDao {
 
 	@Transactional
 	@Override
-	public void saveOrUpdateEmpProf(Employee employee) {
+	public void saveOrUpdateEmpProf(Account account) {
+		Employee employee = account.getEmployee();
 		getSession().saveOrUpdate(employee);
+		getSession().save(account);
 	}
 
 	@Transactional
 	@Override
-	public void saveOrUpdateCusProf(Customer customer) {
+	public void saveOrUpdateCusProf(Account account) {
+		Customer customer = account.getCustomer();
 		getSession().saveOrUpdate(customer);
+		getSession().save(account);
 	}
 
 	// Modify user

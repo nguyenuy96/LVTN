@@ -12,7 +12,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "TAI_KHOAN")
@@ -23,18 +22,15 @@ public class Account implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonProperty("id")
 	@Column(name = "MA_TAI_KHOAN", nullable = false, unique = true)
 	private int accountId;
 
 	/******************************************************************************/
-	@JsonProperty("username")
 	@Column(name = "TAI_KHOAN", nullable = false, unique = true)
 	private String username;
 
 	/******************************************************************************/
 
-	@JsonProperty("password")
 	@Column(name = "MAT_KHAU", nullable = false, unique = true)
 	private String password;
 
@@ -48,14 +44,28 @@ public class Account implements Serializable {
 
 	/******************************************************************************/
 
+	@OneToOne
+	@JoinTable(name = "TAI_KHOAN_KHACH_HANG", joinColumns = {
+			@JoinColumn(name = "MA_TAI_KHOAN", referencedColumnName = "MA_TAI_KHOAN") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_KHACH_HANG", referencedColumnName = "MA_KHACH_HANG") })
+	private Customer customer;
+
+	@OneToOne
+	@JoinTable(name = "TAI_KHOAN_NHAN_VIEN", joinColumns = {
+			@JoinColumn(name = "MA_TAI_KHOAN", referencedColumnName = "MA_TAI_KHOAN") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_NHAN_VIEN", referencedColumnName = "MA_NHAN_VIEN") })
+	private Employee employee;
+
 	public Account() {
 	}
 
-	public Account(int accountId, String username, String password, Role role) {
+	public Account(int accountId, String username, String password, Role role, Employee employee, Customer customer) {
 		this.accountId = accountId;
 		this.username = username;
 		this.password = password;
 		this.role = role;
+		this.employee = employee;
+		this.customer = customer;
 	}
 
 	/******************************************************************************/
@@ -98,10 +108,22 @@ public class Account implements Serializable {
 		this.role = role;
 	}
 
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
 	/******************************************************************************/
 
-	@Override
-	public String toString() {
-		return this.username + this.getPassword();
-	}
 }

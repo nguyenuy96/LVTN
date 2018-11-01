@@ -20,7 +20,6 @@ import com.app.model.Customer;
 import com.app.model.Employee;
 import com.app.model.ModifyPassword;
 import com.app.model.EmpProfDTO;
-import com.app.model.AccountDTO;
 import com.app.service.UserService;
 
 @Service
@@ -55,47 +54,24 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	@Override
 	public void saveUserSrvc(Object userObj) throws ExceptionHandle {
-//		if (listUserProp.size() != 2)
-//			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST,
-//					"Account information and Profile cant be null!");
-//		Account account = convertToAccount(listUserProp.get(0));
-//		checkUserBeforeSave(account);
-//		if (account.getAccountRole().getRole().equals("Customer")) {
-//			Customer customer = convertToCustomer(listUserProp.get(1));
-//			checkCusProf(customer);
-//			customer.setAccount(account);
-//			accountDao.saveOrUpdateCusProf(customer);
-//		} else {
-//			Employee employee = convertToEmployee(listUserProp.get(1));
-//			checkEmpProf(employee);
-//			employee.setAccount(account);
-//			accountDao.saveOrUpdateEmpProf(employee);
-//		}
-		AccountDTO accDTO = new AccountDTO();
-		modelMapper.map(userObj, accDTO);
-		Account account = convertToAccount(accDTO.getAccount());
+		Account account = new Account();
+		modelMapper.map(userObj, account);
 		checkUserBeforeSave(account);
 		if (account.getAccountRole().getRole().equals("Customer")) {
-			Customer customer = new Customer();
-			modelMapper.map(userObj, customer);
-			checkCusProf(customer);
-			customer.setAccount(account);
-			accountDao.saveOrUpdateCusProf(customer);
+			checkCusProf(account.getCustomer());
+			accountDao.saveOrUpdateCusProf(account);
 		} else {
-			Employee employee = new Employee();
-			modelMapper.map(userObj, employee);
-			checkEmpProf(employee);
-			employee.setAccount(account);
-			accountDao.saveOrUpdateEmpProf(employee);
+			checkEmpProf(account.getEmployee());
+			accountDao.saveOrUpdateEmpProf(account);
 		}
 	}
 
 	@Override
 	public void registerUserSrvc(Customer customer) throws ExceptionHandle {
-		Account account = accountDao.checkAccountDao(customer.getAccount().getUsername());
-		checkUserBeforeSave(account);
-		checkCusProf(customer);
-		accountDao.saveOrUpdateCusProf(customer);
+//		Account account = accountDao.checkAccountDao(customer.getAccount().getUsername());
+//		checkUserBeforeSave(account);
+//		checkCusProf(customer);
+//		accountDao.saveOrUpdateCusProf(customer);
 	}
 
 	// modify user
@@ -115,24 +91,24 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	@Override
 	public void updateProfile(Object obj) throws ExceptionHandle {
-		AccountDTO accDTO = new AccountDTO();
-		if (accDTO.equals(null))
-			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST,
-					"Profile format { {account:{username: String}}, (options to update)}");
-		modelMapper.map(obj, accDTO);
-		Account account = accountDao.checkAccountDao(accDTO.getAccount().getUsername());
-		if (account == null)
-			new ExceptionThrower().throwException(HttpStatus.NOT_FOUND, "Cant find user!");
-		int accId = accountDao.checkAccountDao(account.getUsername()).getAccountId();
-		if (account.getAccountRole().getRole().equals("Customer")) {
-			CusProfDTO cusProfDTO = new CusProfDTO();
-			modelMapper.map(obj, cusProfDTO);
-			accountDao.saveOrUpdateCusProf(saveCusProf(cusProfDTO, accId));
-		} else {
-			EmpProfDTO empProfDTO = new EmpProfDTO();
-			modelMapper.map(obj, empProfDTO);
-			accountDao.saveOrUpdateEmpProf(saveEmpProf(empProfDTO, accId));
-		}
+//		AccountDTO accDTO = new AccountDTO();
+//		if (accDTO.equals(null))
+//			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST,
+//					"Profile format { {account:{username: String}}, (options to update)}");
+//		modelMapper.map(obj, accDTO);
+//		Account account = accountDao.checkAccountDao(accDTO.getAccount().getUsername());
+//		if (account == null)
+//			new ExceptionThrower().throwException(HttpStatus.NOT_FOUND, "Cant find user!");
+//		int accId = accountDao.checkAccountDao(account.getUsername()).getAccountId();
+//		if (account.getAccountRole().getRole().equals("Customer")) {
+//			CusProfDTO cusProfDTO = new CusProfDTO();
+//			modelMapper.map(obj, cusProfDTO);
+//			accountDao.saveOrUpdateCusProf(saveCusProf(cusProfDTO, accId));
+//		} else {
+//			EmpProfDTO empProfDTO = new EmpProfDTO();
+//			modelMapper.map(obj, empProfDTO);
+//			accountDao.saveOrUpdateEmpProf(saveEmpProf(empProfDTO, accId));
+//		}
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.app.model.Age;
 import com.app.model.Country;
+import com.app.model.ProductStorage;
 import com.app.model.Product;
 import com.app.model.ProductType;
 import com.app.model.Promotion;
@@ -13,7 +14,7 @@ import com.app.model.Weight;
 public interface ProductDao {
 	List<Product> getAllProduct();
 	
-	void saveOrUpdate(Product product);
+	void saveProductStorage(ProductStorage productImport, Product product);
 	
 	void saveOrUpdateCounrty(Country country);
 	
@@ -39,5 +40,6 @@ public interface ProductDao {
 	
 	void saveProductType(ProductType productType);
 	
+	List<ProductStorage> getProductImport();
 	
 }

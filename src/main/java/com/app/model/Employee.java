@@ -1,22 +1,13 @@
 package com.app.model;
 
 import java.io.Serializable;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "NHAN_VIEN")
@@ -34,34 +25,26 @@ public class Employee implements Serializable {
 
 	/******************************************************************************/
 
-	@Column(name = "HO_TEN", nullable = false)
+	@Column(name = "HO_TEN")
 	private String name;
 
 	/******************************************************************************/
-	@Column(name = "GIOI_TINH", nullable = false)
+	@Column(name = "GIOI_TINH")
 	private String gender;
 
 	/******************************************************************************/
-	@Column(name = "SO_DIEN_THOAI", nullable = false, unique = true)
+	@Column(name = "SO_DIEN_THOAI")
 	private String phoneNumber;
 	/******************************************************************************/
-	@Column(name = "QUOC_TICH", nullable = false)
+	@Column(name = "QUOC_TICH")
 	private String nationality;
 
 	/******************************************************************************/
-	@Column(name = "CHUNG_MINH_THU", nullable = false, unique = true)
+	@Column(name = "CHUNG_MINH_THU")
 	private String identification;
 	/******************************************************************************/
-	@Column(name = "DIA_CHI", nullable = false)
+	@Column(name = "DIA_CHI")
 	private String address;
-
-	/******************************************************************************/
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinTable(name = "TAI_KHOAN_NHAN_VIEN", joinColumns = {
-			@JoinColumn(name = "MA_NHAN_VIEN", referencedColumnName = "MA_NHAN_VIEN") }, inverseJoinColumns = {
-					@JoinColumn(name = "MA_TAI_KHOAN", referencedColumnName = "MA_TAI_KHOAN", unique = true) })
-	private Account accountId;
 
 	/******************************************************************************/
 
@@ -69,7 +52,7 @@ public class Employee implements Serializable {
 	}
 
 	public Employee(int empId, String name, String gender, String phoneNumber, String nationality,
-			String identification, String address, Account accountId) {
+			String identification, String address) {
 		this.empId = empId;
 		this.name = name;
 		this.gender = gender;
@@ -77,7 +60,6 @@ public class Employee implements Serializable {
 		this.nationality = nationality;
 		this.identification = identification;
 		this.address = address;
-		this.accountId = accountId;
 	}
 
 	/******************************************************************************/
@@ -152,38 +134,38 @@ public class Employee implements Serializable {
 
 	/******************************************************************************/
 
-	public Account getAccount() {
-		return accountId;
-	}
-
-	public void setAccount(Account accountId) {
-		this.accountId = accountId;
-	}
-
-	/******************************************************************************/
-	@JsonManagedReference
-	@OneToMany(mappedBy = "empId", fetch = FetchType.EAGER)
-	private Set<ImportRepository> importRepositories;
-
-	public Set<ImportRepository> getImportRepositories() {
-		return importRepositories;
-	}
-
-	public void setImportRepositories(Set<ImportRepository> importRepositories) {
-		this.importRepositories = importRepositories;
-	}
+//	public Account getAccount() {
+//		return accountId;
+//	}
+//
+//	public void setAccount(Account accountId) {
+//		this.accountId = accountId;
+//	}
 
 	/******************************************************************************/
+//	@JsonManagedReference
+//	@OneToMany(mappedBy = "empId", fetch = FetchType.EAGER)
+//	private Set<ImportRepository> importRepositories;
+//
+//	public Set<ImportRepository> getImportRepositories() {
+//		return importRepositories;
+//	}
+//
+//	public void setImportRepositories(Set<ImportRepository> importRepositories) {
+//		this.importRepositories = importRepositories;
+//	}
 
-	@JsonManagedReference
-	@OneToMany(mappedBy = "empId", fetch = FetchType.EAGER)
-	private Set<ExportRepository> exportRepositories;
+	/******************************************************************************/
 
-	public Set<ExportRepository> getExportRepositories() {
-		return exportRepositories;
-	}
-
-	public void setExportRepositories(Set<ExportRepository> exportRepositories) {
-		this.exportRepositories = exportRepositories;
-	}
+//	@JsonManagedReference
+//	@OneToMany(mappedBy = "empId", fetch = FetchType.EAGER)
+//	private Set<ExportRepository> exportRepositories;
+//
+//	public Set<ExportRepository> getExportRepositories() {
+//		return exportRepositories;
+//	}
+//
+//	public void setExportRepositories(Set<ExportRepository> exportRepositories) {
+//		this.exportRepositories = exportRepositories;
+//	}
 }

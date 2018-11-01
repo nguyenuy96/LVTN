@@ -44,11 +44,11 @@ public class ExportRepository implements Serializable{
 //	private Product productId;
 
 	/******************************************************************************/
-	
-	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MA_NHAN_VIEN", nullable = false)
-	private Employee empId;
+//	
+//	@JsonBackReference
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "MA_NHAN_VIEN", nullable = false)
+//	private Employee empId;
 	
 	/******************************************************************************/
 
@@ -68,7 +68,7 @@ public class ExportRepository implements Serializable{
 		this.expRespId = expRespId;
 		this.repositoryId = repositoryId;
 //		this.productId = productId;
-		this.empId = empId;
+//		this.empId = empId;
 		this.amount = amount;
 		this.importDate = importDate;
 	}
@@ -124,12 +124,12 @@ public class ExportRepository implements Serializable{
 
 	/******************************************************************************/
 	
-	public Employee getEmployee() {
-		return empId;
-	}
-
-	public void setEmployee(Employee empId) {
-		this.empId = empId;
-	}
+//	public Employee getEmployee() {
+//		return empId;
+//	}
+//
+//	public void setEmployee(Employee empId) {
+//		this.empId = empId;
+//	}
 	
 }

@@ -18,9 +18,9 @@ public interface UserDao {
 	// create an user
 	void saveAccount(Account account);
 
-	void saveOrUpdateCusProf(Customer customer);
+	void saveOrUpdateCusProf(Account account);
 
-	void saveOrUpdateEmpProf(Employee employee);
+	void saveOrUpdateEmpProf(Account account);
 
 	// modify user
 

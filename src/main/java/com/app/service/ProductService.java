@@ -6,12 +6,13 @@ import com.app.exception.ExceptionHandle;
 import com.app.model.Age;
 import com.app.model.Country;
 import com.app.model.Product;
+import com.app.model.ProductStorage;
 import com.app.model.ProductType;
 import com.app.model.TradeMark;
 import com.app.model.Weight;
 
 public interface ProductService {
-	void saveOrUpdate(Product product);
+	void saveProduct(ProductStorage productImport);
 
 	List<Product> getAllProducts();
 
@@ -24,4 +25,6 @@ public interface ProductService {
 	void saveWeight(Weight weight);
 	
 	void saveProductType(ProductType productType);
+	
+	List<ProductStorage> getProductImport();
 }

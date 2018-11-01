@@ -1,6 +1,7 @@
 package com.app.service.impl;
 
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +17,7 @@ import com.app.exception.ExceptionThrower;
 import com.app.model.Age;
 import com.app.model.Country;
 import com.app.model.Product;
+import com.app.model.ProductStorage;
 import com.app.model.ProductType;
 import com.app.model.TradeMark;
 import com.app.model.Weight;
@@ -30,7 +32,13 @@ public class ProductServiceImpl implements ProductService {
 
 	@Transactional
 	@Override
-	public void saveOrUpdate(Product product) {
+	public void saveProduct(ProductStorage productImport) {
+		
+		Set<Product> listProduct = productImport.getProduct();
+		Product product = new Product();
+		for (Product prod : listProduct) {
+			product = prod;
+		}
 		TradeMark tradeMark = product.getTradeMark();
 		if(tradeMark != null) {
 			tradeMark = productDao.getLabel(tradeMark.getTradeMarkId());
@@ -51,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
 			productType = productDao.getProductType(productType.getProductTypeId());
 			product.setProductType(productType);
 		}
-		productDao.saveOrUpdate(product);
+		productDao.saveProductStorage(productImport, product);
 	}
 
 	@Override
@@ -109,6 +117,12 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void saveProductType(ProductType productType) {
 		productDao.saveProductType(productType);
+	}
+
+	@Override
+	public List<ProductStorage> getProductImport() {
+		List<ProductStorage> productImports = productDao.getProductImport();
+		return productImports;
 	}
 
 }

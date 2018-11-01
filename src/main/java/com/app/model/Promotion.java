@@ -95,15 +95,15 @@ public class Promotion implements Serializable{
 	
 	/******************************************************************************/
 	
-	@OneToMany(mappedBy = "promotionId")
-	private Set<Product> item;
-
-	public Set<Product> getItem() {
-		return item;
-	}
-
-	public void setItem(Set<Product> item) {
-		this.item = item;
-	}
+//	@OneToMany(mappedBy = "promotionId")
+//	private Set<Product> item;
+//
+//	public Set<Product> getItem() {
+//		return item;
+//	}
+//
+//	public void setItem(Set<Product> item) {
+//		this.item = item;
+//	}
 	
 }

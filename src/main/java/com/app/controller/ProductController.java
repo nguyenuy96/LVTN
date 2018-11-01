@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +16,7 @@ import com.app.exception.ExceptionHandle;
 import com.app.model.Age;
 import com.app.model.Country;
 import com.app.model.Product;
+import com.app.model.ProductStorage;
 import com.app.model.ProductType;
 import com.app.model.TradeMark;
 import com.app.model.Weight;
@@ -46,9 +46,14 @@ public class ProductController {
 	}
 
 	@RequestMapping(path = "/newproduct", method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> addProduct(@RequestBody Product product) {
-		productService.saveOrUpdate(product);
+	public ResponseEntity<HttpStatus> addProduct(@RequestBody ProductStorage productImport) {
+		productService.saveProduct(productImport);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(path = "/productimport", method = RequestMethod.GET)
+	public ResponseEntity<List<ProductStorage>> getProductImport(){
+		return new ResponseEntity<List<ProductStorage>>(productService.getProductImport(), HttpStatus.OK);
 	}
 
 	@RequestMapping(path = "/list-product", method = RequestMethod.GET)

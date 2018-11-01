@@ -16,6 +16,7 @@ import com.app.dao.ProductDao;
 import com.app.model.Age;
 import com.app.model.Country;
 import com.app.model.Product;
+import com.app.model.ProductStorage;
 import com.app.model.ProductType;
 import com.app.model.Promotion;
 import com.app.model.TradeMark;
@@ -43,8 +44,9 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public void saveOrUpdate(Product product) {
+	public void saveProductStorage(ProductStorage productImport, Product product) {
 		getSession().saveOrUpdate(product);
+		getSession().save(productImport);
 	}
 
 	@Override
@@ -132,5 +134,15 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public void saveProductType(ProductType productType) {
 		getSession().save(productType);
+	}
+
+	@Override
+	public List<ProductStorage> getProductImport() {
+		CriteriaBuilder criteriaBuilder = getSession().getCriteriaBuilder();
+		CriteriaQuery<ProductStorage> criteriaQuery = criteriaBuilder.createQuery(ProductStorage.class);
+		Root<ProductStorage> root = criteriaQuery.from(ProductStorage.class);
+		criteriaQuery.select(root);
+		Query<ProductStorage> query = getSession().createQuery(criteriaQuery);
+		return query.getResultList();
 	};
 }
