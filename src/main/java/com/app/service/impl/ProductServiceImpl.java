@@ -1,7 +1,6 @@
 package com.app.service.impl;
 
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dao.ProductDao;
 import com.app.exception.ExceptionHandle;
@@ -32,34 +32,38 @@ public class ProductServiceImpl implements ProductService {
 
 	@Transactional
 	@Override
-	public void saveProduct(ProductStorage productImport) {
-		
-		Set<Product> listProduct = productImport.getProduct();
-		Product product = new Product();
-		for (Product prod : listProduct) {
-			product = prod;
-		}
-		TradeMark tradeMark = product.getTradeMark();
-		if(tradeMark != null) {
-			tradeMark = productDao.getLabel(tradeMark.getTradeMarkId());
-			product.setTradeMark(tradeMark);
-		}
-		Weight weight = product.getWeight();
-		if(weight != null) {
-			weight = productDao.getWeightById(weight.getWeightId());
-			product.setWeight(weight);
-		}
-		Age age = product.getAge();
-		if(age != null) {
-			age = productDao.getAge(age.getAgeId());
-			product.setAge(age);
-		}
-		ProductType productType = product.getProductType();
-		if(productType != null) {
-			productType = productDao.getProductType(productType.getProductTypeId());
-			product.setProductType(productType);
-		}
-		productDao.saveProductStorage(productImport, product);
+	public void saveProductStorage(ProductStorage productStorage) {
+//		Set<Product> listProduct = productStorage.getProduct();
+//		Product product = new Product();
+//		for (Product prod : listProduct) {
+//			product = prod;
+//		}
+//		TradeMark tradeMark = product.getTradeMark();
+//		if(tradeMark != null) {
+//			tradeMark = productDao.getLabel(tradeMark.getTradeMarkId());
+//			product.setTradeMark(tradeMark);
+//		}
+//		Weight weight = product.getWeight();
+//		if(weight != null) {
+//			weight = productDao.getWeightById(weight.getWeightId());
+//			product.setWeight(weight);
+//		}
+//		Age age = product.getAge();
+//		if(age != null) {
+//			age = productDao.getAge(age.getAgeId());
+//			product.setAge(age);
+//		}
+//		ProductType productType = product.getProductType();
+//		if(productType != null) {
+//			productType = productDao.getProductType(productType.getProductTypeId());
+//			product.setProductType(productType);
+//		}
+		productDao.saveProductStorage(productStorage);
+	}
+	@Transactional
+	@Override
+	public void saveProduct(MultipartFile multipartFile, String uploadDirectory, Product product) {
+		productDao.saveProduct(multipartFile, product, uploadDirectory);
 	}
 
 	@Override

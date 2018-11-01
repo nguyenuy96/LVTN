@@ -2,6 +2,8 @@ package com.app.dao;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.app.model.Age;
 import com.app.model.Country;
 import com.app.model.ProductStorage;
@@ -14,7 +16,9 @@ import com.app.model.Weight;
 public interface ProductDao {
 	List<Product> getAllProduct();
 	
-	void saveProductStorage(ProductStorage productImport, Product product);
+	void saveProductStorage(ProductStorage productImport);
+	
+	void saveProduct(MultipartFile multipartFile, Product product, String uploadDirectory);
 	
 	void saveOrUpdateCounrty(Country country);
 	

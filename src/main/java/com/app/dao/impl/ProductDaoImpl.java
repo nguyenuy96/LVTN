@@ -1,5 +1,8 @@
 package com.app.dao.impl;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -10,7 +13,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dao.ProductDao;
 import com.app.model.Age;
@@ -24,7 +29,8 @@ import com.app.model.Weight;
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
-
+	@Value("${upload.file.extensions}")
+	private String validExtensions;
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -43,9 +49,30 @@ public class ProductDaoImpl implements ProductDao {
 		return listItem;
 	}
 
+	public String getFileExtension(String fileName) {
+		int dotIndex = fileName.lastIndexOf(".");
+		if (dotIndex < 0) {
+			return null;
+		}
+		return fileName.substring(dotIndex + 1);
+	}
+
 	@Override
-	public void saveProductStorage(ProductStorage productImport, Product product) {
-		getSession().saveOrUpdate(product);
+	public void saveProduct(MultipartFile multipartFile, Product product, String uploadDirectory) {
+		try {
+			String imageName = product.getProductName() + "." + getFileExtension(multipartFile.getOriginalFilename());
+			imageName = imageName.replaceAll("\\s", "_");
+			Path path = Paths.get(uploadDirectory, imageName);
+			Files.copy(multipartFile.getInputStream(), path);
+			product.setImage(imageName);
+			getSession().saveOrUpdate(product);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	@Override
+	public void saveProductStorage(ProductStorage productImport) {
 		getSession().save(productImport);
 	}
 

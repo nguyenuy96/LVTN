@@ -2,6 +2,8 @@ package com.app.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.app.exception.ExceptionHandle;
 import com.app.model.Age;
 import com.app.model.Country;
@@ -12,7 +14,9 @@ import com.app.model.TradeMark;
 import com.app.model.Weight;
 
 public interface ProductService {
-	void saveProduct(ProductStorage productImport);
+	void saveProduct(MultipartFile multipartFile, String uploadDirectory, Product product);
+	
+	void saveProductStorage(ProductStorage productStorage);
 
 	List<Product> getAllProducts();
 

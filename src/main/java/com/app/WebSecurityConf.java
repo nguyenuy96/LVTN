@@ -33,6 +33,7 @@ public class WebSecurityConf extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_IN_URL).permitAll().and()
 				.authorizeRequests().antMatchers(HttpMethod.POST, "/user/saveuser").permitAll().and()
+				.authorizeRequests().antMatchers("/images/**").permitAll().and()
 				.authorizeRequests().antMatchers(HttpMethod.POST, "/user/register").permitAll().anyRequest()
 				.authenticated().and().addFilterBefore(new CORSFilter(), ChannelProcessingFilter.class)
 				.addFilterBefore(new JWTLoginFilter(SIGN_IN_URL, authenticationManager()),

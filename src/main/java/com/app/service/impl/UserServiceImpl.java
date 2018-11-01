@@ -35,11 +35,11 @@ public class UserServiceImpl implements UserService {
 	// role
 	@Override
 	public Role saveOrUpdateRoleSrvc(Role role) throws ExceptionHandle {
-		Role retPermission = accountDao.getRole(role.getRole());
+		Role retPermission = accountDao.getRole(role.getRoleName());
 		if (retPermission != null) {
 			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Existed role!");
 		}
-		if (role.getRole() == null) {
+		if (role.getRoleName() == null) {
 			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Role is required");
 		}
 		return accountDao.savePermissionDao(role);
@@ -57,7 +57,8 @@ public class UserServiceImpl implements UserService {
 		Account account = new Account();
 		modelMapper.map(userObj, account);
 		checkUserBeforeSave(account);
-		if (account.getAccountRole().getRole().equals("Customer")) {
+		Role role = accountDao.getRoleById(account.getRole().getRoleId());
+		if (role.getRoleName().equals("Customer")) {
 			checkCusProf(account.getCustomer());
 			accountDao.saveOrUpdateCusProf(account);
 		} else {
@@ -184,7 +185,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public Role checkRoleBeforeSave(Role role) throws ExceptionHandle {
-		String roleName = role.getRole();
+		String roleName = role.getRoleName();
 		if (roleName == null)
 			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Role is required!");
 		Role getRole = accountDao.getRole(roleName);
@@ -202,12 +203,12 @@ public class UserServiceImpl implements UserService {
 			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Username and password are required!");
 		if (accountDao.checkAccountDao(account.getUsername()) != null)
 			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Existed user!");
-		Role role = account.getAccountRole();
+		Role role = account.getRole();
 		if (role == null)
 			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Role cant be null");
 		String salt_password = bCryptPasswordEncoder.encode(password);
 		account.setPassword(salt_password);
-		account.setAccountRole(checkRoleBeforeSave(role));
+		//account.setAccountRole(checkRoleBeforeSave(role));
 		return account;
 	}
 

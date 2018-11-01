@@ -14,6 +14,8 @@ public interface UserDao {
 	Role getRole(String role);
 	
 	List<Role> listRole();
+	
+	Role getRoleById(int roleId);
 
 	// create an user
 	void saveAccount(Account account);

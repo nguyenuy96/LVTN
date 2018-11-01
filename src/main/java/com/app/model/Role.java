@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 @Entity
 @Table(name = "PHAN_QUYEN")
 public class Role implements Serializable {
@@ -21,14 +19,14 @@ public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonProperty("id")
+
 	@Column(name = "MA_PHAN_QUYEN", nullable = false, unique = true)
 	private Integer roleId;
 
 	/******************************************************************************/
-	@JsonProperty("account_role")
+
 	@Column(name = "LOAI_TAI_KHOAN", nullable = false, unique = true)
-	private String role;
+	private String roleName;
 
 	/******************************************************************************/
 
@@ -50,9 +48,9 @@ public class Role implements Serializable {
 		this.roleId = roleId;
 	}
 
-	public Role(Integer roleId, String role, String searchName) {
+	public Role(Integer roleId, String roleName, String searchName) {
 		this.roleId = roleId;
-		this.role = role;
+		this.roleName = roleName;
 		this.searchName = searchName;
 	}
 
@@ -68,12 +66,12 @@ public class Role implements Serializable {
 
 	/******************************************************************************/
 
-	public String getRole() {
-		return role;
+	public String getRoleName() {
+		return roleName;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 
 }

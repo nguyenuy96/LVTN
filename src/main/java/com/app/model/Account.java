@@ -100,11 +100,11 @@ public class Account implements Serializable {
 
 	/******************************************************************************/
 
-	public Role getAccountRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setAccountRole(Role role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 

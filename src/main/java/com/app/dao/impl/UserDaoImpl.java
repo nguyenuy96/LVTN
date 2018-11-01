@@ -76,6 +76,11 @@ public class UserDaoImpl implements UserDao {
 		return (query.list().size() == 1) ? query.getSingleResult() : null;
 	}
 
+	@Override
+	public Role getRoleById(int roleId) {
+		Role role  = getSession().byId(Role.class).load(roleId);
+		return role;
+	}
 	// create user
 	@Transactional
 	@Override
