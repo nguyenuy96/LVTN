@@ -11,15 +11,28 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.app.dao.ProductDao;
+import com.app.dao.product.AgeDao;
+import com.app.dao.product.CountryDao;
+import com.app.dao.product.ImageDao;
+import com.app.dao.product.ProductDao;
+import com.app.dao.product.ProductStorageDao;
+import com.app.dao.product.ProductTypeDao;
+import com.app.dao.product.PromotionDao;
+import com.app.dao.product.TradeMarkDao;
+import com.app.dao.product.WarehouseDao;
+import com.app.dao.product.WeightDao;
 import com.app.exception.ExceptionHandle;
 import com.app.exception.ExceptionThrower;
 import com.app.model.Age;
 import com.app.model.Country;
+import com.app.model.ListObject;
 import com.app.model.Product;
-import com.app.model.ProductStorage;
+import com.app.model.ProductImage;
+import com.app.model.ProductStorageReceipt;
 import com.app.model.ProductType;
+import com.app.model.Promotion;
 import com.app.model.TradeMark;
+import com.app.model.Warehouse;
 import com.app.model.Weight;
 import com.app.service.ProductService;
 
@@ -30,45 +43,48 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductDao productDao;
 
+	@Autowired
+	private ProductStorageDao productStorageDao;
+
+	@Autowired
+	private CountryDao countryDao;
+
+	@Autowired
+	private TradeMarkDao tradeMarkDao;
+
+	@Autowired
+	private AgeDao ageDao;
+
+	@Autowired
+	private WeightDao weightDao;
+
+	@Autowired
+	private ProductTypeDao productTypeDao;
+
+	@Autowired
+	private PromotionDao promotionDao;
+
+	@Autowired
+	private WarehouseDao warehouseDao;
+
+	@Autowired
+	private ImageDao imageDao;
+
 	@Transactional
 	@Override
-	public void saveProductStorage(ProductStorage productStorage) {
-//		Set<Product> listProduct = productStorage.getProduct();
-//		Product product = new Product();
-//		for (Product prod : listProduct) {
-//			product = prod;
-//		}
-//		TradeMark tradeMark = product.getTradeMark();
-//		if(tradeMark != null) {
-//			tradeMark = productDao.getLabel(tradeMark.getTradeMarkId());
-//			product.setTradeMark(tradeMark);
-//		}
-//		Weight weight = product.getWeight();
-//		if(weight != null) {
-//			weight = productDao.getWeightById(weight.getWeightId());
-//			product.setWeight(weight);
-//		}
-//		Age age = product.getAge();
-//		if(age != null) {
-//			age = productDao.getAge(age.getAgeId());
-//			product.setAge(age);
-//		}
-//		ProductType productType = product.getProductType();
-//		if(productType != null) {
-//			productType = productDao.getProductType(productType.getProductTypeId());
-//			product.setProductType(productType);
-//		}
-		productDao.saveProductStorage(productStorage);
+	public void saveProductStorage(ProductStorageReceipt productStorage) {
+		productStorageDao.saveProductStorage(productStorage);
 	}
+
 	@Transactional
 	@Override
-	public void saveProduct(MultipartFile multipartFile, String uploadDirectory, Product product) {
-		productDao.saveProduct(multipartFile, product, uploadDirectory);
+	public void saveProduct(Product product) {
+		productDao.saveProduct(product);
 	}
 
 	@Override
 	public List<Product> getAllProducts() {
-		List<Product> listItem = productDao.getAllProduct();
+		List<Product> listItem = productDao.listProduct();
 		return listItem;
 	}
 
@@ -88,45 +104,72 @@ public class ProductServiceImpl implements ProductService {
 			countryName = countryName.replace(lowerChar, upperChar);
 		}
 		country.setCountryName(countryName);
-		productDao.saveOrUpdateCounrty(country);
+		countryDao.saveOrUpdateCountry(country);
 	}
 
 	@Override
 	public void saveOrUpdateTradeMark(TradeMark tradeMark) throws ExceptionHandle {
-		boolean isValidTradeMark = productDao.isValidTradeMark(tradeMark.getTradeMark());
+		boolean isValidTradeMark = tradeMarkDao.isValidTradeMark(tradeMark.getTradeMark());
 		if (isValidTradeMark) {
 			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Existed Label");
 		}
-		String countryName = tradeMark.getCountry().getCountryName();
-		Country country = productDao.getCountry(countryName);
-		boolean isValidCountry = (country == null) ? false : true;
-		if (!isValidCountry) {
-			new ExceptionThrower().throwException(HttpStatus.NOT_FOUND, "Invalid country!");
-		}
-		tradeMark.setCountry(country);
 		tradeMark.setTradeMark(tradeMark.getTradeMark().toUpperCase());
-		productDao.saveOrUpdateTradeMark(tradeMark);
+		tradeMarkDao.saveOrUpdateLabel(tradeMark);
 	}
 
+	@Transactional
 	@Override
 	public void saveAge(Age age) {
-		productDao.saveAge(age);
+		ageDao.saveOrUpdateAge(age);
 	}
 
+	@Transactional
 	@Override
 	public void saveWeight(Weight weight) {
-		productDao.saveWeight(weight);
+		weightDao.saveOrUpdateWeight(weight);
 	}
 
+	@Transactional
 	@Override
 	public void saveProductType(ProductType productType) {
-		productDao.saveProductType(productType);
+		productTypeDao.saveOrUpdateProductType(productType);
 	}
 
 	@Override
-	public List<ProductStorage> getProductImport() {
-		List<ProductStorage> productImports = productDao.getProductImport();
+	public List<ProductStorageReceipt> getStorageReceipt() {
+		List<ProductStorageReceipt> productImports = productStorageDao.listProductStorage();
 		return productImports;
+	}
+
+	@Override
+	public ListObject listObject() {
+		ListObject listObject = new ListObject();
+		listObject.setProductTypes(productTypeDao.listProductType());
+		listObject.setPromotions(promotionDao.listPromotion());
+		listObject.setWarehouses(warehouseDao.listWarehouse());
+		listObject.setTradeMarks(tradeMarkDao.listLabel());
+		listObject.setAges(ageDao.listAge());
+		listObject.setWeights(weightDao.listWeight());
+		listObject.setWarehouses(warehouseDao.listWarehouse());
+		return listObject;
+	}
+
+	@Transactional
+	@Override
+	public void savePromotion(Promotion promotion) {
+		promotionDao.saveOrUpdatePromotion(promotion);
+	}
+
+	@Transactional
+	@Override
+	public void saveWarehouse(Warehouse warehouse) {
+		warehouseDao.saveOrUpdateWarehouse(warehouse);
+	}
+
+	@Override
+	public ProductImage saveImage(MultipartFile multipartFile, String uploadDirectory) {
+		ProductImage image = imageDao.saveImage(multipartFile, uploadDirectory);
+		return image;
 	}
 
 }

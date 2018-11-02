@@ -2,7 +2,6 @@ package com.app.model;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,12 +10,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "SAN_PHAM")
 public class Product implements Serializable {
@@ -55,11 +53,6 @@ public class Product implements Serializable {
 
 	@Column(name = "DOI_TUONG")
 	private String useObject;
-
-	/******************************************************************************/
-
-	@Column(name = "HINH_ANH")
-	private String image;
 
 	/******************************************************************************/
 
@@ -147,16 +140,22 @@ public class Product implements Serializable {
 
 	/******************************************************************************/
 
+	@OneToOne
+	@JoinTable(name = "SAN_PHAM_HINH_ANH", joinColumns = {
+			@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_HINH_ANH", referencedColumnName = "MA_HINH_ANH") })
+	private ProductImage image;
+
 	public Product() {
 	}
 
-//	public Product(int productId) {
-//		this.productId = productId;
-//	}
+	// public Product(int productId) {
+	// this.productId = productId;
+	// }
 	public Product(int productId, String productName, String ingredient, Date manufDate, Date expiryDate,
-			String useObject, String image, String useGuide, Float net, String note, String guarantee, Double unitPrice,
-			String preservation, String outstdFeatures, String description, TradeMark tradeMark, Weight weight, Age age,
-			Promotion promotionId, ProductType productType, Cart cart) {
+			String useObject, ProductImage image, String useGuide, Float net, String note, String guarantee,
+			Double unitPrice, String preservation, String outstdFeatures, String description, TradeMark tradeMark,
+			Weight weight, Age age, Promotion promotionId, ProductType productType, Cart cart) {
 		this.productId = productId;
 		this.productName = productName;
 		this.ingredient = ingredient;
@@ -228,11 +227,11 @@ public class Product implements Serializable {
 		this.useObject = useObject;
 	}
 
-	public String getImage() {
+	public ProductImage getImage() {
 		return image;
 	}
 
-	public void setImage(String image) {
+	public void setImage(ProductImage image) {
 		this.image = image;
 	}
 
@@ -348,36 +347,37 @@ public class Product implements Serializable {
 		this.productType = productType;
 	}
 
-
-//	@ManyToMany
-//	@JoinTable(name = "SANPHAM_NHAPKHO", joinColumns = {
-//			@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") }, inverseJoinColumns = {
-//					@JoinColumn(name = "MA_NHAP_KHO", referencedColumnName = "MA_NHAP_KHO") })
-//	private Set<ImportRepository> importRepositories;
-//
-//	public Set<ImportRepository> getImportRepositories() {
-//		return importRepositories;
-//	}
-//
-//	public void setImportRepositories(Set<ImportRepository> importRepositories) {
-//		this.importRepositories = importRepositories;
-//	}
+	// @ManyToMany
+	// @JoinTable(name = "SANPHAM_NHAPKHO", joinColumns = {
+	// @JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") },
+	// inverseJoinColumns = {
+	// @JoinColumn(name = "MA_NHAP_KHO", referencedColumnName = "MA_NHAP_KHO") })
+	// private Set<ImportRepository> importRepositories;
+	//
+	// public Set<ImportRepository> getImportRepositories() {
+	// return importRepositories;
+	// }
+	//
+	// public void setImportRepositories(Set<ImportRepository> importRepositories) {
+	// this.importRepositories = importRepositories;
+	// }
 
 	/******************************************************************************/
 
-//	@JsonManagedReference
-//	@ManyToMany
-//	@JoinTable(name = "SANPHAM_XUATKHO", joinColumns = {
-//			@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") }, inverseJoinColumns = {
-//					@JoinColumn(name = "MA_XUAT_KHO", referencedColumnName = "MA_XUAT_KHO") })
-//	private Set<ExportRepository> exportRepositories;
-//
-//	public Set<ExportRepository> getExportRepositories() {
-//		return exportRepositories;
-//	}
-//
-//	public void setExportRepositories(Set<ExportRepository> exportRepositories) {
-//		this.exportRepositories = exportRepositories;
-//	}
+	// @JsonManagedReference
+	// @ManyToMany
+	// @JoinTable(name = "SANPHAM_XUATKHO", joinColumns = {
+	// @JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") },
+	// inverseJoinColumns = {
+	// @JoinColumn(name = "MA_XUAT_KHO", referencedColumnName = "MA_XUAT_KHO") })
+	// private Set<ExportRepository> exportRepositories;
+	//
+	// public Set<ExportRepository> getExportRepositories() {
+	// return exportRepositories;
+	// }
+	//
+	// public void setExportRepositories(Set<ExportRepository> exportRepositories) {
+	// this.exportRepositories = exportRepositories;
+	// }
 
 }

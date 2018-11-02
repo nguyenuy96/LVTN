@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "KHO_HANG")
-public class Repository implements Serializable{
+public class Warehouse implements Serializable{
 
 	/**
 	 * 
@@ -35,9 +35,9 @@ public class Repository implements Serializable{
 	
 	/******************************************************************************/
 	
-	public Repository() {}
+	public Warehouse() {}
 	
-	public Repository(int repositoryId, String repositoryName) {
+	public Warehouse(int repositoryId, String repositoryName) {
 		this.repositoryId = repositoryId;
 		this.repositoryName = repositoryName;
 	}

@@ -3,30 +3,16 @@ package com.app.dao;
 import java.util.List;
 
 import com.app.model.Account;
-import com.app.model.Role;
 import com.app.model.Customer;
 import com.app.model.Employee;
 
 public interface UserDao {
-	// Role
-	Role savePermissionDao(Role permission);
 
-	Role getRole(String role);
-	
-	List<Role> listRole();
-	
-	Role getRoleById(int roleId);
-
-	// create an user
-	void saveAccount(Account account);
 
 	void saveOrUpdateCusProf(Account account);
 
 	void saveOrUpdateEmpProf(Account account);
 
-	// modify user
-
-	void modifyPassword(Account account);
 
 	void updateCusProfile(Customer customer);
 
@@ -42,8 +28,6 @@ public interface UserDao {
 
 	List<Employee> getEmployeeAccount();
 
-	// check
-	Account checkAccountDao(String username);
 
 	boolean checkIdentification(String identification);
 

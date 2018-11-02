@@ -1,7 +1,6 @@
 package com.app.model;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -19,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "NHAP_KHO")
-public class ProductStorage implements Serializable {
+public class ProductStorageReceipt implements Serializable {
 
 	/**
 	 * 
@@ -37,7 +36,7 @@ public class ProductStorage implements Serializable {
 	@JoinTable(name = "NHAPKHO_KHOHANG", joinColumns = {
 			@JoinColumn(name = "MA_NHAP_KHO", referencedColumnName = "MA_NHAP_KHO") }, inverseJoinColumns = {
 					@JoinColumn(name = "MA_KHO_HANG", referencedColumnName = "MA_KHO_HANG") })
-	private Repository repository;
+	private Warehouse repository;
 
 	/******************************************************************************/
 
@@ -71,18 +70,18 @@ public class ProductStorage implements Serializable {
 	/******************************************************************************/
 
 	@Column(name = "NGAY_NHAP")
-	private Date importDate;
+	private String importDate;
 
 	/******************************************************************************/
 
-	public ProductStorage() {
+	public ProductStorageReceipt() {
 	}
 
-	public ProductStorage(int productStorageId) {
+	public ProductStorageReceipt(int productStorageId) {
 		this.productStorageId = productStorageId;
 	}
 
-	public ProductStorage(int productStorageId, Employee empId, double amount, Date importDate, Set<Product> product) {
+	public ProductStorageReceipt(int productStorageId, Employee empId, double amount, String importDate, Set<Product> product) {
 		this.productStorageId = productStorageId;
 		this.empId = empId;
 		this.amount = amount;
@@ -111,11 +110,11 @@ public class ProductStorage implements Serializable {
 	}
 
 	/******************************************************************************/
-	public Date getImportDate() {
+	public String getImportDate() {
 		return importDate;
 	}
 
-	public void setImportDate(Date importDate) {
+	public void setImportDate(String importDate) {
 		this.importDate = importDate;
 	}
 

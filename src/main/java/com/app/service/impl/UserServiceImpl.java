@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.dao.UserDao;
+import com.app.dao.user.AccountDao;
+import com.app.dao.user.RoleDao;
 import com.app.exception.ExceptionHandle;
 import com.app.exception.ExceptionThrower;
 import com.app.model.Account;
@@ -27,7 +29,15 @@ import com.app.service.UserService;
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-	private UserDao accountDao;
+	private UserDao userDao;
+	
+	@Autowired
+	private AccountDao accountDao;
+	
+	
+	
+	@Autowired
+	private RoleDao roleDao;
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -35,19 +45,19 @@ public class UserServiceImpl implements UserService {
 	// role
 	@Override
 	public Role saveOrUpdateRoleSrvc(Role role) throws ExceptionHandle {
-		Role retPermission = accountDao.getRole(role.getRoleName());
-		if (retPermission != null) {
-			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Existed role!");
-		}
-		if (role.getRoleName() == null) {
-			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Role is required");
-		}
-		return accountDao.savePermissionDao(role);
+//		Role retPermission = accountDao.getRole(role.getRoleName());
+//		if (retPermission != null) {
+//			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Existed role!");
+//		}
+//		if (role.getRoleName() == null) {
+//			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Role is required");
+//		}
+		return roleDao.savePermissionDao(role);
 	}
 
 	@Override
 	public List<Role> listRole() {
-		return accountDao.listRole();
+		return roleDao.listRole();
 	}
 
 	// create user
@@ -57,13 +67,13 @@ public class UserServiceImpl implements UserService {
 		Account account = new Account();
 		modelMapper.map(userObj, account);
 		checkUserBeforeSave(account);
-		Role role = accountDao.getRoleById(account.getRole().getRoleId());
+		Role role = roleDao.getRoleById(account.getRole().getRoleId());
 		if (role.getRoleName().equals("Customer")) {
 			checkCusProf(account.getCustomer());
-			accountDao.saveOrUpdateCusProf(account);
+			userDao.saveOrUpdateCusProf(account);
 		} else {
 			checkEmpProf(account.getEmployee());
-			accountDao.saveOrUpdateEmpProf(account);
+			userDao.saveOrUpdateEmpProf(account);
 		}
 	}
 
@@ -141,12 +151,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<Customer> getCustomerAccount() {
-		return accountDao.getCustomerAccount();
+		return userDao.getCustomerAccount();
 	}
 
 	@Override
 	public List<Employee> getEmployeeAccount() {
-		return accountDao.getEmployeeAccount();
+		return userDao.getEmployeeAccount();
 	}
 
 	@Override
@@ -174,7 +184,7 @@ public class UserServiceImpl implements UserService {
 		String nationality = employee.getNationality();
 		String identification = employee.getIdentification();
 		String address = employee.getAddress();
-		boolean validIdentification = accountDao.checkIdentification(identification) ? false : true;
+		boolean validIdentification = userDao.checkIdentification(identification) ? false : true;
 		if (!validIdentification)
 			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Identification is used!");
 		if (name == null || gender == null || phone == null || nationality == null || identification == null
@@ -184,17 +194,17 @@ public class UserServiceImpl implements UserService {
 							+ "gender: String, phoneNumber: String, nationality: String, identification: String, address:String}");
 	}
 
-	public Role checkRoleBeforeSave(Role role) throws ExceptionHandle {
-		String roleName = role.getRoleName();
-		if (roleName == null)
-			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Role is required!");
-		Role getRole = accountDao.getRole(roleName);
-		if (getRole == null) {
-			new ExceptionThrower().throwException(HttpStatus.NOT_FOUND,
-					roleName + " does't match one of role types: Manager; Employee; Customer");
-		}
-		return getRole;
-	}
+//	public Role checkRoleBeforeSave(Role role) throws ExceptionHandle {
+//		String roleName = role.getRoleName();
+//		if (roleName == null)
+//			new ExceptionThrower().throwException(HttpStatus.BAD_REQUEST, "Role is required!");
+//		Role getRole = accountDao.getRole(roleName);
+//		if (getRole == null) {
+//			new ExceptionThrower().throwException(HttpStatus.NOT_FOUND,
+//					roleName + " does't match one of role types: Manager; Employee; Customer");
+//		}
+//		return getRole;
+//	}
 
 	public Account checkUserBeforeSave(Account account) throws ExceptionHandle {
 		String username = account.getUsername();
@@ -239,10 +249,10 @@ public class UserServiceImpl implements UserService {
 		String name = empProfDTO.getFullname();
 		String nationality = empProfDTO.getNationality();
 		String phone = empProfDTO.getPhone();
-		boolean validIdentification = accountDao.checkIdentification(identification) ? false : true;
+		boolean validIdentification = userDao.checkIdentification(identification) ? false : true;
 		if (!validIdentification)
 			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Identification is used!");
-		Employee modifyEmp = accountDao.getEmpProfile(accId);
+		Employee modifyEmp = userDao.getEmpProfile(accId);
 		if (address != null) {
 			modifyEmp.setAddress(address);
 		}
@@ -265,7 +275,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public Customer saveCusProf(CusProfDTO cusProfDTO, int accId) {
-		Customer modifyCus = accountDao.getCusProfile(accId);
+		Customer modifyCus = userDao.getCusProfile(accId);
 		String address = cusProfDTO.getAddress();
 		String name = cusProfDTO.getFullname();
 		String phone = cusProfDTO.getPhone();
@@ -284,7 +294,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Customer getCusProfile(Account account) {
 		Account cusAcc = accountDao.checkAccountDao(account.getUsername());
-		Customer customerProf = accountDao.getCusProfile(cusAcc.getAccountId());
+		Customer customerProf = userDao.getCusProfile(cusAcc.getAccountId());
 		return customerProf;
 	}
 

@@ -34,7 +34,7 @@ public class ExportRepository implements Serializable{
 	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "MA_KHO_HANG", nullable = false)
-	private Repository repositoryId;
+	private Warehouse repositoryId;
 
 	/******************************************************************************/
 //
@@ -64,7 +64,7 @@ public class ExportRepository implements Serializable{
 	
 	public ExportRepository() { }
 
-	public ExportRepository(int expRespId, Repository repositoryId,/* Product productId,*/ Employee empId, double amount, Date importDate) {
+	public ExportRepository(int expRespId, Warehouse repositoryId,/* Product productId,*/ Employee empId, double amount, Date importDate) {
 		this.expRespId = expRespId;
 		this.repositoryId = repositoryId;
 //		this.productId = productId;
@@ -85,11 +85,11 @@ public class ExportRepository implements Serializable{
 
 	/******************************************************************************/
 
-	public Repository getRepository() {
+	public Warehouse getRepository() {
 		return repositoryId;
 	}
 
-	public void setRepository(Repository repositoryId) {
+	public void setRepository(Warehouse repositoryId) {
 		this.repositoryId = repositoryId;
 	}
 

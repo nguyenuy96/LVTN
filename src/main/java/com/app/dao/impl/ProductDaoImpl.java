@@ -21,9 +21,10 @@ import com.app.dao.ProductDao;
 import com.app.model.Age;
 import com.app.model.Country;
 import com.app.model.Product;
-import com.app.model.ProductStorage;
+import com.app.model.ProductStorageReceipt;
 import com.app.model.ProductType;
 import com.app.model.Promotion;
+import com.app.model.Warehouse;
 import com.app.model.TradeMark;
 import com.app.model.Weight;
 
@@ -64,7 +65,6 @@ public class ProductDaoImpl implements ProductDao {
 			imageName = imageName.replaceAll("\\s", "_");
 			Path path = Paths.get(uploadDirectory, imageName);
 			Files.copy(multipartFile.getInputStream(), path);
-			product.setImage(imageName);
 			getSession().saveOrUpdate(product);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -72,7 +72,7 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public void saveProductStorage(ProductStorage productImport) {
+	public void saveProductStorage(ProductStorageReceipt productImport) {
 		getSession().save(productImport);
 	}
 
@@ -164,12 +164,46 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public List<ProductStorage> getProductImport() {
+	public List<ProductStorageReceipt> getProductImport() {
 		CriteriaBuilder criteriaBuilder = getSession().getCriteriaBuilder();
-		CriteriaQuery<ProductStorage> criteriaQuery = criteriaBuilder.createQuery(ProductStorage.class);
-		Root<ProductStorage> root = criteriaQuery.from(ProductStorage.class);
+		CriteriaQuery<ProductStorageReceipt> criteriaQuery = criteriaBuilder.createQuery(ProductStorageReceipt.class);
+		Root<ProductStorageReceipt> root = criteriaQuery.from(ProductStorageReceipt.class);
 		criteriaQuery.select(root);
-		Query<ProductStorage> query = getSession().createQuery(criteriaQuery);
+		Query<ProductStorageReceipt> query = getSession().createQuery(criteriaQuery);
 		return query.getResultList();
+	}
+
+	public <T> List<T> getResultList(Class<T> resultClass) {
+		CriteriaBuilder criteriaBuilder = getSession().getCriteriaBuilder();
+		CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(resultClass);
+		Root<T> root = criteriaQuery.from(resultClass);
+		criteriaQuery.select(root);
+		Query<T> query = getSession().createQuery(criteriaQuery);
+		List<T> list = query.getResultList();
+		return list;
+	}
+
+	@Override
+	public List<TradeMark> getAllLabel() {
+		List<TradeMark> listLabel = getResultList(TradeMark.class);
+		return listLabel;
+	}
+
+	@Override
+	public List<ProductType> getAllProductType() {
+		List<ProductType> listProductType = getResultList(ProductType.class);
+		return listProductType;
+	}
+
+	@Override
+	public List<Warehouse> getAllWarehouse() {
+		List<Warehouse> listWarehouse = getResultList(Warehouse.class);
+		return listWarehouse;
 	};
+
+	@Override
+	public List<Promotion> getAllPromotion() {
+		List<Promotion> listPromotion = getResultList(Promotion.class);
+		return listPromotion;
+	}
 }
