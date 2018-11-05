@@ -102,11 +102,6 @@ public class Product implements Serializable {
 					@JoinColumn(name = "MA_THUONG_HIEU", referencedColumnName = "MA_THUONG_HIEU") })
 	private TradeMark tradeMark;
 
-	@OneToOne
-	@JoinTable(name = "SANPHAM_GIOHANG", joinColumns = {
-			@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") }, inverseJoinColumns = {
-					@JoinColumn(name = "MA_GIO_HANG", referencedColumnName = "MA_GIO_HANG") })
-	private Cart cart;
 	/******************************************************************************/
 
 	@ManyToOne
@@ -149,13 +144,10 @@ public class Product implements Serializable {
 	public Product() {
 	}
 
-	// public Product(int productId) {
-	// this.productId = productId;
-	// }
 	public Product(int productId, String productName, String ingredient, Date manufDate, Date expiryDate,
 			String useObject, ProductImage image, String useGuide, Float net, String note, String guarantee,
 			Double unitPrice, String preservation, String outstdFeatures, String description, TradeMark tradeMark,
-			Weight weight, Age age, Promotion promotionId, ProductType productType, Cart cart) {
+			Weight weight, Age age, Promotion promotionId, ProductType productType) {
 		this.productId = productId;
 		this.productName = productName;
 		this.ingredient = ingredient;
@@ -176,7 +168,6 @@ public class Product implements Serializable {
 		this.age = age;
 		this.promotionId = promotionId;
 		this.productType = productType;
-		this.cart = cart;
 	}
 
 	public int getProductId() {
@@ -305,14 +296,6 @@ public class Product implements Serializable {
 
 	public void setTradeMark(TradeMark tradeMark) {
 		this.tradeMark = tradeMark;
-	}
-
-	public Cart getCart() {
-		return cart;
-	}
-
-	public void setCart(Cart cart) {
-		this.cart = cart;
 	}
 
 	public Weight getWeight() {

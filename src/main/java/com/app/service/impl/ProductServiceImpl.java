@@ -15,6 +15,7 @@ import com.app.dao.product.AgeDao;
 import com.app.dao.product.CountryDao;
 import com.app.dao.product.ImageDao;
 import com.app.dao.product.ProductDao;
+import com.app.dao.product.ProductExportDao;
 import com.app.dao.product.ProductStorageDao;
 import com.app.dao.product.ProductTypeDao;
 import com.app.dao.product.PromotionDao;
@@ -27,6 +28,7 @@ import com.app.model.Age;
 import com.app.model.Country;
 import com.app.model.ListObject;
 import com.app.model.Product;
+import com.app.model.ProductExportReceipt;
 import com.app.model.ProductImage;
 import com.app.model.ProductStorageReceipt;
 import com.app.model.ProductType;
@@ -45,6 +47,9 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductStorageDao productStorageDao;
+	
+	@Autowired
+	private ProductExportDao productExportDao;
 
 	@Autowired
 	private CountryDao countryDao;
@@ -170,6 +175,18 @@ public class ProductServiceImpl implements ProductService {
 	public ProductImage saveImage(MultipartFile multipartFile, String uploadDirectory) {
 		ProductImage image = imageDao.saveImage(multipartFile, uploadDirectory);
 		return image;
+	}
+
+	@Transactional
+	@Override
+	public void saveProdcutExport(ProductExportReceipt productExportReceipt) {
+		productExportDao.saveProductExport(productExportReceipt);
+	}
+
+	@Override
+	public List<ProductExportReceipt> getProductExportReceipt() {
+		List<ProductExportReceipt> listProductExportReceipt = productExportDao.listProductExportReceipt();
+		return listProductExportReceipt;
 	}
 
 }

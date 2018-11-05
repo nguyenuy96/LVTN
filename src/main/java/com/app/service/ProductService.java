@@ -9,6 +9,7 @@ import com.app.model.Age;
 import com.app.model.Country;
 import com.app.model.ListObject;
 import com.app.model.Product;
+import com.app.model.ProductExportReceipt;
 import com.app.model.ProductImage;
 import com.app.model.ProductStorageReceipt;
 import com.app.model.ProductType;
@@ -21,6 +22,8 @@ public interface ProductService {
 	void saveProduct(Product product);
 
 	void saveProductStorage(ProductStorageReceipt productStorage);
+	
+	void saveProdcutExport(ProductExportReceipt productExportReceipt);
 
 	List<Product> getAllProducts();
 
@@ -39,6 +42,8 @@ public interface ProductService {
 	void saveWarehouse(Warehouse warehouse);
 
 	List<ProductStorageReceipt> getStorageReceipt();
+	
+	List<ProductExportReceipt> getProductExportReceipt();
 
 	ListObject listObject();
 	

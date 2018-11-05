@@ -19,6 +19,7 @@ import com.app.model.Age;
 import com.app.model.Country;
 import com.app.model.ListObject;
 import com.app.model.Product;
+import com.app.model.ProductExportReceipt;
 import com.app.model.ProductImage;
 import com.app.model.ProductStorageReceipt;
 import com.app.model.ProductType;
@@ -113,6 +114,17 @@ public class ProductController {
 	@RequestMapping(path = "/listobject", method = RequestMethod.GET)
 	public ResponseEntity<ListObject> getListObject() {
 		return new ResponseEntity<ListObject>(productService.listObject(), HttpStatus.OK);
+	}
+
+	@RequestMapping(path = "/product-export", method = RequestMethod.POST)
+	public ResponseEntity<HttpStatus> addProductExport(@RequestBody ProductExportReceipt productExportReceipt) {
+		productService.saveProdcutExport(productExportReceipt);
+		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(path = "/list-export", method = RequestMethod.GET)
+	public ResponseEntity<List<ProductExportReceipt>> getListProductExportReceipt() {
+		return new ResponseEntity<List<ProductExportReceipt>>(productService.getProductExportReceipt(), HttpStatus.OK);
 	}
 
 }

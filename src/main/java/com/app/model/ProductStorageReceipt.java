@@ -36,7 +36,15 @@ public class ProductStorageReceipt implements Serializable {
 	@JoinTable(name = "NHAPKHO_KHOHANG", joinColumns = {
 			@JoinColumn(name = "MA_NHAP_KHO", referencedColumnName = "MA_NHAP_KHO") }, inverseJoinColumns = {
 					@JoinColumn(name = "MA_KHO_HANG", referencedColumnName = "MA_KHO_HANG") })
-	private Warehouse repository;
+	private Warehouse warehouse;
+
+	public Warehouse getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(Warehouse warehouse) {
+		this.warehouse = warehouse;
+	}
 
 	/******************************************************************************/
 
@@ -81,12 +89,13 @@ public class ProductStorageReceipt implements Serializable {
 		this.productStorageId = productStorageId;
 	}
 
-	public ProductStorageReceipt(int productStorageId, Employee empId, double amount, String importDate, Set<Product> product) {
+	public ProductStorageReceipt(int productStorageId, Employee empId, double amount, String importDate, Set<Product> product, Warehouse warehouse) {
 		this.productStorageId = productStorageId;
 		this.empId = empId;
 		this.amount = amount;
 		this.importDate = importDate;
 		this.product = product;
+		this.warehouse = warehouse;
 	}
 
 	/******************************************************************************/

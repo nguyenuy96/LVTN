@@ -1,7 +1,5 @@
 package com.app.dao.impl;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -24,8 +22,8 @@ public class HibernateResult {
 		return sessionFactory.getCurrentSession();
 	}
 
+	@SuppressWarnings("deprecation")
 	public String getMySQLDate() {
-		@SuppressWarnings("deprecation")
 		Timestamp timestamp = ((Timestamp) getSession().createSQLQuery("select sysdate()").uniqueResult());
 		String date = timestamp.toString();
 		return date;

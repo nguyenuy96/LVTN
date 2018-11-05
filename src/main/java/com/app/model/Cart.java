@@ -8,55 +8,56 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 @Entity
 @Table(name = "GIO_HANG")
-public class Cart implements Serializable{
+public class Cart implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "MA_GIO_HANG")
-	private int cartId;
-	
-	/******************************************************************************/
-	
-	@Column(name = "SO_LUONG", nullable = false)
-	private int amount;
-	
-	/******************************************************************************/
-	
-	@Column(name = "TONG_GIA", nullable = false)
-	private double totalPrice;
+	private Integer cartId;
 
 	/******************************************************************************/
-//	
-//	@OneToOne
-//	@JoinColumn(name = "MA_SAN_PHAM", nullable = false)
-//	private Product product;
-//	
-//	/******************************************************************************/
-	
-	public Cart() { }
-	
-	public Cart(int cartId, int amount, double totalPrice) {
+
+	@Column(name = "SO_LUONG", nullable = false)
+	private Integer amount;
+
+	/******************************************************************************/
+
+	@Column(name = "TONG_GIA", nullable = false)
+	private Double totalPrice;
+
+	/******************************************************************************/
+
+	@OneToMany
+	@JoinTable(name = "SAN_PHAM_GIO_HANG", joinColumns = {
+			@JoinColumn(name = "MA_GIO_HANG", referencedColumnName = "MA_GIO_HANG") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") })
+	private Product product;
+
+	public Cart() {
+	}
+
+	public Cart(int cartId, int amount, Double totalPrice, Product product) {
 		this.cartId = cartId;
 		this.amount = amount;
 		this.totalPrice = totalPrice;
-//		this.product = product;
+		this.product = product;
 	}
 
 	/******************************************************************************/
-	
-	public int getCartId() {
+
+	public Integer getCartId() {
 		return cartId;
 	}
 
@@ -65,8 +66,8 @@ public class Cart implements Serializable{
 	}
 
 	/******************************************************************************/
-	
-	public int getAmount() {
+
+	public Integer getAmount() {
 		return amount;
 	}
 
@@ -75,25 +76,25 @@ public class Cart implements Serializable{
 	}
 
 	/******************************************************************************/
-	
-	public double getTotalPrice() {
+
+	public Double getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(double totalPrice) {
+	public void setTotalPrice(Double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
-	
-	/******************************************************************************/
-//
-//	public Product getProduct() {
-//		return product;
-//	}
-//
-//	public void setProduct(Product product) {
-//		this.product = product;
-//	}
-	
+
 	/******************************************************************************/
 	
+	 public Product getProduct() {
+	 return product;
+	 }
+	
+	 public void setProduct(Product product) {
+	 this.product = product;
+	 }
+
+	/******************************************************************************/
+
 }
