@@ -40,72 +40,72 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	@RequestMapping(path = "/save-country", method = RequestMethod.POST)
+	@RequestMapping(path = "/save/country", method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addCountry(@RequestBody Country country) {
 		productService.saveOrUpdateCounrty(country);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/save-trademark", method = RequestMethod.POST)
+	@RequestMapping(path = "/save/trademark", method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addTradeMark(@RequestBody TradeMark tradeMark) throws ExceptionHandle {
 		productService.saveOrUpdateTradeMark(tradeMark);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/save-image", method = RequestMethod.POST, consumes = "multipart/form-data")
+	@RequestMapping(path = "/save/image", method = RequestMethod.POST, consumes = "multipart/form-data")
 	public ResponseEntity<ProductImage> addImage(@RequestParam(value = "multipartFile") MultipartFile multipartFile) {
 		ProductImage image = productService.saveImage(multipartFile, uploadDirectory);
 		return new ResponseEntity<ProductImage>(image, HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/save-product", method = RequestMethod.POST)
+	@RequestMapping(path = "/save/product", method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addProduct(@RequestBody Product product) {
 		productService.saveProduct(product);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/save-age", method = RequestMethod.POST)
+	@RequestMapping(path = "/save/age", method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addAge(@RequestBody Age age) {
 		productService.saveAge(age);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/save-weight", method = RequestMethod.POST)
+	@RequestMapping(path = "/save/weight", method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addWeight(@RequestBody Weight weight) {
 		productService.saveWeight(weight);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/save-product-type", method = RequestMethod.POST)
+	@RequestMapping(path = "/save/product-type", method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addProductType(@RequestBody ProductType productType) {
 		productService.saveProductType(productType);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/save-promotion", method = RequestMethod.POST)
+	@RequestMapping(path = "/save/promotion", method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addPromotion(@RequestBody Promotion promotion) {
 		productService.savePromotion(promotion);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/save-warehouse", method = RequestMethod.POST)
+	@RequestMapping(path = "/save/warehouse", method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addWarehouse(@RequestBody Warehouse warehouse) {
 		productService.saveWarehouse(warehouse);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/save-storage-receipt", method = RequestMethod.POST)
+	@RequestMapping(path = "/save/storage-receipt", method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> saveProductStorage(@RequestBody ProductStorageReceipt productStorage) {
 		productService.saveProductStorage(productStorage);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/list-storage-receipt", method = RequestMethod.GET)
+	@RequestMapping(path = "/list/storage-receipt", method = RequestMethod.GET)
 	public ResponseEntity<List<ProductStorageReceipt>> getProductImport() {
 		return new ResponseEntity<List<ProductStorageReceipt>>(productService.getStorageReceipt(), HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/list-product", method = RequestMethod.GET)
+	@RequestMapping(path = "/list/product", method = RequestMethod.GET)
 	public ResponseEntity<List<Product>> getAllProducts() {
 		List<Product> listItem = productService.getAllProducts();
 		return new ResponseEntity<List<Product>>(listItem, HttpStatus.OK);
@@ -116,15 +116,16 @@ public class ProductController {
 		return new ResponseEntity<ListObject>(productService.listObject(), HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/product-export", method = RequestMethod.POST)
+	@RequestMapping(path = "/save/export-receipt", method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addProductExport(@RequestBody ProductExportReceipt productExportReceipt) {
 		productService.saveProdcutExport(productExportReceipt);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(path = "/list-export", method = RequestMethod.GET)
+	@RequestMapping(path = "/list/export-receipt", method = RequestMethod.GET)
 	public ResponseEntity<List<ProductExportReceipt>> getListProductExportReceipt() {
 		return new ResponseEntity<List<ProductExportReceipt>>(productService.getProductExportReceipt(), HttpStatus.OK);
 	}
+	
 
 }

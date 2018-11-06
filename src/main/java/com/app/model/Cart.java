@@ -1,6 +1,7 @@
 package com.app.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -43,12 +43,12 @@ public class Cart implements Serializable {
 	@JoinTable(name = "SAN_PHAM_GIO_HANG", joinColumns = {
 			@JoinColumn(name = "MA_GIO_HANG", referencedColumnName = "MA_GIO_HANG") }, inverseJoinColumns = {
 					@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") })
-	private Product product;
+	private Set<Product> product;
 
 	public Cart() {
 	}
 
-	public Cart(int cartId, int amount, Double totalPrice, Product product) {
+	public Cart(int cartId, int amount, Double totalPrice, Set<Product> product) {
 		this.cartId = cartId;
 		this.amount = amount;
 		this.totalPrice = totalPrice;
@@ -87,11 +87,11 @@ public class Cart implements Serializable {
 
 	/******************************************************************************/
 	
-	 public Product getProduct() {
+	 public Set<Product> getProduct() {
 	 return product;
 	 }
 	
-	 public void setProduct(Product product) {
+	 public void setProduct(Set<Product> product) {
 	 this.product = product;
 	 }
 

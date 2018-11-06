@@ -57,7 +57,7 @@ public class Order implements Serializable {
 	@JoinTable(name = "DONHANG_KHACHHANG", joinColumns = {
 			@JoinColumn(name = "MA_DON_HANG", referencedColumnName = "MA_DON_HANG") }, inverseJoinColumns = {
 					@JoinColumn(name = "MA_KHACH_HANG", referencedColumnName = "MA_KHACH_HANG", unique = true) })
-	private Customer customerId;
+	private Customer customer;
 
 	/******************************************************************************/
 
@@ -65,7 +65,7 @@ public class Order implements Serializable {
 	@JoinTable(name = "DONHANG_NHANVIEN", joinColumns = {
 			@JoinColumn(name = "MA_DON_HANG", referencedColumnName = "MA_DON_HANG") }, inverseJoinColumns = {
 					@JoinColumn(name = "MA_NHAN_VIEN", referencedColumnName = "MA_NHAN_VIEN", unique = true) })
-	private Employee staffId;
+	private Employee employee;
 
 	/******************************************************************************/
 
@@ -73,23 +73,23 @@ public class Order implements Serializable {
 	@JoinTable(name = "DONHANG_GIOHANG", joinColumns = {
 			@JoinColumn(name = "MA_DON_HANG", referencedColumnName = "MA_DON_HANG") }, inverseJoinColumns = {
 					@JoinColumn(name = "MA_GIO_HANG", referencedColumnName = "MA_GIO_HANG", unique = true) })
-	private Cart cartId;
+	private Cart cart;
 
 	/******************************************************************************/
 
 	public Order() {}
 
 	public Order(int orderId, String payment, boolean isPay, boolean isDelivery, String addressDelivery,
-			String phoneDelivery, Customer customerId, Employee staffId, Cart cartId) {
+			String phoneDelivery, Customer customer, Employee employee, Cart cart) {
 		this.orderId = orderId;
 		this.payment = payment;
 		this.isPay = isPay;
 		this.isDelivery = isDelivery;
 		this.addressDelivery = addressDelivery;
 		this.phoneDelivery = phoneDelivery;
-		this.customerId = customerId;
-		this.staffId = staffId;
-		this.cartId = cartId;
+		this.customer = customer;
+		this.employee = employee;
+		this.cart = cart;
 	}
 
 	/******************************************************************************/
@@ -155,31 +155,31 @@ public class Order implements Serializable {
 	/******************************************************************************/
 
 	public Customer getCustomer() {
-		return customerId;
+		return customer;
 	}
 
-	public void setCustomer(Customer customerId) {
-		this.customerId = customerId;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	/******************************************************************************/
 
-	public Employee getStaff() {
-		return staffId;
+	public Employee getEmployee() {
+		return employee;
 	}
 
-	public void setStaff(Employee staffId) {
-		this.staffId = staffId;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
 	/******************************************************************************/
 
 	public Cart getCart() {
-		return cartId;
+		return cart;
 	}
 
-	public void setCart(Cart cartId) {
-		this.cartId = cartId;
+	public void setCart(Cart cart) {
+		this.cart = cart;
 	}
 
 }
