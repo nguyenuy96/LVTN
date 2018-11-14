@@ -1,11 +1,9 @@
-package com.app.dao.product;
+package com.app.service.product;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.model.ProductImage;
 
-public interface ImageDao {
+public interface ProductImageService {
 	ProductImage saveImage(MultipartFile multipartFile, String uploadDirectory);
-
-	void deleteImage(ProductImage productImage);
 }
