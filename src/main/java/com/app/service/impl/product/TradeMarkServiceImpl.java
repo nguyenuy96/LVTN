@@ -30,4 +30,16 @@ public class TradeMarkServiceImpl implements TradeMarkService {
 		return listTradeMark;
 	}
 
+	@Override
+	public TradeMark getTradeMark(int tradeMarkId) {
+		TradeMark tradeMark = tradeMarkDao.getLabel(tradeMarkId);
+		return tradeMark;
+	}
+
+	@Override
+	public TradeMark getTradeMarkByName(String tradeMark) {
+		TradeMark retLabel = tradeMarkDao.getLabelByName(tradeMark);
+		return retLabel;
+	}
+
 }

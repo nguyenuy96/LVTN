@@ -24,7 +24,6 @@ import com.app.dao.product.WarehouseDao;
 import com.app.dao.product.WeightDao;
 import com.app.exception.ExceptionHandle;
 import com.app.exception.ExceptionThrower;
-import com.app.model.Age;
 import com.app.model.Country;
 import com.app.model.ListObject;
 import com.app.model.Product;
@@ -35,7 +34,6 @@ import com.app.model.ProductType;
 import com.app.model.Promotion;
 import com.app.model.TradeMark;
 import com.app.model.Warehouse;
-import com.app.model.Weight;
 import com.app.service.ProductService;
 
 @Service
@@ -120,18 +118,6 @@ public class ProductServiceImpl implements ProductService {
 		}
 		tradeMark.setTradeMark(tradeMark.getTradeMark().toUpperCase());
 		tradeMarkDao.saveOrUpdateLabel(tradeMark);
-	}
-
-	@Transactional
-	@Override
-	public void saveAge(Age age) {
-		ageDao.saveOrUpdateAge(age);
-	}
-
-	@Transactional
-	@Override
-	public void saveWeight(Weight weight) {
-		weightDao.saveOrUpdateWeight(weight);
 	}
 
 	@Transactional

@@ -2,6 +2,7 @@ package com.app.dao.impl.product;
 
 import java.util.List;
 
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -30,6 +31,13 @@ public class ProductTypeDaoImpl implements ProductTypeDao {
 	public ProductType getProductType(int productTypeId) {
 		ProductType productType = hibernate.getById(ProductType.class, productTypeId);
 		return productType;
+	}
+
+	@Override
+	public ProductType getProductTypeValue(String value) {
+		Query<ProductType> query = hibernate.inputStringQuery(ProductType.class,"productType", value);
+		ProductType productTypeValue = query.getSingleResult();
+		return productTypeValue;
 	}
 
 }

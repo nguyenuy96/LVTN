@@ -12,4 +12,6 @@ public interface TradeMarkDao {
 	TradeMark getLabel(int tradeMarkId);
 	
 	boolean isValidTradeMark(String tradeMark);
+	
+	TradeMark getLabelByName(String tradeMark);
 }

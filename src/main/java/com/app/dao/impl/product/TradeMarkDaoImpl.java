@@ -40,4 +40,11 @@ public class TradeMarkDaoImpl implements TradeMarkDao {
 		return isValid;
 	}
 
+	@Override
+	public TradeMark getLabelByName(String tradeMark) {
+		Query<TradeMark> query = hibernate.inputStringQuery(TradeMark.class, "tradeMark", tradeMark);
+		TradeMark retLabel = query.getSingleResult();
+		return retLabel;
+	}
+
 }

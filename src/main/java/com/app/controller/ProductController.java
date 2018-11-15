@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.exception.ExceptionHandle;
-import com.app.model.Age;
 import com.app.model.Country;
 import com.app.model.ListObject;
 import com.app.model.Product;
@@ -26,7 +25,6 @@ import com.app.model.ProductType;
 import com.app.model.Promotion;
 import com.app.model.TradeMark;
 import com.app.model.Warehouse;
-import com.app.model.Weight;
 import com.app.service.ProductService;
 
 @CrossOrigin
@@ -64,15 +62,8 @@ public class ProductController {
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/save/age", method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> addAge(@RequestBody Age age) {
-		productService.saveAge(age);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-	}
-
-	@RequestMapping(path = "/save/weight", method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> addWeight(@RequestBody Weight weight) {
-		productService.saveWeight(weight);
+	@RequestMapping(path = "/modify/product", method = RequestMethod.PATCH)
+	public ResponseEntity<HttpStatus> modifyProduct(@RequestBody Object object) {
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
@@ -121,11 +112,10 @@ public class ProductController {
 		productService.saveProdcutExport(productExportReceipt);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(path = "/list/export-receipt", method = RequestMethod.GET)
 	public ResponseEntity<List<ProductExportReceipt>> getListProductExportReceipt() {
 		return new ResponseEntity<List<ProductExportReceipt>>(productService.getProductExportReceipt(), HttpStatus.OK);
 	}
-	
 
 }

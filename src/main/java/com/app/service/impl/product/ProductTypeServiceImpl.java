@@ -30,4 +30,11 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 		return listProductType;
 	}
 
+	@Override
+	public ProductType getProductType(int productTypeId) {
+		ProductType productType = productTypeDao.getProductType(productTypeId);
+		return productType;
+	}
+
+	
 }

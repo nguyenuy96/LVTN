@@ -13,4 +13,6 @@ public interface ProductTypeDao {
 
 	ProductType getProductType(int productTypeId);
 	
+	ProductType getProductTypeValue(String value);
+	
 }
