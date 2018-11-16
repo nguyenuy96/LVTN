@@ -1,7 +1,6 @@
 package com.app.model;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,8 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -48,27 +47,27 @@ public class ProductStorageReceipt implements Serializable {
 
 	/******************************************************************************/
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@OneToOne
 	@JoinTable(name = "NHAPKHO_SANPHAM", joinColumns = {
 			@JoinColumn(name = "MA_NHAP_KHO", referencedColumnName = "MA_NHAP_KHO") }, inverseJoinColumns = {
 					@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") })
-	private Set<Product> product;
+	private Product product;
 
-	public Set<Product> getProduct() {
+	public Product getProduct() {
 		return product;
 	}
 
-	public void setProduct(Set<Product> product) {
+	public void setProduct(Product product) {
 		this.product = product;
 	}
 
 	/******************************************************************************/
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinTable(name = "NHANVIEN_NHAPKHO", joinColumns = {
+	@JoinTable(name = "TAIKHOAN_NHAPKHO", joinColumns = {
 			@JoinColumn(name = "MA_NHAP_KHO", referencedColumnName = "MA_NHAP_KHO") }, inverseJoinColumns = {
-					@JoinColumn(name = "MA_NHAN_VIEN", referencedColumnName = "MA_NHAN_VIEN") })
-	private Employee empId;
+					@JoinColumn(name = "MA_TAI_KHOAN", referencedColumnName = "MA_TAI_KHOAN") })
+	private Account account;
 
 	/******************************************************************************/
 
@@ -89,9 +88,9 @@ public class ProductStorageReceipt implements Serializable {
 		this.productStorageId = productStorageId;
 	}
 
-	public ProductStorageReceipt(int productStorageId, Employee empId, double amount, String importDate, Set<Product> product, Warehouse warehouse) {
+	public ProductStorageReceipt(int productStorageId, Account account, double amount, String importDate, Product product, Warehouse warehouse) {
 		this.productStorageId = productStorageId;
-		this.empId = empId;
+		this.account = account;
 		this.amount = amount;
 		this.importDate = importDate;
 		this.product = product;
@@ -129,12 +128,12 @@ public class ProductStorageReceipt implements Serializable {
 
 	/******************************************************************************/
 
-	public Employee getEmployee() {
-		return empId;
+	public Account getAccount() {
+		return account;
 	}
 
-	public void setEmployee(Employee empId) {
-		this.empId = empId;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 }

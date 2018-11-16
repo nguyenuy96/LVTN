@@ -1,4 +1,4 @@
-package com.app.controller;
+package com.app.controller.product;
 
 import java.util.List;
 
@@ -56,13 +56,13 @@ public class ProductController {
 		return new ResponseEntity<ProductImage>(image, HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/save/product", method = RequestMethod.POST)
+	@RequestMapping(path = "/save", method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addProduct(@RequestBody Product product) {
 		productService.saveProduct(product);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/modify/product", method = RequestMethod.PATCH)
+	@RequestMapping(path = "/modify", method = RequestMethod.PATCH)
 	public ResponseEntity<HttpStatus> modifyProduct(@RequestBody Object object) {
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}

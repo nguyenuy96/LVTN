@@ -2,6 +2,7 @@ package com.app.dao.impl.product;
 
 import java.util.List;
 
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -32,6 +33,13 @@ public class ProductStorageDaoImpl implements ProductStorageDao {
 	public ProductStorageReceipt getProductStorage(int productStorageId) {
 		ProductStorageReceipt productStorageReceipt = hibernate.getById(ProductStorageReceipt.class, productStorageId);
 		return productStorageReceipt;
+	}
+
+	@Override
+	public List<ProductStorageReceipt> listProdStoreByProduct(int productId) {
+		Query<ProductStorageReceipt> query = hibernate.inputIntQuery(ProductStorageReceipt.class, "product", productId);
+		List<ProductStorageReceipt> listProdStorageRec = query.getResultList();
+		return listProdStorageRec;
 	}
 
 }

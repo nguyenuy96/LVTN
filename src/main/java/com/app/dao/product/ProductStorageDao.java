@@ -11,5 +11,7 @@ public interface ProductStorageDao {
 	List<ProductStorageReceipt> listProductStorage();
 	
 	ProductStorageReceipt getProductStorage(int productStorageId);
+	
+	List<ProductStorageReceipt> listProdStoreByProduct(int productId);
 
 }
