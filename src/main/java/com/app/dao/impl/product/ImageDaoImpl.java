@@ -25,14 +25,28 @@ public class ImageDaoImpl implements ImageDao {
 		String imageName = multipartFile.getOriginalFilename();
 		ProductImage image = getImage(imageName);
 		Path path = Paths.get(uploadDirectory, imageName);
+
+		File imageFile = new File(uploadDirectory + "\\" + imageName);
 		boolean isExistedImage = image.getImageId() != null ? true : false;
-		if (!isExistedImage) {
+		if (!isExistedImage && !imageFile.exists()) {
 			try {
-				image.setImageName(imageName);
 				Files.copy(multipartFile.getInputStream(), path);
+				image.setImageName(imageName);
 				hibernate.getSession().saveOrUpdate(image);
 			} catch (Exception ex) {
 				ex.printStackTrace();
+			}
+		} else {
+			if (!isExistedImage) {
+				hibernate.getSession().saveOrUpdate(image);
+			}
+			if (!imageFile.exists()){
+				try {
+					Files.copy(multipartFile.getInputStream(), path);
+					image.setImageName(imageName);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 		}
 		return image;
