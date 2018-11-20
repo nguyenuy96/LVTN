@@ -56,7 +56,7 @@ public class ProductController {
 		return new ResponseEntity<ProductImage>(image, HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/save", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addProduct(@RequestBody Product product) {
 		productService.saveProduct(product);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
@@ -96,7 +96,7 @@ public class ProductController {
 		return new ResponseEntity<List<ProductStorageReceipt>>(productService.getStorageReceipt(), HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/list/product", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Product>> getAllProducts() {
 		List<Product> listItem = productService.getAllProducts();
 		return new ResponseEntity<List<Product>>(listItem, HttpStatus.OK);

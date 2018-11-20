@@ -22,19 +22,19 @@ public class ProductTypeController {
 	@Autowired
 	private ProductTypeService productTypeService;
 
-	@RequestMapping(path = "/save", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addProductType(@RequestBody ProductType productType) {
 		productTypeService.saveProductType(productType);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/list", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<ProductType>> getProductTypes() {
 		List<ProductType> listProductType = productTypeService.getProductTypes();
 		return new ResponseEntity<List<ProductType>>(listProductType, HttpStatus.OK);
 	}
 	
-	@RequestMapping(path = "/get/{productTypeId}", method = RequestMethod.GET)
+	@RequestMapping(path = "/{productTypeId}", method = RequestMethod.GET)
 	public ResponseEntity<ProductType> getProductType(@PathVariable("productTypeId") int productTypeId){
 		productTypeService.getProductType(productTypeId);
 		return new ResponseEntity<ProductType>(HttpStatus.OK);

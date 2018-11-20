@@ -31,7 +31,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(path = "list-role", method = RequestMethod.GET)
+	@RequestMapping(path = "/list-role", method = RequestMethod.GET)
 	public ResponseEntity<List<Role>> getListRole() {
 		return new ResponseEntity<List<Role>>(userService.listRole(), HttpStatus.OK);
 	}

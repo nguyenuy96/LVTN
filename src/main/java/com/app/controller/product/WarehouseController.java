@@ -21,13 +21,13 @@ public class WarehouseController {
 	@Autowired
 	private WarehouseService warehouseService;
 
-	@RequestMapping(path = "/save", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addWarehouse(@RequestBody Warehouse warehouse) {
 		warehouseService.saveWarehouse(warehouse);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/list", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Warehouse>> getWarehouses() {
 		List<Warehouse> listWarehouse = warehouseService.getWarehouses();
 		return new ResponseEntity<List<Warehouse>>(listWarehouse, HttpStatus.OK);

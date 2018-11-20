@@ -77,7 +77,7 @@ public class Product implements Serializable {
 	/******************************************************************************/
 
 	@Column(name = "DON_GIA")
-	private Double unitPrice;
+	private String unitPrice;
 
 	/******************************************************************************/
 
@@ -146,7 +146,7 @@ public class Product implements Serializable {
 
 	public Product(int productId, String productName, String ingredient, Date manufDate, Date expiryDate,
 			String useObject, ProductImage image, String useGuide, Float net, String note, String guarantee,
-			Double unitPrice, String preservation, String outstdFeatures, String description, TradeMark tradeMark,
+			String unitPrice, String preservation, String outstdFeatures, String description, TradeMark tradeMark,
 			Weight weight, Age age, Promotion promotionId, ProductType productType) {
 		this.productId = productId;
 		this.productName = productName;
@@ -258,11 +258,11 @@ public class Product implements Serializable {
 		this.guarantee = guarantee;
 	}
 
-	public Double getUnitPrice() {
+	public String getUnitPrice() {
 		return unitPrice;
 	}
 
-	public void setUnitPrice(Double unitPrice) {
+	public void setUnitPrice(String unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 

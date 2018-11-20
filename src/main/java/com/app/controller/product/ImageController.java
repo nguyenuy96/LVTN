@@ -24,7 +24,7 @@ public class ImageController {
 	@Autowired
 	private ProductImageService productImageSrvc;
 
-	@RequestMapping(path = "/save", method = RequestMethod.POST, consumes = "multipart/form-data")
+	@RequestMapping(method = RequestMethod.POST, consumes = "multipart/form-data")
 	public ResponseEntity<ProductImage> addImage(@RequestParam(value = "file") MultipartFile file) {
 		ProductImage image = productImageSrvc.saveImage(file, uploadDirectory);
 		return new ResponseEntity<ProductImage>(image, HttpStatus.OK);

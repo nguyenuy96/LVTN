@@ -22,13 +22,13 @@ public class TradeMarkController {
 	@Autowired
 	private TradeMarkService tradeMarkService;
 
-	@RequestMapping(path = "/save", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addTradeMark(@RequestBody TradeMark tradeMark) {
 		tradeMarkService.saveTradeMark(tradeMark);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/list", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<TradeMark>> listTradeMark() {
 		List<TradeMark> listTradeMark = tradeMarkService.getTradeMarks();
 		return new ResponseEntity<List<TradeMark>>(listTradeMark, HttpStatus.OK);

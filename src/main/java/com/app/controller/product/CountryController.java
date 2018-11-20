@@ -21,13 +21,13 @@ public class CountryController {
 	@Autowired
 	private CountryService countryService;
 
-	@RequestMapping(path = "/save", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addCountry(@RequestBody Country country) {
 		countryService.saveCountry(country);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/list", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Country>> getCountries() {
 		List<Country> listCountry = countryService.getCountries();
 		return new ResponseEntity<List<Country>>(listCountry, HttpStatus.OK);

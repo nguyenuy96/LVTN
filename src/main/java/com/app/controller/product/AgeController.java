@@ -22,19 +22,19 @@ public class AgeController {
 	@Autowired
 	private AgeService ageService;
 
-	@RequestMapping(path = "/save", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addAge(@RequestBody Age age) {
 		ageService.saveAge(age);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/list", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Age>> listAge() {
 		List<Age> listAge = ageService.listAge();
 		return new ResponseEntity<List<Age>>(listAge, HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/get/{ageId}", method = RequestMethod.GET)
+	@RequestMapping(path = "/{ageId}", method = RequestMethod.GET)
 	public ResponseEntity<Age> getAge(@PathVariable("ageId") int ageId) {
 		Age age = ageService.getAge(ageId);
 		return new ResponseEntity<Age>(age, HttpStatus.OK);

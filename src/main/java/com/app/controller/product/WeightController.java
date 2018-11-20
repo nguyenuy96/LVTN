@@ -23,19 +23,19 @@ public class WeightController {
 	@Autowired
 	private WeightService weightService;
 
-	@RequestMapping(path = "/save", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addWeight(@RequestBody Weight weight) {
 		weightService.saveWeight(weight);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/list", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Weight>> listWeight() {
 		List<Weight> listWeight = weightService.listWeight();
 		return new ResponseEntity<List<Weight>>(listWeight, HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/get/{weightId}", method = RequestMethod.GET)
+	@RequestMapping(path = "/{weightId}", method = RequestMethod.GET)
 	public ResponseEntity<Weight> getWeight(@PathVariable("weightId") int weightId) {
 		Weight weight = weightService.getWeight(weightId);
 		return new ResponseEntity<Weight>(weight, HttpStatus.OK);

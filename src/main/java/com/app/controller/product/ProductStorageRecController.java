@@ -23,13 +23,13 @@ public class ProductStorageRecController {
 	@Autowired
 	private ProductStorageRecSrvc prodStorageRecSrvc;
 
-	@RequestMapping(path = "/save", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> saveProStorageRec(@RequestBody ProductStorageReceipt productStorageReceipt) {
 		prodStorageRecSrvc.saveProductStorageRec(productStorageReceipt);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/list/{productId}", method = RequestMethod.GET)
+	@RequestMapping(path = "/{productId}", method = RequestMethod.GET)
 	public ResponseEntity<List<ProductStorageReceipt>> listProStorageRecByProduct(
 			@PathVariable("productId") int productId) {
 		List<ProductStorageReceipt> list = prodStorageRecSrvc.listProductStorageRec(productId);
