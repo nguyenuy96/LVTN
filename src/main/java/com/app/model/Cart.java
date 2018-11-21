@@ -1,16 +1,20 @@
 package com.app.model;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,30 +33,29 @@ public class Cart implements Serializable {
 
 	/******************************************************************************/
 
-	@Column(name = "SO_LUONG", nullable = false)
+	@Column(name = "SO_LUONG")
 	private Integer amount;
 
 	/******************************************************************************/
 
-	@Column(name = "TONG_GIA", nullable = false)
-	private Double totalPrice;
+	@Column(name = "NGAY_CAP_NHAT")
+	private Timestamp lastUpdateDate;
 
-	/******************************************************************************/
-
-	@OneToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "SAN_PHAM_GIO_HANG", joinColumns = {
-			@JoinColumn(name = "MA_GIO_HANG", referencedColumnName = "MA_GIO_HANG") }, inverseJoinColumns = {
-					@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") })
+			@JoinColumn(name = "MA_GIO_HANG", referencedColumnName = "MA_GIO_HANG"),
+			@JoinColumn(name = "SO_LUONG", referencedColumnName = "SO_LUONG")}, inverseJoinColumns = {
+					@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM", unique = false) })
 	private Set<Product> product;
 
 	public Cart() {
 	}
 
-	public Cart(int cartId, int amount, Double totalPrice, Set<Product> product) {
+	public Cart(int cartId, int amount, Double totalPrice, Set<Product> product, Timestamp lastUpdateDate) {
 		this.cartId = cartId;
 		this.amount = amount;
-		this.totalPrice = totalPrice;
 		this.product = product;
+		this.lastUpdateDate = lastUpdateDate;
 	}
 
 	/******************************************************************************/
@@ -77,24 +80,21 @@ public class Cart implements Serializable {
 
 	/******************************************************************************/
 
-	public Double getTotalPrice() {
-		return totalPrice;
+	public Set<Product> getProduct() {
+		return product;
 	}
 
-	public void setTotalPrice(Double totalPrice) {
-		this.totalPrice = totalPrice;
+	public void setProduct(Set<Product> product) {
+		this.product = product;
 	}
 
 	/******************************************************************************/
-	
-	 public Set<Product> getProduct() {
-	 return product;
-	 }
-	
-	 public void setProduct(Set<Product> product) {
-	 this.product = product;
-	 }
+	public Timestamp getLastUpdateDate() {
+		return lastUpdateDate;
+	}
 
-	/******************************************************************************/
+	public void setLastUpdateDate(Timestamp lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
 
 }

@@ -7,8 +7,10 @@ import com.app.model.Cart;
 public interface CartDao {
 	
 	void saveOrUpdateCart(Cart cart);
+	
+	void updateCart(Cart cart);
 
-	List<Cart> listCard();
+	List<Cart> listCart();
 
-	Cart getOrder(int cartId);
+	Cart getCart(int cartId);
 }

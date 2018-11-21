@@ -1,5 +1,6 @@
 package com.app.dao.impl;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -27,6 +28,13 @@ public class HibernateResult {
 		Timestamp timestamp = ((Timestamp) getSession().createSQLQuery("select sysdate()").uniqueResult());
 		String date = timestamp.toString();
 		return date;
+	}
+
+	@SuppressWarnings("deprecation")
+	public Timestamp getSQLDate() {
+		Timestamp lastUpdateDate = ((Timestamp) getSession().createSQLQuery("select sysdate()").uniqueResult());
+//		String date = timestamp.toString();
+		return lastUpdateDate;
 	}
 
 	public <T> Query<T> inputStringQuery(Class<T> resultClass, String condition, String value) {
