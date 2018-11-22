@@ -31,8 +31,8 @@ public class HibernateResult {
 	}
 
 	@SuppressWarnings("deprecation")
-	public Timestamp getSQLDate() {
-		Timestamp lastUpdateDate = ((Timestamp) getSession().createSQLQuery("select sysdate()").uniqueResult());
+	public Date getSQLDate() {
+		Date lastUpdateDate = (Date) getSession().createSQLQuery("select curdate()").uniqueResult();
 //		String date = timestamp.toString();
 		return lastUpdateDate;
 	}

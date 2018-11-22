@@ -2,18 +2,24 @@ package com.app.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "SAN_PHAM")
@@ -330,37 +336,16 @@ public class Product implements Serializable {
 		this.productType = productType;
 	}
 
-	// @ManyToMany
-	// @JoinTable(name = "SANPHAM_NHAPKHO", joinColumns = {
-	// @JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") },
-	// inverseJoinColumns = {
-	// @JoinColumn(name = "MA_NHAP_KHO", referencedColumnName = "MA_NHAP_KHO") })
-	// private Set<ImportRepository> importRepositories;
-	//
-	// public Set<ImportRepository> getImportRepositories() {
-	// return importRepositories;
-	// }
-	//
-	// public void setImportRepositories(Set<ImportRepository> importRepositories) {
-	// this.importRepositories = importRepositories;
-	// }
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnore
+	private Set<CartValue> cart_Products = new HashSet<CartValue>();
 
-	/******************************************************************************/
+	public Set<CartValue> getCart_Product() {
+		return cart_Products;
+	}
 
-	// @JsonManagedReference
-	// @ManyToMany
-	// @JoinTable(name = "SANPHAM_XUATKHO", joinColumns = {
-	// @JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") },
-	// inverseJoinColumns = {
-	// @JoinColumn(name = "MA_XUAT_KHO", referencedColumnName = "MA_XUAT_KHO") })
-	// private Set<ExportRepository> exportRepositories;
-	//
-	// public Set<ExportRepository> getExportRepositories() {
-	// return exportRepositories;
-	// }
-	//
-	// public void setExportRepositories(Set<ExportRepository> exportRepositories) {
-	// this.exportRepositories = exportRepositories;
-	// }
+	public void setCart_Product(Set<CartValue> cart_Products) {
+		this.cart_Products = cart_Products;
+	}
 
 }
