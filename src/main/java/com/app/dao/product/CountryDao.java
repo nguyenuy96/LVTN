@@ -11,4 +11,6 @@ public interface CountryDao {
 	List<Country> listCountry();
 	
 	Country getCountry(int countryId);
+	
+	Country findCountryByName(String countryName);
 }

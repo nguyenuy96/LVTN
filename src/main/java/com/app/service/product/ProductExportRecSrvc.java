@@ -2,11 +2,12 @@ package com.app.service.product;
 
 import java.util.List;
 
-import com.app.model.ProductExportReceipt;
+import com.app.model.ExportReceipt;
 
 public interface ProductExportRecSrvc {
 
-	void saveProductStorageRec();
+	void saveExportRecDetail(int orderId, ExportReceipt exportReceipt);
 	
-	List<ProductExportReceipt> listProductExportRec(int productId);
+	List<ExportReceipt> listProductExportRec(int productId);
+	
 }

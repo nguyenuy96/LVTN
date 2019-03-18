@@ -2,13 +2,18 @@ package com.app.dao.product;
 
 import java.util.List;
 
-import com.app.model.ProductExportReceipt;
+import com.app.model.ExportRecDetail;
+import com.app.model.ExportReceipt;
 
 public interface ProductExportDao {
 	
-	void saveProductExport(ProductExportReceipt productExportReceipt);
+	ExportReceipt saveExportRec(ExportReceipt exportReceipt);
 
-	List<ProductExportReceipt> listProductExportReceipt();
+	List<ExportReceipt> listProductExportReceipt();
 
-	ProductExportReceipt getProductExportReceipt(int productExportReceiptId);
+	ExportReceipt getProductExportReceipt(int productExportReceiptId);
+	
+	List<ExportReceipt> listProdExportByProduct(int productId);
+	
+	void saveExportRecDetail(ExportRecDetail exportRecDetail);
 }

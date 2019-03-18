@@ -13,4 +13,6 @@ public interface AccountDao {
 	void modifyPassword(Account account);
 
 	void saveAccount(Account account);
+	
+	Account getAccountById(int accountId);
 }

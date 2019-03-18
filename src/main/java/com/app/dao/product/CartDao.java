@@ -3,23 +3,27 @@ package com.app.dao.product;
 import java.util.List;
 
 import com.app.model.Cart;
-import com.app.model.CartValue;
+import com.app.model.CartDetail;
 
 public interface CartDao {
 	
-	void saveOrUpdateCart(Cart cart);
+	Cart saveCart();
 	
-	void updateCart(Cart cart);
+	void addCartDetail(CartDetail cartDetail);
 
 	List<Cart> listCart();
 
 	Cart getCart(int cartId);
 	
-	void saveProductIntoCart(CartValue cart_Product);
+	void updateCartDetail(CartDetail cartDetail);
 	
-	List<CartValue> listCartProduct();
+	List<CartDetail> listCartDetail();
 	
-	List<CartValue> listProduct(int cartId);
+	List<CartDetail> listCartDetailByCartId(int cartId);
 	
-	CartValue getCartValue(int cartId, int productId);
+	CartDetail getCartDetail(int cartId, int productId);
+	
+	void deleteCartDetail(CartDetail cartDetail);
+	
+	CartDetail getCartDetailByProductId(int productId);
 }

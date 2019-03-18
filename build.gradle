@@ -47,4 +47,7 @@ dependencies {
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
     
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:2.6.3'
+    compile("org.springframework.boot:spring-boot-starter-web")
+  	compile("org.springframework.boot:spring-boot-starter-websocket")
+  	compile("org.springframework:spring-messaging")
 }

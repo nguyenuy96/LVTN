@@ -14,6 +14,9 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.app.model.CartDetail;
+import com.app.model.Product;
+
 @Repository
 public class HibernateResult {
 	@Autowired
@@ -53,6 +56,16 @@ public class HibernateResult {
 		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get(condition), value));
 		Query<T> query = getSession().createQuery(criteriaQuery);
 		return query;
+	};
+
+	public List<Product> listProductByCart(int cartId) {
+		CriteriaBuilder criteriaBuilder = getSession().getCriteriaBuilder();
+		CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+		Root<CartDetail> root = criteriaQuery.from(CartDetail.class);
+		criteriaQuery.select(root.<Product>get("cartDetailId").get("product"))
+				.where(criteriaBuilder.equal(root.get("cartDetailId").get("cart"), cartId));
+		List<Product> list = getSession().createQuery(criteriaQuery).getResultList();
+		return list;
 	};
 
 	public <T> List<T> getResultList(Class<T> resultClass) {

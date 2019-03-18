@@ -35,6 +35,7 @@ public class WebSecurityConf extends WebSecurityConfigurerAdapter {
 				.authorizeRequests().antMatchers(HttpMethod.POST, "/user/saveuser").permitAll().and()
 				.authorizeRequests().antMatchers(HttpMethod.GET, "/product").permitAll().and()
 				.authorizeRequests().antMatchers("/image/**").permitAll().and()
+				.authorizeRequests().antMatchers("/cart/**").permitAll().and()
 				.authorizeRequests().antMatchers(HttpMethod.POST, "/user/register").permitAll().anyRequest()
 				.authenticated().and().addFilterBefore(new CORSFilter(), ChannelProcessingFilter.class)
 				.addFilterBefore(new JWTLoginFilter(SIGN_IN_URL, authenticationManager()),

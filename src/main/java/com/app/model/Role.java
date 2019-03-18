@@ -25,7 +25,7 @@ public class Role implements Serializable {
 
 	/******************************************************************************/
 
-	@Column(name = "LOAI_TAI_KHOAN", nullable = false, unique = true)
+	@Column(name = "PHAN_QUYEN", nullable = false, unique = true)
 	private String roleName;
 
 	/******************************************************************************/

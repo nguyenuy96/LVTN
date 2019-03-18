@@ -1,6 +1,8 @@
 package com.app.model;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -11,14 +13,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
 @Table(name = "XUAT_KHO")
-public class ProductExportReceipt implements Serializable{
+public class ExportReceipt implements Serializable{
 
 	/**
 	 * 
@@ -28,7 +32,7 @@ public class ProductExportReceipt implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "MA_XUAT_KHO", nullable = false, unique = true)
-	private Integer productExportReceiptId;
+	private Integer exportRecId;
 	
 	/******************************************************************************/
 	
@@ -39,20 +43,6 @@ public class ProductExportReceipt implements Serializable{
 	private Warehouse warehouse;
 
 	/******************************************************************************/
-	
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "XUAT_KHO_SAN_PHAM", joinColumns = {
-			@JoinColumn(name = "MA_XUAT_KHO", referencedColumnName = "MA_XUAT_KHO") }, inverseJoinColumns = {
-					@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") })
-	private Set<Product> product;
-
-	public Set<Product> getProduct() {
-		return product;
-	}
-
-	public void setProduct(Set<Product> product) {
-		this.product = product;
-	}
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinTable(name = "NHAN_VIEN_XUAT_KHO", joinColumns = {
@@ -69,40 +59,41 @@ public class ProductExportReceipt implements Serializable{
 	}
 	
 	/******************************************************************************/
-
-	@Column(name = "SO_LUONG")
-	private Double amount;
-
-	/******************************************************************************/
-
-	@Column(name = "NGAY_XUAT")
-	private String exportDate;
-
-	/******************************************************************************/
 	
-	public ProductExportReceipt() { }
+	@OneToMany(mappedBy = "exportRecDetailId.exportReceipt", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Set<ExportRecDetail> exportRecDetail = new HashSet<ExportRecDetail>();
 	
-	public ProductExportReceipt(Integer productExportReceiptId) {
-		this.productExportReceiptId = productExportReceiptId;
+	
+	public Set<ExportRecDetail> getExportRecDetail() {
+		return exportRecDetail;
 	}
 
-	public ProductExportReceipt(int productExportReceiptId, Warehouse warehouse, Set<Product> product, Employee employee, Double amount, String exportDate) {
-		this.productExportReceiptId = productExportReceiptId;
+	public void setExportRecDetail(Set<ExportRecDetail> exportRecDetail) {
+		this.exportRecDetail = exportRecDetail;
+	}
+
+	public ExportReceipt() { }
+	
+	public ExportReceipt(Integer exportRecId) {
+		this.exportRecId = exportRecId;
+	}
+
+	public ExportReceipt(int exportRecId, Warehouse warehouse,Employee employee, Date exportDate) {
+		this.exportRecId = exportRecId;
 		this.warehouse = warehouse;
-		this.product = product;
 		this.employee = employee;
-		this.amount = amount;
 		this.exportDate = exportDate;
 	}
 
 	/******************************************************************************/
 
-	public Integer getProductExportReceiptId() {
-		return productExportReceiptId;
+	public Integer getExportRecId() {
+		return exportRecId;
 	}
 
-	public void setProductExportReceiptId(Integer productExportReceiptId) {
-		this.productExportReceiptId = productExportReceiptId;
+	public void setExportRecId(Integer exportRecId) {
+		this.exportRecId = exportRecId;
 	}
 
 	/******************************************************************************/
@@ -114,35 +105,16 @@ public class ProductExportReceipt implements Serializable{
 	public void setWarehouse(Warehouse warehouse) {
 		this.warehouse = warehouse;
 	}
+	
+	@Column(name = "NGAY_XUAT_KHO")
+	public Date exportDate;
 
-
-	/******************************************************************************/
-
-	public Double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(Double amount) {
-		this.amount = amount;
-	}
-
-	/******************************************************************************/
-	public String getExportDate() {
+	public Date getExportDate() {
 		return exportDate;
 	}
 
-	public void setExportDate(String exportDate) {
+	public void setExportDate(Date exportDate) {
 		this.exportDate = exportDate;
 	}
-
-	/******************************************************************************/
-	
-//	public Employee getEmployee() {
-//		return empId;
-//	}
-//
-//	public void setEmployee(Employee empId) {
-//		this.empId = empId;
-//	}
 	
 }

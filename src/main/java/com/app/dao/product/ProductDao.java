@@ -12,4 +12,9 @@ public interface ProductDao {
 
 	Product getProduct(int productId);
 
+	void deleteProduct(Product product);
+	
+	Product findProductByName(String productName);
+	
+	List<Product> listProductByType(String productType);
 }

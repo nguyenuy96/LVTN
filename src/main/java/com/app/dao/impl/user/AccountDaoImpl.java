@@ -49,4 +49,10 @@ public class AccountDaoImpl implements AccountDao {
 
 	}
 
+	@Override
+	public Account getAccountById(int accountId) {
+		Account account = hibernate.getById(Account.class, accountId);
+		return account;
+	}
+
 }

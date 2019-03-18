@@ -33,18 +33,18 @@ public class Promotion implements Serializable{
 	/******************************************************************************/
 	
 	@Column(name = "NGAY_BAT_DAU", nullable = false)
-	private Date startDate;
+	private String startDate;
 	
 	/******************************************************************************/
 	
 	@Column(name = "NGAY_KET_THUC", nullable = false)
-	private Date endDate;
+	private String endDate;
 	
 	/******************************************************************************/
 	
 	public Promotion() {}
 	
-	public Promotion(int promId, String promation, Date startDate, Date endDate) {
+	public Promotion(int promId, String promation, String startDate, String endDate) {
 		this.promId = promId;
 		this.promotion = promation;
 		this.startDate = startDate;
@@ -73,21 +73,21 @@ public class Promotion implements Serializable{
 
 	/******************************************************************************/
 	
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
 	/******************************************************************************/
 	
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	

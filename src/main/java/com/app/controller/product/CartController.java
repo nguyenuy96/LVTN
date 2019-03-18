@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.model.Cart;
-import com.app.model.CartValue;
+import com.app.model.CartDetail;
 import com.app.service.product.CartService;
 
 @CrossOrigin
@@ -25,27 +25,26 @@ public class CartController {
 	private CartService cartService;
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> saveCart(@RequestBody Cart cart) {
-		cartService.saveOrUpdateCart(cart);
+	public ResponseEntity<HttpStatus> saveProductIntoCart( @RequestBody CartDetail cartDetail) {
+		cartService.saveProductIntoCart(cartDetail);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
-	
-	@RequestMapping(path = "/insert",method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> saveProductIntoCart(@RequestBody CartValue cart_Product) {
-		cartService.saveProductIntoCart(cart_Product);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<Cart> saveCart() {
+		Cart savedCart = cartService.saveCart();
+		return new ResponseEntity<Cart>(savedCart, HttpStatus.OK);
 	}
 	
 	@RequestMapping(path = "/{cartId}",method = RequestMethod.GET)
-	public ResponseEntity<List<CartValue>> getCart(@PathVariable("cartId") int cartId) {
-		List<CartValue> list = cartService.listCartProductByCart(cartId);
-		return new ResponseEntity<List<CartValue>>(list, HttpStatus.OK);
+	public ResponseEntity<List<CartDetail>> listCartProduct(@PathVariable("cartId") int cartId) {
+		List<CartDetail> list = cartService.listCartProductByCart(cartId);
+		return new ResponseEntity<List<CartDetail>>(list, HttpStatus.OK);
 	}
 	
-//	@RequestMapping(path = "/list",method = RequestMethod.GET)
-//	public ResponseEntity<List<Cart_Product>> listCartProduct() {
-//		List<Cart_Product> list = cartService.listCartProduct();
-//		return new ResponseEntity<List<Cart_Product>>(list, HttpStatus.OK);
-//	}
+	@RequestMapping(path = "/{productId}/{cartId}",method = RequestMethod.DELETE)
+	public ResponseEntity<HttpStatus> deleteProductCart(@PathVariable(value =  "productId") int productId, @PathVariable(value = "cartId") int cartId) {
+		cartService.deleteProductCart(productId, cartId);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 }

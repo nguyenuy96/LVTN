@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -57,8 +57,11 @@ public class Product implements Serializable {
 
 	/******************************************************************************/
 
-	@Column(name = "DOI_TUONG")
-	private String useObject;
+	@OneToOne
+	@JoinTable(name = "SAN_PHAM_DOI_TUONG", joinColumns = {
+			@JoinColumn(name = "MA_SAN_PHAM", referencedColumnName = "MA_SAN_PHAM") }, inverseJoinColumns = {
+					@JoinColumn(name = "MA_DOI_TUONG", referencedColumnName = "MA_DOI_TUONG") })
+	private ObjectUser objectUser;
 
 	/******************************************************************************/
 
@@ -151,7 +154,7 @@ public class Product implements Serializable {
 	}
 
 	public Product(int productId, String productName, String ingredient, Date manufDate, Date expiryDate,
-			String useObject, ProductImage image, String useGuide, Float net, String note, String guarantee,
+			ObjectUser objectUser, ProductImage image, String useGuide, Float net, String note, String guarantee,
 			String unitPrice, String preservation, String outstdFeatures, String description, TradeMark tradeMark,
 			Weight weight, Age age, Promotion promotionId, ProductType productType) {
 		this.productId = productId;
@@ -159,7 +162,7 @@ public class Product implements Serializable {
 		this.ingredient = ingredient;
 		this.manufDate = manufDate;
 		this.expiryDate = expiryDate;
-		this.useObject = useObject;
+		this.objectUser = objectUser;
 		this.image = image;
 		this.useGuide = useGuide;
 		this.net = net;
@@ -216,12 +219,12 @@ public class Product implements Serializable {
 		this.expiryDate = expiryDate;
 	}
 
-	public String getUseObject() {
-		return useObject;
+	public ObjectUser getObjectUser() {
+		return objectUser;
 	}
 
-	public void setUseObject(String useObject) {
-		this.useObject = useObject;
+	public void setObjectUser(ObjectUser objectUser) {
+		this.objectUser = objectUser;
 	}
 
 	public ProductImage getImage() {
@@ -336,16 +339,28 @@ public class Product implements Serializable {
 		this.productType = productType;
 	}
 
-	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cartDetailId.product", fetch = FetchType.LAZY)
 	@JsonIgnore
-	private Set<CartValue> cart_Products = new HashSet<CartValue>();
+	private Set<CartDetail> productCart = new HashSet<CartDetail>();
 
-	public Set<CartValue> getCart_Product() {
-		return cart_Products;
+	public Set<CartDetail> getProductCart() {
+		return productCart;
 	}
 
-	public void setCart_Product(Set<CartValue> cart_Products) {
-		this.cart_Products = cart_Products;
+	public void setProductCart(Set<CartDetail> productCart) {
+		this.productCart = productCart;
 	}
 
+	@OneToMany(mappedBy = "exportRecDetailId.product", fetch = FetchType.LAZY)
+	@JsonIgnore
+	
+	private Set<ExportRecDetail> exportRecDetail = new HashSet<ExportRecDetail>();
+
+	public Set<ExportRecDetail> getExportRecDetail() {
+		return exportRecDetail;
+	}
+
+	public void setExportRecDetail(Set<ExportRecDetail> exportRecDetail) {
+		this.exportRecDetail = exportRecDetail;
+	}
 }

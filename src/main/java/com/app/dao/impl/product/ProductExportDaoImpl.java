@@ -1,13 +1,16 @@
 package com.app.dao.impl.product;
 
+import java.sql.Date;
 import java.util.List;
 
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.app.dao.impl.HibernateResult;
 import com.app.dao.product.ProductExportDao;
-import com.app.model.ProductExportReceipt;
+import com.app.model.ExportRecDetail;
+import com.app.model.ExportReceipt;
 
 @Repository
 public class ProductExportDaoImpl implements ProductExportDao {
@@ -16,23 +19,38 @@ public class ProductExportDaoImpl implements ProductExportDao {
 	private HibernateResult hibernate;
 
 	@Override
-	public void saveProductExport(ProductExportReceipt productExportReceipt) {
-		String exportDate = hibernate.getMySQLDate();
-		productExportReceipt.setExportDate(exportDate);
-		hibernate.getSession().save(productExportReceipt);
+	public ExportReceipt saveExportRec(ExportReceipt exportReceipt) {
+		Date exportDate = hibernate.getSQLDate();
+		exportReceipt.setExportDate(exportDate);
+		hibernate.getSession().save(exportReceipt);
+		return exportReceipt;
 	}
 
 	@Override
-	public List<ProductExportReceipt> listProductExportReceipt() {
-		List<ProductExportReceipt> listProductExportReceipt = hibernate.getResultList(ProductExportReceipt.class);
+	public List<ExportReceipt> listProductExportReceipt() {
+		List<ExportReceipt> listProductExportReceipt = hibernate.getResultList(ExportReceipt.class);
 		return listProductExportReceipt;
 	}
 
 	@Override
-	public ProductExportReceipt getProductExportReceipt(int productExportReceiptId) {
-		ProductExportReceipt productExportReceipt = hibernate.getById(ProductExportReceipt.class,
+	public ExportReceipt getProductExportReceipt(int productExportReceiptId) {
+		ExportReceipt productExportReceipt = hibernate.getById(ExportReceipt.class,
 				productExportReceiptId);
 		return productExportReceipt;
+	}
+
+	@Override
+	public List<ExportReceipt> listProdExportByProduct(int productId) {
+		Query<ExportReceipt> query = hibernate.inputIntQuery(ExportReceipt.class, "product", productId);
+		List<ExportReceipt> listProdStorageRec = query.getResultList();
+		return listProdStorageRec;
+	}
+
+	@Override
+	public void saveExportRecDetail(ExportRecDetail exportRecDetail) {
+		
+		
+		hibernate.getSession().save(exportRecDetail);
 	}
 
 }

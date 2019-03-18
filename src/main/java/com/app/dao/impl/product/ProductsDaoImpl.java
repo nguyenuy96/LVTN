@@ -1,6 +1,7 @@
 package com.app.dao.impl.product;
 import java.util.List;
 
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -37,5 +38,24 @@ public class ProductsDaoImpl implements ProductDao {
 			return null;
 		}
 		return fileName.substring(dotIndex + 1);
+	}
+	
+	@Override
+	public void deleteProduct(Product product) {
+		hibernate.getSession().delete(product);
+	}
+
+	@Override
+	public Product findProductByName(String productName) {
+		Query<Product> query = hibernate.inputStringQuery(Product.class, "productName", productName);
+		Product product = (query.list().size() == 0) ? null : query.getResultList().get(0);
+		return product;
+	}
+
+	@Override
+	public List<Product> listProductByType(String productType) {
+		Query<Product> query = hibernate.inputStringQuery(Product.class, productType, productType);
+		List<Product> list = (query.list().size() == 0) ? null : query.getResultList();
+		return list;
 	}
 }

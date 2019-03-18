@@ -28,35 +28,38 @@ public class Order implements Serializable {
 
 	/******************************************************************************/
 
-	@Column(name = "LOAI_THANH_TOAN", nullable = false)
-	private String payment;
+	@Column(name = "LOAI_THANH_TOAN")
+	private String payments;
 
 	/******************************************************************************/
 
-	@Column(name = "THANH_TOAN", nullable = false)
+	@Column(name = "THANH_TOAN")
 	private boolean isPay;
 
 	/******************************************************************************/
 
-	@Column(name = "GIAO_HANG", nullable = false)
+	@Column(name = "GIAO_HANG")
 	private boolean isDelivery;
 
 	/******************************************************************************/
 
-	@Column(name = "NOI_GIAO_HANG", nullable = false)
+	@Column(name = "NOI_GIAO_HANG")
 	private String addressDelivery;
 
 	/******************************************************************************/
 
-	@Column(name = "SDT_GIAO_HANG", nullable = false)
+	@Column(name = "SDT_GIAO_HANG")
 	private String phoneDelivery;
 
 	/******************************************************************************/
+	
+	@Column(name = "TRANG_THAI")
+	private String orderState;
 
 	@OneToOne
 	@JoinTable(name = "DONHANG_KHACHHANG", joinColumns = {
 			@JoinColumn(name = "MA_DON_HANG", referencedColumnName = "MA_DON_HANG") }, inverseJoinColumns = {
-					@JoinColumn(name = "MA_KHACH_HANG", referencedColumnName = "MA_KHACH_HANG", unique = true) })
+					@JoinColumn(name = "MA_KHACH_HANG", referencedColumnName = "MA_KHACH_HANG") })
 	private Customer customer;
 
 	/******************************************************************************/
@@ -64,7 +67,7 @@ public class Order implements Serializable {
 	@OneToOne
 	@JoinTable(name = "DONHANG_NHANVIEN", joinColumns = {
 			@JoinColumn(name = "MA_DON_HANG", referencedColumnName = "MA_DON_HANG") }, inverseJoinColumns = {
-					@JoinColumn(name = "MA_NHAN_VIEN", referencedColumnName = "MA_NHAN_VIEN", unique = true) })
+					@JoinColumn(name = "MA_NHAN_VIEN", referencedColumnName = "MA_NHAN_VIEN") })
 	private Employee employee;
 
 	/******************************************************************************/
@@ -72,17 +75,17 @@ public class Order implements Serializable {
 	@OneToOne
 	@JoinTable(name = "DONHANG_GIOHANG", joinColumns = {
 			@JoinColumn(name = "MA_DON_HANG", referencedColumnName = "MA_DON_HANG") }, inverseJoinColumns = {
-					@JoinColumn(name = "MA_GIO_HANG", referencedColumnName = "MA_GIO_HANG", unique = true) })
+					@JoinColumn(name = "MA_GIO_HANG", referencedColumnName = "MA_GIO_HANG") })
 	private Cart cart;
 
 	/******************************************************************************/
 
 	public Order() {}
 
-	public Order(int orderId, String payment, boolean isPay, boolean isDelivery, String addressDelivery,
-			String phoneDelivery, Customer customer, Employee employee, Cart cart) {
+	public Order(int orderId, String payments, boolean isPay, boolean isDelivery, String addressDelivery,
+			String phoneDelivery, Customer customer, Employee employee, Cart cart, String orderState) {
 		this.orderId = orderId;
-		this.payment = payment;
+		this.payments = payments;
 		this.isPay = isPay;
 		this.isDelivery = isDelivery;
 		this.addressDelivery = addressDelivery;
@@ -90,6 +93,7 @@ public class Order implements Serializable {
 		this.customer = customer;
 		this.employee = employee;
 		this.cart = cart;
+		this.orderState = orderState;
 	}
 
 	/******************************************************************************/
@@ -104,12 +108,12 @@ public class Order implements Serializable {
 
 	/******************************************************************************/
 
-	public String getPayment() {
-		return payment;
+	public String getPayments() {
+		return payments;
 	}
 
-	public void setPayment(String payment) {
-		this.payment = payment;
+	public void setPayment(String payments) {
+		this.payments = payments;
 	}
 
 	/******************************************************************************/
@@ -181,5 +185,16 @@ public class Order implements Serializable {
 	public void setCart(Cart cart) {
 		this.cart = cart;
 	}
+
+	public String getOrderState() {
+		return orderState;
+	}
+
+	public void setOrderState(String orderState) {
+		this.orderState = orderState;
+	}
+
+	/******************************************************************************/
+	
 
 }
