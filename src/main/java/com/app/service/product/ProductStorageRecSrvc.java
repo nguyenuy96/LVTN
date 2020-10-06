@@ -2,12 +2,12 @@ package com.app.service.product;
 
 import java.util.List;
 
-import com.app.model.ProductStorageReceipt;
+import com.app.model.ProductStorageReception;
 
 public interface ProductStorageRecSrvc {
 
-	void saveProductStorageRec(ProductStorageReceipt productStorageReceipt);
+	void saveProductStorageRec(ProductStorageReception productStorageReception);
 
-	List<ProductStorageReceipt> listProductStorageRec(int productId);
+	List<ProductStorageReception> listProductStorageRec(int productId);
 
 }

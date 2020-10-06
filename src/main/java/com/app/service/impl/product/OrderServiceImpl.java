@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.dao.product.OrderDao;
+import com.app.dao.OrderDao;
 import com.app.model.Order;
 import com.app.service.product.OrderService;
 

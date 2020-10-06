@@ -9,7 +9,7 @@ public interface TradeMarkService {
 
 	List<TradeMark> getTradeMarks();
 	
-	TradeMark getTradeMark(int tradeMarkId);
+	TradeMark getTradeMark(Long tradeMarkId);
 	
 	TradeMark getTradeMarkByName(String tradeMark);
 }

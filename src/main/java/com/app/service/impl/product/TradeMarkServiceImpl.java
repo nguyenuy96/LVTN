@@ -4,15 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.dao.product.TradeMarkDao;
+import com.app.dao.TradeMarkDao;
 import com.app.model.TradeMark;
 import com.app.service.product.TradeMarkService;
 
 @Service
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class TradeMarkServiceImpl implements TradeMarkService {
 
 	@Autowired
@@ -21,25 +19,23 @@ public class TradeMarkServiceImpl implements TradeMarkService {
 	@Transactional
 	@Override
 	public void saveTradeMark(TradeMark tradeMark) {
-		tradeMarkDao.saveOrUpdateLabel(tradeMark);
+		tradeMarkDao.save(tradeMark);
 	}
 
 	@Override
 	public List<TradeMark> getTradeMarks() {
-		List<TradeMark> listTradeMark = tradeMarkDao.listLabel();
-		return listTradeMark;
+		return tradeMarkDao.findAll();
 	}
 
 	@Override
-	public TradeMark getTradeMark(int tradeMarkId) {
-		TradeMark tradeMark = tradeMarkDao.getLabel(tradeMarkId);
-		return tradeMark;
+	public TradeMark getTradeMark(Long tradeMarkId) {
+		return tradeMarkDao.findById(tradeMarkId)
+				.orElseThrow(() -> new IllegalArgumentException(String.format("Trade mark [%d] not found", tradeMarkId)));
 	}
 
 	@Override
 	public TradeMark getTradeMarkByName(String tradeMark) {
-		TradeMark retLabel = tradeMarkDao.getLabelByName(tradeMark);
-		return retLabel;
+		return tradeMarkDao.findByTradeMark(tradeMark)
+				.orElseThrow(() -> new IllegalArgumentException(String.format("Trade mark [%s] not found", tradeMark)));
 	}
-
 }

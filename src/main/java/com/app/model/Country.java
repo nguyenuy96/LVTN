@@ -10,25 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "XUAT_XU")
+@Table(name = "country")
 public class Country implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "MA_QUOC_GIA", nullable = false, unique = true)
 	private int countryId;
-
-	/******************************************************************************/
 	
-	@Column(name = "QUOC_GIA", nullable = false, unique = true)
+	@Column(nullable = false, unique = true)
 	private String countryName;
-
-	/******************************************************************************/
 	
 	public Country() { }
 
@@ -36,18 +25,14 @@ public class Country implements Serializable {
 		this.countryId = countryId;
 		this.countryName = countryName;
 	}
-
-	/******************************************************************************/
 	
 	public int getCountryId() {
 		return countryId;
 	}
 
-	public void setCountryid(int countryId) {
+	public void setCountryId(int countryId) {
 		this.countryId = countryId;
 	}
-
-	/******************************************************************************/
 	
 	public String getCountryName() {
 		return countryName;

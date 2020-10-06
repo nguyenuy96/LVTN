@@ -13,56 +13,40 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "THUONG_HIEU")
+@Table(name = "trademark")
 public class TradeMark implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "MA_THUONG_HIEU", nullable = false, unique = true)
-	private int tradeMarkId;
+	private Long tradeMarkId;
 
-	/******************************************************************************/
-
-	@Column(name = "THUONG_HIEU", nullable = false, unique = true)
+	@Column(nullable = false, unique = true)
 	private String tradeMark;
 
-	/******************************************************************************/
-
 	@OneToOne
-	@JoinTable(name = "THUONGHIEU_XUATXU", joinColumns = {
-			@JoinColumn(name = "MA_THUONG_HIEU", referencedColumnName = "MA_THUONG_HIEU") }, inverseJoinColumns = {
-					@JoinColumn(name = "MA_QUOC_GIA", referencedColumnName = "MA_QUOC_GIA") })
+	@JoinTable(name = "country_of_trademark", joinColumns = {
+			@JoinColumn(name = "tradeMarkId", referencedColumnName = "tradeMarkId") }, inverseJoinColumns = {
+					@JoinColumn(name = "countryId", referencedColumnName = "countryId") })
 	private Country country;
-
-	/******************************************************************************/
 
 	public TradeMark() {}
 
-	public TradeMark(int tradeMarkId) {
+	public TradeMark(Long tradeMarkId) {
 		this.tradeMarkId = tradeMarkId;
 	}
-	public TradeMark(int tradeMarkId, String tradeMark, Country country) {
+	public TradeMark(Long tradeMarkId, String tradeMark, Country country) {
 		this.tradeMarkId = tradeMarkId;
 		this.tradeMark = tradeMark;
 		this.country = country;
 	}
 
-	/******************************************************************************/
-
-	public int getTradeMarkId() {
+	public Long getTradeMarkId() {
 		return tradeMarkId;
 	}
 
-	public void setTradeMarkId(int tradeMarkId) {
+	public void setTradeMarkId(Long tradeMarkId) {
 		this.tradeMarkId = tradeMarkId;
 	}
-
-	/******************************************************************************/
 
 	public String getTradeMark() {
 		return tradeMark;
@@ -71,8 +55,6 @@ public class TradeMark implements Serializable {
 	public void setTradeMark(String tradeMark) {
 		this.tradeMark = tradeMark;
 	}
-
-	/******************************************************************************/
 
 	public Country getCountry() {
 		return country;

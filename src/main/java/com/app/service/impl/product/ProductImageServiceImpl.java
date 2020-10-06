@@ -7,12 +7,17 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.app.dao.product.ImageDao;
-import com.app.model.ProductImage;
+import com.app.dao.ImageDao;
+import com.app.model.ProductionImage;
 import com.app.service.product.ProductImageService;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
+
 @Service
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class ProductImageServiceImpl implements ProductImageService {
 
 	@Autowired
@@ -20,8 +25,33 @@ public class ProductImageServiceImpl implements ProductImageService {
 
 	@Transactional
 	@Override
-	public ProductImage saveImage(MultipartFile multipartFile, String uploadDirectory) {
-		ProductImage image = imageDao.saveImage(multipartFile, uploadDirectory);
+	public ProductionImage saveImage(MultipartFile multipartFile, String uploadDirectory) {
+		String imageName = multipartFile.getOriginalFilename();
+		Optional<ProductionImage> productionImage = imageDao.findByImageName(imageName);
+		Path path = Paths.get(uploadDirectory, imageName);
+
+		File imageFile = new File(uploadDirectory + "\\" + imageName);
+		boolean isExistedImage = productionImage.isPresent();
+		imageDao.findByImageName(imageName)
+		if (!isExistedImage && !imageFile.exists()) {
+			try {
+				Files.copy(multipartFile.getInputStream(), path);
+				image.setImageName(imageName);
+				imageDao.save(image);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		} else {
+			if (!imageFile.exists()){
+				try {
+					Files.copy(multipartFile.getInputStream(), path);
+					image.setImageName(imageName);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			imageDao.save(image);
+		}
 		return image; 
 	}
 

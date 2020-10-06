@@ -7,12 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.dao.product.ProductTypeDao;
+import com.app.dao.ProductTypeDao;
 import com.app.model.ProductType;
 import com.app.service.product.ProductTypeService;
 
 @Service
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class ProductTypeServiceImpl implements ProductTypeService {
 
 	@Autowired
@@ -21,20 +20,17 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 	@Transactional
 	@Override
 	public void saveProductType(ProductType productType) {
-		productTypeDao.saveOrUpdateProductType(productType);
+		productTypeDao.save(productType);
 	}
 
 	@Override
 	public List<ProductType> getProductTypes() {
-		List<ProductType> listProductType = productTypeDao.listProductType();
-		return listProductType;
+		return productTypeDao.findAll();
 	}
 
 	@Override
-	public ProductType getProductType(int productTypeId) {
-		ProductType productType = productTypeDao.getProductType(productTypeId);
-		return productType;
+	public ProductType getProductType(Long productTypeId) {
+		return productTypeDao.findById(productTypeId)
+				.orElseThrow(() -> new IllegalArgumentException(String.format("Production type [%s] not found", productTypeId)));
 	}
-
-	
 }

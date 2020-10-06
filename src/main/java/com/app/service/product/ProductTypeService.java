@@ -9,5 +9,5 @@ public interface ProductTypeService {
 
 	List<ProductType> getProductTypes();
 	
-	ProductType getProductType(int productTypeId);
+	ProductType getProductType(Long productTypeId);
 }

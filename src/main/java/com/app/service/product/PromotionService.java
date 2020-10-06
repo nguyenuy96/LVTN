@@ -10,6 +10,4 @@ public interface PromotionService {
 	void saveOrUpdatePromotion(Promotion promotion) throws ExceptionHandle;
 
 	List<Promotion> listPromotion();
-
-	Promotion getPromotion(int promotionId);
 }

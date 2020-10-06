@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.model.ProductStorageReceipt;
+import com.app.model.ProductStorageReception;
 import com.app.service.product.ProductStorageRecSrvc;
 
 @CrossOrigin
@@ -24,16 +24,16 @@ public class ProductStorageRecController {
 	private ProductStorageRecSrvc prodStorageRecSrvc;
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> saveProStorageRec(@RequestBody ProductStorageReceipt productStorageReceipt) {
-		prodStorageRecSrvc.saveProductStorageRec(productStorageReceipt);
+	public ResponseEntity<HttpStatus> saveProStorageRec(@RequestBody ProductStorageReception productStorageReception) {
+		prodStorageRecSrvc.saveProductStorageRec(productStorageReception);
 		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
 	@RequestMapping(path = "/{productId}", method = RequestMethod.GET)
-	public ResponseEntity<List<ProductStorageReceipt>> listProStorageRecByProduct(
+	public ResponseEntity<List<ProductStorageReception>> listProStorageRecByProduct(
 			@PathVariable("productId") int productId) {
-		List<ProductStorageReceipt> list = prodStorageRecSrvc.listProductStorageRec(productId);
-		return new ResponseEntity<List<ProductStorageReceipt>>(list, HttpStatus.OK); 
+		List<ProductStorageReception> list = prodStorageRecSrvc.listProductStorageRec(productId);
+		return new ResponseEntity<List<ProductStorageReception>>(list, HttpStatus.OK);
 	}
 
 }

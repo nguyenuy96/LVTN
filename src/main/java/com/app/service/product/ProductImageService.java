@@ -3,9 +3,9 @@ package com.app.service.product;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.app.model.ProductImage;
+import com.app.model.ProductionImage;
 
 public interface ProductImageService {
-	ProductImage saveImage(MultipartFile multipartFile, String uploadDirectory);
+	ProductionImage saveImage(MultipartFile multipartFile, String uploadDirectory);
 	
 }

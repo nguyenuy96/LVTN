@@ -2,70 +2,62 @@ package com.app.service.impl.product;
 
 import java.util.List;
 
+import com.app.dao.CartDetailDao;
+import com.app.model.CartDetailId;
+import com.app.model.Production;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Optionals;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.dao.product.CartDao;
-import com.app.dao.product.ProductDao;
+import com.app.dao.CartDao;
+import com.app.dao.ProductionDao;
 import com.app.model.Cart;
 import com.app.model.CartDetail;
 import com.app.service.product.CartService;
 
 @Service
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class CartServiceImpl implements CartService {
 
 	@Autowired
 	private CartDao cartDao;
-	
-	@Autowired ProductDao productDao;
+	@Autowired
+	private ProductionDao productionDao;
+	@Autowired
+	private CartDetailDao cartDetailDao;
 
-	@Transactional
 	@Override
 	public Cart saveCart() {
-		Cart savedCart = cartDao.saveCart();
-		return savedCart;
+		return cartDao.saveCart();
 	}
 
 	@Override
-	public Cart getCart(int cartId) {
-		Cart cart = cartDao.getCart(cartId);
-		return cart;
-	}
-
-	@Transactional
-	@Override
-	public void saveProductIntoCart(CartDetail cartDetail) {
-		CartDetail updatedCartDetail = cartDao.getCartDetail(cartDetail.getCart().getCartId(), cartDetail.getProduct().getProductId());
-		if(updatedCartDetail != null) {
-			int amount = cartDetail.getAmount();
-			updatedCartDetail.setAmount(amount);
-			cartDao.updateCartDetail(updatedCartDetail);
-		}else {
-			cartDao.addCartDetail(cartDetail);
-		}
-		
+	public void addProductionIntoCart(CartDetail cartDetail) {
+		Optionals.ifPresentOrElse(
+				cartDetailDao.findById(cartDetail.getCartDetailId()),
+				e -> {
+					e.setAmount(cartDetail.getAmount());
+					cartDao.updateCartDetail(e);
+				},
+				() -> cartDao.addCartDetail(cartDetail));
 	}
 
 	@Override
-	public List<CartDetail> listCartProduct() {
-		List<CartDetail> list = cartDao.listCartDetailByCartId(1);
-		return list;
+	public List<CartDetail> listCartDetailByCartId(Long cartId) {
+		return cartDetailDao.findAllByIdCartId(cartId);
 	}
 
 	@Override
-	public List<CartDetail> listCartProductByCart(int cartId) {
-		List<CartDetail> list = cartDao.listCartDetailByCartId(cartId);
-		return list;
-	}
-
-	@Transactional
-	@Override
-	public void deleteProductCart(int productId, int cartId) {
-		CartDetail deletedCartDetail = cartDao.getCartDetail(cartId, productId);
-		cartDao.deleteCartDetail(deletedCartDetail);
+	public void deleteCartDetail(Long productId, Long cartId) {
+		CartDetailId cartDetailId = new CartDetailId(new Cart(cartId), new Production(productId));
+		Optionals.ifPresentOrElse(
+				cartDetailDao.findById(cartDetailId),
+				e -> cartDetailDao.delete(e),
+				() -> {
+					throw new IllegalArgumentException(String.format(
+							"cart detail with cart id [%d] and production id [%d] not found", cartId, productId));
+				});
 	}
 
 }

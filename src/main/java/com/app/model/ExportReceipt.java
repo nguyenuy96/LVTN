@@ -21,33 +21,22 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
-@Table(name = "XUAT_KHO")
-public class ExportReceipt implements Serializable{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+@Table(name = "exporting")
+public class ExportReceipt implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "MA_XUAT_KHO", nullable = false, unique = true)
-	private Integer exportRecId;
-	
-	/******************************************************************************/
-	
-	@ManyToOne
-	@JoinTable(name = "XUAT_KHO_KHO_HANG", joinColumns = {
-			@JoinColumn(name = "MA_XUAT_KHO", referencedColumnName = "MA_XUAT_KHO") }, inverseJoinColumns = {
-					@JoinColumn(name = "MA_KHO_HANG", referencedColumnName = "MA_KHO_HANG") })
-	private Warehouse warehouse;
+	private Integer exportingRecId;
 
-	/******************************************************************************/
+	@ManyToOne
+	@JoinTable(name = "warehouse_of_exporting", joinColumns = {
+			@JoinColumn(name = "exportingRecId", referencedColumnName = "exportingRecId") }, inverseJoinColumns = {
+					@JoinColumn(name = "warehouseId", referencedColumnName = "warehouseId") })
+	private Warehouse warehouse;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinTable(name = "NHAN_VIEN_XUAT_KHO", joinColumns = {
-			@JoinColumn(name = "MA_XUAT_KHO", referencedColumnName = "MA_XUAT_KHO") }, inverseJoinColumns = {
-					@JoinColumn(name = "MA_NHAN_VIEN", referencedColumnName = "MA_NHAN_VIEN") })
+	@JoinTable(name = "exporting_owner", joinColumns = {
+			@JoinColumn(name = "exportingRecId", referencedColumnName = "exportingRecId") }, inverseJoinColumns = {
+					@JoinColumn(name = "employeeId", referencedColumnName = "employeeId") })
 	private Employee employee;
 	
 	public Employee getEmployee() {
@@ -57,8 +46,6 @@ public class ExportReceipt implements Serializable{
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
-	
-	/******************************************************************************/
 	
 	@OneToMany(mappedBy = "exportRecDetailId.exportReceipt", fetch = FetchType.LAZY)
 	@JsonIgnore
@@ -75,28 +62,24 @@ public class ExportReceipt implements Serializable{
 
 	public ExportReceipt() { }
 	
-	public ExportReceipt(Integer exportRecId) {
-		this.exportRecId = exportRecId;
+	public ExportReceipt(Integer exportingRecId) {
+		this.exportingRecId = exportingRecId;
 	}
 
-	public ExportReceipt(int exportRecId, Warehouse warehouse,Employee employee, Date exportDate) {
-		this.exportRecId = exportRecId;
+	public ExportReceipt(int exportingRecId, Warehouse warehouse, Employee employee, Date exportDate) {
+		this.exportingRecId = exportingRecId;
 		this.warehouse = warehouse;
 		this.employee = employee;
 		this.exportDate = exportDate;
 	}
 
-	/******************************************************************************/
-
-	public Integer getExportRecId() {
-		return exportRecId;
+	public Integer getExportingRecId() {
+		return exportingRecId;
 	}
 
-	public void setExportRecId(Integer exportRecId) {
-		this.exportRecId = exportRecId;
+	public void setExportingRecId(Integer exportingRecId) {
+		this.exportingRecId = exportingRecId;
 	}
-
-	/******************************************************************************/
 
 	public Warehouse getWarehouse() {
 		return warehouse;
@@ -105,8 +88,7 @@ public class ExportReceipt implements Serializable{
 	public void setWarehouse(Warehouse warehouse) {
 		this.warehouse = warehouse;
 	}
-	
-	@Column(name = "NGAY_XUAT_KHO")
+
 	public Date exportDate;
 
 	public Date getExportDate() {

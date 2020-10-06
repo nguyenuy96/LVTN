@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.dao.product.WarehouseDao;
+import com.app.dao.WarehouseDao;
 import com.app.model.Warehouse;
 import com.app.service.product.WarehouseService;
 
@@ -20,12 +20,11 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 	@Override
 	public void saveWarehouse(Warehouse warehouse) {
-		warehouseDao.saveOrUpdateWarehouse(warehouse);
+		warehouseDao.save(warehouse);
 	}
 
 	@Override
 	public List<Warehouse> getWarehouses() {
-		List<Warehouse> listWarehouse = warehouseDao.listWarehouse();
-		return listWarehouse;
+		return warehouseDao.findAll();
 	}
 }

@@ -9,12 +9,8 @@ public interface CartService {
 
 	Cart saveCart();
 
-	Cart getCart(int cartId);
+	void addProductionIntoCart(CartDetail cartDetail);
 
-	void saveProductIntoCart(CartDetail cart_Product);
-
-	List<CartDetail> listCartProduct();
-
-	List<CartDetail> listCartProductByCart(int cartId);
-	void deleteProductCart(int productId, int cartId);
+	List<CartDetail> listCartDetailByCartId(Long cartId);
+	void deleteCartDetail(Long productId, Long cartId);
 }

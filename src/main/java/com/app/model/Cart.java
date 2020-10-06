@@ -1,11 +1,10 @@
 package com.app.model;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,29 +14,26 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "GIO_HANG")
+@Table(name = "cart")
 public class Cart implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "MA_GIO_HANG")
-	private Integer cartId;
+	private Long cartId;
 
-	/******************************************************************************/
+	@CreationTimestamp
+	private OffsetDateTime createdDate;
 
-	@Column(name = "NGAY_CAP_NHAT")
-	private Date lastUpdateDate;
+	@UpdateTimestamp
+	private OffsetDateTime updatedDate;
 
 	@OneToMany(mappedBy = "cartDetailId.cart", fetch = FetchType.LAZY)
 	@JsonIgnore
-	private Set<CartDetail> cartDetail = new HashSet<CartDetail>();
+	private Set<CartDetail> cartDetail = new HashSet<>();
 	public Set<CartDetail> getCartDetail() {
 		return cartDetail;
 	}
@@ -49,28 +45,29 @@ public class Cart implements Serializable {
 	public Cart() {
 	}
 
-	public Cart(int cartId, Date lastUpdateDate) {
+	public Cart(Long cartId) {
 		this.cartId = cartId;
-		this.lastUpdateDate = lastUpdateDate;
 	}
 
-	/******************************************************************************/
+	public Cart(Long cartId, OffsetDateTime createdDate) {
+		this.cartId = cartId;
+		this.createdDate = createdDate;
+	}
 
-	public Integer getCartId() {
+	public Long getCartId() {
 		return cartId;
 	}
 
-	public void setCartId(int cartId) {
+	public void setCartId(Long cartId) {
 		this.cartId = cartId;
 	}
 
-	/******************************************************************************/
-	public Date getLastUpdateDate() {
-		return lastUpdateDate;
+	public OffsetDateTime getCreatedDate() {
+		return createdDate;
 	}
 
-	public void setLastUpdateDate(Date lastUpdateDate) {
-		this.lastUpdateDate = lastUpdateDate;
+	public void setCreatedDate(OffsetDateTime createdDate) {
+		this.createdDate = createdDate;
 	}
 
 }

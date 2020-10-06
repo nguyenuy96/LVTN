@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.app.dao.impl.HibernateResult;
-import com.app.dao.product.ProductExportDao;
+import com.app.dao.ProductExportDao;
 import com.app.model.ExportRecDetail;
 import com.app.model.ExportReceipt;
 

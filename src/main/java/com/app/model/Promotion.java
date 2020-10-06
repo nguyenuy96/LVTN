@@ -1,7 +1,6 @@
 package com.app.model;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,56 +11,38 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "KHUYEN_MAI")
-public class Promotion implements Serializable{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+@Table(name = "promotion")
+public class Promotion implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "MA_KHUYEN_MAI", nullable = false, unique = true)
-	private int promId;
+	private Long promotionId;
 	
-	/******************************************************************************/
-	
-	@Column(name = "KHUYEN_MAI", nullable = false)
+	@Column(nullable = false)
 	private String promotion;
 	
-	/******************************************************************************/
-	
-	@Column(name = "NGAY_BAT_DAU", nullable = false)
+	@Column(nullable = false)
 	private String startDate;
 	
-	/******************************************************************************/
-	
-	@Column(name = "NGAY_KET_THUC", nullable = false)
+	@Column(nullable = false)
 	private String endDate;
-	
-	/******************************************************************************/
 	
 	public Promotion() {}
 	
-	public Promotion(int promId, String promation, String startDate, String endDate) {
-		this.promId = promId;
+	public Promotion(Long promotionId, String promation, String startDate, String endDate) {
+		this.promotionId = promotionId;
 		this.promotion = promation;
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
-
-	/******************************************************************************/
 	
-	public int getPromId() {
-		return promId;
+	public Long getPromotionId() {
+		return promotionId;
 	}
 
-	public void setPromId(int promId) {
-		this.promId = promId;
+	public void setPromotionId(Long promotionId) {
+		this.promotionId = promotionId;
 	}
-
-	/******************************************************************************/
 	
 	public String getPromotion() {
 		return promotion;
@@ -70,8 +51,6 @@ public class Promotion implements Serializable{
 	public void setPromotion(String promotion) {
 		this.promotion = promotion;
 	}
-
-	/******************************************************************************/
 	
 	public String getStartDate() {
 		return startDate;
@@ -80,8 +59,6 @@ public class Promotion implements Serializable{
 	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-
-	/******************************************************************************/
 	
 	public String getEndDate() {
 		return endDate;
@@ -90,8 +67,5 @@ public class Promotion implements Serializable{
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	
-	/******************************************************************************/
-
 	
 }

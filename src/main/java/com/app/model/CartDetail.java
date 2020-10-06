@@ -12,10 +12,10 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "GIO_HANG_SAN_PHAM")
+@Table(name = "CartDetail")
 @AssociationOverrides({
-		@AssociationOverride(name = "cartDetailId.cart", joinColumns = @JoinColumn(name = "MA_GIO_HANG")),
-		@AssociationOverride(name = "cartDetailId.product", joinColumns = @JoinColumn(name = "MA_SAN_PHAM")) })
+		@AssociationOverride(name = "cartDetailId.cart", joinColumns = @JoinColumn(name = "cartId")),
+		@AssociationOverride(name = "cartDetailId.product", joinColumns = @JoinColumn(name = "productId")) })
 public class CartDetail implements Serializable {
 
 	/**
@@ -45,12 +45,12 @@ public class CartDetail implements Serializable {
 	}
 
 	@Transient
-	public Product getProduct() {
-		return getCartDetailId().getProduct();
+	public Production getProduct() {
+		return getCartDetailId().getProduction();
 	}
 
-	public void setProduct(Product product) {
-		getCartDetailId().setProduct(product);
+	public void setProduct(Production production) {
+		getCartDetailId().setProduction(production);
 	}
 
 	@Column(name = "SO_LUONG")

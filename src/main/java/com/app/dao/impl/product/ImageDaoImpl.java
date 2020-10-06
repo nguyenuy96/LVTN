@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dao.impl.HibernateResult;
-import com.app.dao.product.ImageDao;
-import com.app.model.ProductImage;
+import com.app.dao.ImageDao;
+import com.app.model.ProductionImage;
 
 @Repository
 public class ImageDaoImpl implements ImageDao {
@@ -21,9 +21,9 @@ public class ImageDaoImpl implements ImageDao {
 	private HibernateResult hibernate;
 
 	@Override
-	public ProductImage saveImage(MultipartFile multipartFile, String uploadDirectory) {
+	public ProductionImage saveImage(MultipartFile multipartFile, String uploadDirectory) {
 		String imageName = multipartFile.getOriginalFilename();
-		ProductImage image = getImage(imageName);
+		ProductionImage image = getImage(imageName);
 		Path path = Paths.get(uploadDirectory, imageName);
 
 		File imageFile = new File(uploadDirectory + "\\" + imageName);
@@ -53,19 +53,19 @@ public class ImageDaoImpl implements ImageDao {
 	}
 
 	@Override
-	public void deleteImage(ProductImage productImage) {
-		File file = new File(productImage.getImageName());
+	public void deleteImage(ProductionImage productionImage) {
+		File file = new File(productionImage.getImageName());
 		if (file.exists()) {
 			if (file.delete()) {
-				hibernate.getSession().delete(productImage);
+				hibernate.getSession().delete(productionImage);
 			}
 		}
 	}
 
-	public ProductImage getImage(String imageName) {
-		Query<ProductImage> query = hibernate.inputStringQuery(ProductImage.class, "imageName", imageName);
-		ProductImage productImage = query.getResultList().size() != 0 ? query.getSingleResult() : new ProductImage();
-		return productImage;
+	public ProductionImage getImage(String imageName) {
+		Query<ProductionImage> query = hibernate.inputStringQuery(ProductionImage.class, "imageName", imageName);
+		ProductionImage productionImage = query.getResultList().size() != 0 ? query.getSingleResult() : new ProductionImage();
+		return productionImage;
 	}
 
 }

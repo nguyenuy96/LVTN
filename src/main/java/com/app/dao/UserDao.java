@@ -3,37 +3,34 @@ package com.app.dao;
 import java.util.List;
 
 import com.app.model.Account;
-import com.app.model.Customer;
-import com.app.model.Employee;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserDao {
-
-
-	void saveOrUpdateCusProf(Account account);
-
-	void saveOrUpdateEmpProf(Account account);
+@Repository
+public interface UserDao extends JpaRepository<Account, Long> {
 
 
-	void updateCusProfile(Customer customer);
 
-	void udpateEmpProfile(Employee employee);
+//	void saveOrUpdateCusProf(Account account);
+
+//	void saveOrUpdateEmpProf(Account account);
 
 	// get customer
-	Customer getCusProfile(int accId);
+//	Customer getCusProfile(int accId);
 
-	List<Customer> getCustomerAccount();
+//	List<Customer> getCustomerAccount();
 
 	// get employee
-	Employee getEmpProfile(int accId);
+//	Employee getEmpProfile(int accId);
 
-	List<Employee> getEmployeeAccount();
+//	List<Employee> getEmployeeAccount();
 
 
-	boolean checkIdentification(String identification);
+//	boolean checkIdentification(String identification);
 
 	// other
-	Account findAccountByPhoneNumDao(String phoneNumber);
+//	Account findAccountByPhoneNumDao(String phoneNumber);
 
-	void deleteAccountDao(int accountId);
+//	void deleteAccountDao(int accountId);
 
 }

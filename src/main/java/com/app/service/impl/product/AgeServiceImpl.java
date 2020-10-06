@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.dao.product.AgeDao;
+import com.app.dao.AgeDao;
 import com.app.model.Age;
 import com.app.service.product.AgeService;
 @Service
@@ -20,19 +20,18 @@ public class AgeServiceImpl implements AgeService{
 	@Transactional
 	@Override
 	public void saveAge(Age age) {
-		ageDao.saveOrUpdateAge(age);
+		ageDao.save(age);
 	}
 
 	@Override
 	public List<Age> listAge() {
-		List<Age> listAge = ageDao.listAge();
-		return listAge;
+		return ageDao.findAll();
 	}
 
 	@Override
-	public Age getAge(int ageId) {
-		Age age = ageDao.getAge(ageId);
-		return age;
+	public Age getAge(Long ageId) {
+		return ageDao.findById(ageId)
+				.orElseThrow(() -> new IllegalArgumentException(String.format("age with id [%d] not found", ageId)));
 	}
 	
 

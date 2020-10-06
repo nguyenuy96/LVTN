@@ -8,17 +8,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.dao.user.AccountDao;
+import com.app.dao.AccountDao;
 import com.app.model.Account;
 
 @Service
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+//@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
-	private AccountDao accountDao;
+	private final AccountDao accountDao;
 
 	public UserDetailsServiceImpl(AccountDao accountDao) {
 		this.accountDao = accountDao;
@@ -27,10 +26,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Transactional
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Account retAccount = accountDao.checkAccountDao(username);
-		if (retAccount == null) {
-			throw new UsernameNotFoundException("Not found user" + username);
-		}
-		return new User(retAccount.getUsername(), retAccount.getPassword(), Collections.emptyList());
+		Account account = accountDao.findByUserName(username)
+				.orElseThrow(() -> new IllegalArgumentException(String.format("User [%s] not found", username)));
+		return new User(account.getUserName(), account.getPassword(), Collections.emptyList());
 	}
 }

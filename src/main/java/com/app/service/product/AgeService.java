@@ -10,5 +10,5 @@ public interface AgeService {
 
 	List<Age> listAge();
 
-	Age getAge(int ageId);
+	Age getAge(Long ageId);
 }

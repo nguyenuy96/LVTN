@@ -10,8 +10,8 @@ public class CusProfDTO {
 		return name;
 	}
 
-	public void setFullname(String fullname) {
-		this.name = fullname;
+	public void setFullName(String fullName) {
+		this.name = fullName;
 	}
 
 	public String getAddress() {

@@ -5,13 +5,17 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
-
-@SuppressWarnings("serial")
 @Embeddable
 public class CartDetailId implements Serializable {
 
 	private Cart cart;
-	private Product product;
+	private Production production;
+
+	public CartDetailId() { }
+	public CartDetailId(Cart cart, Production production) {
+		this.cart = cart;
+		this.production = production;
+	}
 
 	@ManyToOne
 	public Cart getCart() {
@@ -23,11 +27,11 @@ public class CartDetailId implements Serializable {
 	}
 
 	@ManyToOne
-	public Product getProduct() {
-		return product;
+	public Production getProduction() {
+		return production;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProduction(Production production) {
+		this.production = production;
 	}
 }

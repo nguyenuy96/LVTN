@@ -11,35 +11,21 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "KHACH_HANG")
+@Table(name = "customer")
 public class Customer implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "MA_KHACH_HANG", nullable = false, unique = true)
-	private int customerId;
+	private Long customerId;
 
-	/******************************************************************************/
-
-	@Column(name = "HO_TEN")
 	private String name;
 
-	/******************************************************************************/
-
-	@Column(name = "SO_DIEN_THOAI")
 	private String phoneNumber;
 
-	/******************************************************************************/
-
-	@Column(name = "DIA_CHI")
 	private String address;
 
-	/******************************************************************************/
+	private boolean isActive = true;
+
 //
 //	@OneToOne(cascade = CascadeType.ALL)
 //	@JoinTable(name = "TAI_KHOAN_KHACH_HANG", joinColumns = {
@@ -47,12 +33,10 @@ public class Customer implements Serializable {
 //					@JoinColumn(name = "MA_TAI_KHOAN", referencedColumnName = "MA_TAI_KHOAN", unique = true) })
 //	private Account accountId;
 
-	/******************************************************************************/
-
 	public Customer() {
 	}
 
-	public Customer(int customerId, String name, String phoneNumber, String address) {
+	public Customer(Long customerId, String name, String phoneNumber, String address) {
 		this.customerId = customerId;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
@@ -60,17 +44,13 @@ public class Customer implements Serializable {
 //		this.accountId = accountId;
 	}
 
-	/******************************************************************************/
-
-	public int getCustomerId() {
+	public Long getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(int customerId) {
+	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
 	}
-
-	/******************************************************************************/
 
 	public String getName() {
 		return name;
@@ -80,8 +60,6 @@ public class Customer implements Serializable {
 		this.name = name;
 	}
 
-	/******************************************************************************/
-
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -89,8 +67,6 @@ public class Customer implements Serializable {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-
-	/******************************************************************************/
 
 	public String getAddress() {
 		return address;
@@ -100,7 +76,6 @@ public class Customer implements Serializable {
 		this.address = address;
 	}
 
-	/******************************************************************************/
 //
 //	public Account getAccount() {
 //		return accountId;
@@ -110,6 +85,11 @@ public class Customer implements Serializable {
 //		this.accountId = accountId;
 //	}
 
-	/******************************************************************************/
+	public boolean isActive() {
+		return isActive;
+	}
 
+	public void setActive(boolean active) {
+		isActive = active;
+	}
 }

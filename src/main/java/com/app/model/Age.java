@@ -10,69 +10,47 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "DO_TUOI")
+@Table(name = "age")
 public class Age implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "MA_DO_TUOI", nullable = false, unique = true)
-	private int ageId;
+	private Long ageId;
 
-	/******************************************************************************/
+	private Long startAge;
 
-	@Column(name = "TUOI_BAT_DAU")
-	private int startAge;
+	private Long endAge;
 
-	/******************************************************************************/
-
-	@Column(name = "TUOI_KET_THUC")
-	private int endAge;
-
-	/******************************************************************************/
 	public Age() {
 	}
 
-	public Age(int age_id, int startAge, int endAge) {
-		this.ageId = age_id;
+	public Age(Long ageId, Long startAge, Long endAge) {
+		this.ageId = ageId;
 		this.startAge = startAge;
 		this.endAge = endAge;
 	}
 
-	/******************************************************************************/
-
-	public int getAgeId() {
+	public Long getAgeId() {
 		return ageId;
 	}
 
-	public void setAgeId(int ageId) {
+	public void setAgeId(Long ageId) {
 		this.ageId = ageId;
 	}
 
-	/******************************************************************************/
-
-	public int getStartAge() {
+	public Long getStartAge() {
 		return startAge;
 	}
 
-	public void setStartAge(int startAge) {
+	public void setStartAge(Long startAge) {
 		this.startAge = startAge;
 	}
 
-	/******************************************************************************/
-
-	public int getEndAge() {
+	public Long getEndAge() {
 		return endAge;
 	}
 
-	public void setEndAge(int endAge) {
+	public void setEndAge(Long endAge) {
 		this.endAge = endAge;
 	}
-
-	/******************************************************************************/
 
 }

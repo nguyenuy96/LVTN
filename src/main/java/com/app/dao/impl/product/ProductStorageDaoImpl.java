@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.app.dao.impl.HibernateResult;
-import com.app.dao.product.ProductStorageDao;
-import com.app.model.ProductStorageReceipt;
+import com.app.dao.ProductStorageDao;
+import com.app.model.ProductStorageReception;
 
 @Repository
 public class ProductStorageDaoImpl implements ProductStorageDao {
@@ -17,28 +17,28 @@ public class ProductStorageDaoImpl implements ProductStorageDao {
 	private HibernateResult hibernate;
 
 	@Override
-	public void saveProductStorage(ProductStorageReceipt productImport) {
+	public void saveProductStorage(ProductStorageReception productImport) {
 		String date = hibernate.getMySQLDate();
 		productImport.setImportDate(date);
 		hibernate.getSession().save(productImport);
 	}
 
 	@Override
-	public List<ProductStorageReceipt> listProductStorage() {
-		List<ProductStorageReceipt> listProductStorage = hibernate.getResultList(ProductStorageReceipt.class);
+	public List<ProductStorageReception> listProductStorage() {
+		List<ProductStorageReception> listProductStorage = hibernate.getResultList(ProductStorageReception.class);
 		return listProductStorage;
 	}
 
 	@Override
-	public ProductStorageReceipt getProductStorage(int productStorageId) {
-		ProductStorageReceipt productStorageReceipt = hibernate.getById(ProductStorageReceipt.class, productStorageId);
-		return productStorageReceipt;
+	public ProductStorageReception getProductStorage(int productStorageId) {
+		ProductStorageReception productStorageReception = hibernate.getById(ProductStorageReception.class, productStorageId);
+		return productStorageReception;
 	}
 
 	@Override
-	public List<ProductStorageReceipt> listProdStoreByProduct(int productId) {
-		Query<ProductStorageReceipt> query = hibernate.inputIntQuery(ProductStorageReceipt.class, "product", productId);
-		List<ProductStorageReceipt> listProdStorageRec = query.getResultList();
+	public List<ProductStorageReception> listProdStoreByProduct(int productId) {
+		Query<ProductStorageReception> query = hibernate.inputIntQuery(ProductStorageReception.class, "product", productId);
+		List<ProductStorageReception> listProdStorageRec = query.getResultList();
 		return listProdStorageRec;
 	}
 

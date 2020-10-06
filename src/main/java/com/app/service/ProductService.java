@@ -2,20 +2,18 @@ package com.app.service;
 
 import java.util.List;
 
-
-import com.app.exception.ExceptionHandle;
 import com.app.model.ListObject;
-import com.app.model.Product;
+import com.app.model.Production;
 
 public interface ProductService {
-	void saveProduct(Product product) throws ExceptionHandle;
+	void addNewProduction(Production production);
 
-	List<Product> getAllProducts();
+	List<Production> getAllProducts();
 
 	ListObject listObject();
 	
-	void deleteProduct(int productId);
+	void deleteProduct(Long productId);
 	
-	List<Product> getProductByType(String productType);
+	List<Production> getProductByType(String productType);
 	
 }

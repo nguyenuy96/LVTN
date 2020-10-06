@@ -6,21 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.app.model.ListObject;
-import com.app.model.Product;
-import com.app.exception.ExceptionHandle;
+import com.app.model.Production;
 import com.app.service.ProductService;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "/product")
+@RequestMapping(path = "/production")
 public class ProductController {
 
 	@Value("${upload.file.directory}")
@@ -29,38 +26,36 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> addProduct(@RequestBody Product product) throws ExceptionHandle{
-		productService.saveProduct(product);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+	@PostMapping
+	public ResponseEntity<HttpStatus> addProduct(@Valid @NotNull @RequestBody Production production) {
+		productService.addNewProduction(production);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@RequestMapping(method = RequestMethod.PATCH)
+	@PatchMapping
 	public ResponseEntity<HttpStatus> modifyProduct(@RequestBody Object object) {
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Product>> getAllProducts() {
-		List<Product> listItem = productService.getAllProducts();
-		return new ResponseEntity<List<Product>>(listItem, HttpStatus.OK);
+	@GetMapping
+	public ResponseEntity<List<Production>> getAllProducts() {
+		return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/listobject", method = RequestMethod.GET)
+	@GetMapping(path = "/listobject")
 	public ResponseEntity<ListObject> getListObject() {
-		return new ResponseEntity<ListObject>(productService.listObject(), HttpStatus.OK);
+		return new ResponseEntity<>(productService.listObject(), HttpStatus.OK);
 	}
 
 
-	@RequestMapping(path = "/{productId}", method = RequestMethod.DELETE)
-	public ResponseEntity<HttpStatus> deleteProduct(@PathVariable int productId) {
+	@GetMapping(path = "/{productId}")
+	public ResponseEntity<HttpStatus> deleteProduct(@PathVariable Long productId) {
 		productService.deleteProduct(productId);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK); 
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(path = "/productType", method = RequestMethod.GET)
-	public ResponseEntity<List<Product>> getProductByType(@PathVariable(value = "productType") String productType) {
-		List<Product> list = productService.getProductByType(productType);
-		return new ResponseEntity<List<Product>>(list, HttpStatus.OK);
+	@GetMapping(path = "/productType")
+	public ResponseEntity<List<Production>> getProductByType(@PathVariable(value = "productType") String productType) {
+		return new ResponseEntity<>(productService.getProductByType(productType), HttpStatus.OK);
 	}
 }

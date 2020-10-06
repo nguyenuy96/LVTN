@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.app.model.ProductImage;
+import com.app.model.ProductionImage;
 import com.app.service.product.ProductImageService;
 
 @CrossOrigin
@@ -25,8 +25,8 @@ public class ImageController {
 	private ProductImageService productImageSrvc;
 
 	@RequestMapping(method = RequestMethod.POST, consumes = "multipart/form-data")
-	public ResponseEntity<ProductImage> addImage(@RequestParam(value = "file") MultipartFile file) {
-		ProductImage image = productImageSrvc.saveImage(file, uploadDirectory);
-		return new ResponseEntity<ProductImage>(image, HttpStatus.OK);
+	public ResponseEntity<ProductionImage> addImage(@RequestParam(value = "file") MultipartFile file) {
+		ProductionImage image = productImageSrvc.saveImage(file, uploadDirectory);
+		return new ResponseEntity<ProductionImage>(image, HttpStatus.OK);
 	}
 }

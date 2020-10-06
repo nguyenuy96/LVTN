@@ -5,11 +5,10 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
-@SuppressWarnings("serial")
 @Embeddable
 public class ExportRecDetailId implements Serializable {
 	private ExportReceipt exportReceipt;
-	private Product product;
+	private Production production;
 
 	@ManyToOne
 	public ExportReceipt getExportReceipt() {
@@ -21,11 +20,11 @@ public class ExportRecDetailId implements Serializable {
 	}
 
 	@ManyToOne
-	public Product getProduct() {
-		return product;
+	public Production getProduction() {
+		return production;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProduction(Production production) {
+		this.production = production;
 	}
 }

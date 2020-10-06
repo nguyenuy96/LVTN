@@ -10,27 +10,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PHAN_QUYEN")
+@Table(name = "Role")
 public class Role implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
-	@Column(name = "MA_PHAN_QUYEN", nullable = false, unique = true)
-	private Integer roleId;
+	@Column(nullable = false, unique = true)
+	private Long roleId;
 
-	/******************************************************************************/
-
-	@Column(name = "PHAN_QUYEN", nullable = false, unique = true)
+	@Column(nullable = false, unique = true)
 	private String roleName;
 
-	/******************************************************************************/
-
-	@Column(name = "TEN_HIEN_THI")
+	@Column
 	private String searchName;
 
 	public String getSearchName() {
@@ -44,27 +35,23 @@ public class Role implements Serializable {
 	public Role() {
 	}
 
-	public Role(Integer roleId) {
+	public Role(Long roleId) {
 		this.roleId = roleId;
 	}
 
-	public Role(Integer roleId, String roleName, String searchName) {
+	public Role(Long roleId, String roleName, String searchName) {
 		this.roleId = roleId;
 		this.roleName = roleName;
 		this.searchName = searchName;
 	}
 
-	/******************************************************************************/
-
-	public Integer getRoleId() {
+	public Long getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(Integer roleId) {
+	public void setRoleId(Long roleId) {
 		this.roleId = roleId;
 	}
-
-	/******************************************************************************/
 
 	public String getRoleName() {
 		return roleName;

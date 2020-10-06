@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.app.dao.impl.HibernateResult;
-import com.app.dao.product.OrderDao;
+import com.app.dao.OrderDao;
 import com.app.model.Order;
 
 @Repository

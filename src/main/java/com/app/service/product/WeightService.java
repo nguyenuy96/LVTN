@@ -9,5 +9,5 @@ public interface WeightService {
 
 	List<Weight> listWeight();
 
-	Weight getWeight(int weightId);
+	Weight getWeight(Long weightId);
 }

@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.dao.product.ProductStorageDao;
-import com.app.model.ProductStorageReceipt;
+import com.app.dao.ProductStorageDao;
+import com.app.model.ProductStorageReception;
 import com.app.service.product.ProductStorageRecSrvc;
 
 @Service
@@ -20,13 +20,13 @@ public class ProductStorageRecSrvcImpl implements ProductStorageRecSrvc{
 	
 	@Transactional
 	@Override
-	public void saveProductStorageRec(ProductStorageReceipt productStorageReceipt) {
-		prodStorageDao.saveProductStorage(productStorageReceipt);
+	public void saveProductStorageRec(ProductStorageReception productStorageReception) {
+		prodStorageDao.saveProductStorage(productStorageReception);
 	}
 
 	@Override
-	public List<ProductStorageReceipt> listProductStorageRec(int productId) {
-		List<ProductStorageReceipt> list = prodStorageDao.listProdStoreByProduct(productId);
+	public List<ProductStorageReception> listProductStorageRec(int productId) {
+		List<ProductStorageReception> list = prodStorageDao.listProdStoreByProduct(productId);
 		return list;
 	}
 

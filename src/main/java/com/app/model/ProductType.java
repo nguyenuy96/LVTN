@@ -14,45 +14,31 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "LOAI_HANG")
+@Table(name = "production_type")
 public class ProductType implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "MA_LOAI_HANG", nullable = false, unique = true)
-	private int productTypeId;
+	private Long productTypeId;
 
-	/******************************************************************************/
-
-	@Column(name = "LOAI_HANG", nullable = false, unique = true)
+	@Column(nullable = false, unique = true)
 	private String productType;
-
-	/******************************************************************************/
 
 	public ProductType() {
 	}
 
-	public ProductType(int productTypeId, String productType) {
+	public ProductType(Long productTypeId, String productType) {
 		this.productTypeId = productTypeId;
 		this.productType = productType;
 	}
 
-	/******************************************************************************/
-
-	public int getProductTypeId() {
+	public Long getProductTypeId() {
 		return productTypeId;
 	}
 
-	public void setProductTypeId(int productTypeId) {
+	public void setProductTypeId(Long productTypeId) {
 		this.productTypeId = productTypeId;
 	}
-
-	/******************************************************************************/
 
 	public String getProductType() {
 		return productType;
@@ -62,18 +48,16 @@ public class ProductType implements Serializable {
 		this.productType = productType;
 	}
 
-	/******************************************************************************/
-
 	@JsonIgnore
 	@OneToMany(mappedBy = "productType")
-	private Set<Product> product;
+	private Set<Production> production;
 
-	public Set<Product> getProduct() {
-		return product;
+	public Set<Production> getProduction() {
+		return production;
 	}
 
-	public void setProduct(Set<Product> product) {
-		this.product = product;
+	public void setProduction(Set<Production> production) {
+		this.production = production;
 	}
 
 }
