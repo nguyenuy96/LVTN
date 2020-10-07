@@ -35,7 +35,7 @@ public class AgeController {
 	}
 
 	@RequestMapping(path = "/{ageId}", method = RequestMethod.GET)
-	public ResponseEntity<Age> getAge(@PathVariable("ageId") int ageId) {
+	public ResponseEntity<Age> getAge(@PathVariable("ageId") Long ageId) {
 		Age age = ageService.getAge(ageId);
 		return new ResponseEntity<Age>(age, HttpStatus.OK);
 	}

@@ -4,9 +4,11 @@ import com.app.dao.RoleDao;
 import com.app.model.Role;
 import com.app.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleDao roleDao;
@@ -25,10 +27,5 @@ public class RoleServiceImpl implements RoleService {
             throw new IllegalArgumentException("Existed role");
         });
         return roleDao.save(role);
-    }
-
-    @Override
-    public Role getRoleById(Long roleId) {
-        return roleDao.findById(roleId).orElseThrow(() -> new IllegalArgumentException("Role is not existed"));
     }
 }

@@ -6,9 +6,7 @@ import com.app.exception.ExceptionHandle;
 import com.app.model.Country;
 
 public interface CountryService {
-	void saveCountry(Country country) throws ExceptionHandle;
-
+	void saveCountry(Country country);
 	List<Country> getCountries();
-
-	Country getCountry(int countryId);
+	Country getCountry(Long countryId);
 }

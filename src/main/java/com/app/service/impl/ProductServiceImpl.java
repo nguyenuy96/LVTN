@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
 		productionDao.findByProductionName(productName).ifPresent(e -> {
 			throw new IllegalArgumentException("Production is already existed");
 		});
-		productionDao.saveProduct(production);
+		productionDao.save(production);
 	}
 
 	@Override
@@ -72,10 +72,10 @@ public class ProductServiceImpl implements ProductService {
 		Production production = productionDao.findById(productId)
 				.orElseThrow(() -> new IllegalArgumentException(String.format("production id [%d] not found", productId)));
 		Optionals.ifPresentOrElse(
-				cartDetailDao.findByIdProductionId(productId),
+				cartDetailDao.findByCartDetailIdProduction(productId),
 				e -> {
 					cartDetailDao.delete(e);
-					productionDao.deleteProduct(production);
+					productionDao.delete(production);
 				},
 				() ->  {
 					throw new IllegalArgumentException(String.format("cart with production id [%d] not found", productId));
@@ -84,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<Production> getProductByType(String productType) {
-		return productionDao.findByProductType(productType);
+		return productionDao.findAllByProductType(productType);
 	}
 
 }

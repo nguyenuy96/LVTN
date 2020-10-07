@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface CartDetailDao extends JpaRepository<CartDetail, CartDetailId> {
-    Optional<CartDetail> findByIdProductionId(Long productionId);
-    List<CartDetail> findAllByIdCartId(Long cartId);
+    Optional<CartDetail> findByCartDetailIdProduction(Long productionId);
+    List<CartDetail> findAllByCartDetailIdCart(Long cartId);
 }

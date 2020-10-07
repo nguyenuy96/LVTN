@@ -6,9 +6,11 @@ import com.app.model.Account;
 import com.app.model.Customer;
 import com.app.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private AccountDao accountDao;

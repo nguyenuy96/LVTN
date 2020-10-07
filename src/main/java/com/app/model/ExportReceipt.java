@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class ExportReceipt implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer exportingRecId;
+	private Long exportingRecId;
 
 	@ManyToOne
 	@JoinTable(name = "warehouse_of_exporting", joinColumns = {
@@ -62,22 +62,22 @@ public class ExportReceipt implements Serializable {
 
 	public ExportReceipt() { }
 	
-	public ExportReceipt(Integer exportingRecId) {
+	public ExportReceipt(Long exportingRecId) {
 		this.exportingRecId = exportingRecId;
 	}
 
-	public ExportReceipt(int exportingRecId, Warehouse warehouse, Employee employee, Date exportDate) {
+	public ExportReceipt(Long exportingRecId, Warehouse warehouse, Employee employee, Date exportDate) {
 		this.exportingRecId = exportingRecId;
 		this.warehouse = warehouse;
 		this.employee = employee;
 		this.exportDate = exportDate;
 	}
 
-	public Integer getExportingRecId() {
+	public Long getExportingRecId() {
 		return exportingRecId;
 	}
 
-	public void setExportingRecId(Integer exportingRecId) {
+	public void setExportingRecId(Long exportingRecId) {
 		this.exportingRecId = exportingRecId;
 	}
 

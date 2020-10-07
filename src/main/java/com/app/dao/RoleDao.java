@@ -10,9 +10,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoleDao extends JpaRepository<Role, Long> {
     Optional<Role> findByRoleName(String roleName);
-//	Role savePermissionDao(Role permission);
-//
-//	List<Role> listRole();
-//
-//	Role getRoleById(int roleId);
 }

@@ -8,8 +8,6 @@ import com.app.model.Production;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Optionals;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.app.dao.CartDao;
 import com.app.dao.ProductionDao;
@@ -29,7 +27,7 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public Cart saveCart() {
-		return cartDao.saveCart();
+		return cartDao.save(null);
 	}
 
 	@Override
@@ -38,14 +36,14 @@ public class CartServiceImpl implements CartService {
 				cartDetailDao.findById(cartDetail.getCartDetailId()),
 				e -> {
 					e.setAmount(cartDetail.getAmount());
-					cartDao.updateCartDetail(e);
+					cartDetailDao.save(e);
 				},
-				() -> cartDao.addCartDetail(cartDetail));
+				() -> cartDetailDao.save(cartDetail));
 	}
 
 	@Override
 	public List<CartDetail> listCartDetailByCartId(Long cartId) {
-		return cartDetailDao.findAllByIdCartId(cartId);
+		return cartDetailDao.findAllByCartDetailIdCart(cartId);
 	}
 
 	@Override

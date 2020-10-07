@@ -16,8 +16,8 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping
-    public ResponseEntity<Customer> getCustomer(@RequestParam String userName) {
+    @GetMapping(path = "/{userName}")
+    public ResponseEntity<Customer> getCustomer(@PathVariable String userName) {
         return new ResponseEntity<>(customerService.getCustomer(userName), HttpStatus.OK);
     }
 

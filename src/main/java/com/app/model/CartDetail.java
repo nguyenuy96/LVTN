@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.AssociationOverride;
 import javax.persistence.AssociationOverrides;
-import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -17,11 +16,6 @@ import javax.persistence.Transient;
 		@AssociationOverride(name = "cartDetailId.cart", joinColumns = @JoinColumn(name = "cartId")),
 		@AssociationOverride(name = "cartDetailId.product", joinColumns = @JoinColumn(name = "productId")) })
 public class CartDetail implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	private CartDetailId cartDetailId = new CartDetailId();
 	private Integer amount;
@@ -53,7 +47,6 @@ public class CartDetail implements Serializable {
 		getCartDetailId().setProduction(production);
 	}
 
-	@Column(name = "SO_LUONG")
 	public Integer getAmount() {
 		return amount;
 	}

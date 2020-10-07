@@ -1,8 +1,5 @@
 package com.app.model;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,13 +10,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "order")
-public class Order implements Serializable {
+@Table(name = "order1")
+public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int orderId;
+	private Long orderId;
 
-	private String payments;
+	private String payment;
 
 	private boolean isPay;
 
@@ -51,10 +48,10 @@ public class Order implements Serializable {
 
 	public Order() {}
 
-	public Order(int orderId, String payments, boolean isPay, boolean isDelivery, String addressDelivery,
-			String phoneDelivery, Customer customer, Employee employee, Cart cart, String orderState) {
+	public Order(Long orderId, String payment, boolean isPay, boolean isDelivery, String addressDelivery,
+				 String phoneDelivery, Customer customer, Employee employee, Cart cart, String orderState) {
 		this.orderId = orderId;
-		this.payments = payments;
+		this.payment = payment;
 		this.isPay = isPay;
 		this.isDelivery = isDelivery;
 		this.addressDelivery = addressDelivery;
@@ -65,36 +62,36 @@ public class Order implements Serializable {
 		this.orderState = orderState;
 	}
 
-	public int getOrderId() {
+	public Long getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(int orderId) {
+	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
 	}
 
-	public String getPayments() {
-		return payments;
+	public String getPayment() {
+		return payment;
 	}
 
-	public void setPayment(String payments) {
-		this.payments = payments;
+	public void setPayment(String payment) {
+		this.payment = payment;
 	}
 
 	public boolean isPay() {
 		return isPay;
 	}
 
-	public void setPay(boolean isPay) {
-		this.isPay = isPay;
+	public void setPay(boolean pay) {
+		isPay = pay;
 	}
 
 	public boolean isDelivery() {
 		return isDelivery;
 	}
 
-	public void setDelivery(boolean isDelivery) {
-		this.isDelivery = isDelivery;
+	public void setDelivery(boolean delivery) {
+		isDelivery = delivery;
 	}
 
 	public String getAddressDelivery() {
@@ -113,6 +110,10 @@ public class Order implements Serializable {
 		this.phoneDelivery = phoneDelivery;
 	}
 
+	public String getOrderState() {
+		return orderState;
+	}
+
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -129,16 +130,12 @@ public class Order implements Serializable {
 		this.employee = employee;
 	}
 
-	public Cart getCart() {
-		return cart;
-	}
-
 	public void setCart(Cart cart) {
 		this.cart = cart;
 	}
 
-	public String getOrderState() {
-		return orderState;
+	public Cart getCart() {
+		return cart;
 	}
 
 	public void setOrderState(String orderState) {

@@ -15,7 +15,7 @@ import javax.persistence.Transient;
 @Table(name = "exporting_detail")
 @AssociationOverrides({
         @AssociationOverride(name = "exportRecDetailId.exportReceipt", joinColumns = @JoinColumn(name = "exportingRecId")),
-        @AssociationOverride(name = "exportRecDetailId.product", joinColumns = @JoinColumn(name = "productionId"))})
+        @AssociationOverride(name = "exportRecDetailId.production", joinColumns = @JoinColumn(name = "productionId"))})
 public class ExportRecDetail implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -42,11 +42,11 @@ public class ExportRecDetail implements Serializable {
     }
 
     @Transient
-    public Production getProduct() {
+    public Production getProduction() {
         return getExportRecDetailId().getProduction();
     }
 
-    public void setProduct(Production production) {
+    public void setProduction(Production production) {
         getExportRecDetailId().setProduction(production);
     }
 

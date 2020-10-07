@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.exception.ExceptionHandle;
 import com.app.model.Country;
 import com.app.service.product.CountryService;
 
@@ -23,20 +22,18 @@ public class CountryController {
 	private CountryService countryService;
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> addCountry(@RequestBody Country country) throws ExceptionHandle{
+	public ResponseEntity<HttpStatus> addCountry(@RequestBody Country country) {
 		countryService.saveCountry(country);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Country>> getCountries() {
-		List<Country> listCountry = countryService.getCountries();
-		return new ResponseEntity<List<Country>>(listCountry, HttpStatus.OK);
+		return new ResponseEntity<>(countryService.getCountries(), HttpStatus.OK);
 	}
 
 	@RequestMapping(path = "/get", method = RequestMethod.GET)
 	public ResponseEntity<Country> getCountry(@RequestBody Country country) {
-		Country country1 = countryService.getCountry(country.getCountryId());
-		return new ResponseEntity<Country>(country1, HttpStatus.OK);
+		return new ResponseEntity<>(countryService.getCountry(country.getCountryId()), HttpStatus.OK);
 	}
 }

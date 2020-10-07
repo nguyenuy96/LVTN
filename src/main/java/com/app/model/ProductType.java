@@ -19,7 +19,7 @@ public class ProductType implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long productTypeId;
+	private Long productionTypeId;
 
 	@Column(nullable = false, unique = true)
 	private String productType;
@@ -27,17 +27,17 @@ public class ProductType implements Serializable {
 	public ProductType() {
 	}
 
-	public ProductType(Long productTypeId, String productType) {
-		this.productTypeId = productTypeId;
+	public ProductType(Long productionTypeId, String productType) {
+		this.productionTypeId = productionTypeId;
 		this.productType = productType;
 	}
 
-	public Long getProductTypeId() {
-		return productTypeId;
+	public Long getProductionTypeId() {
+		return productionTypeId;
 	}
 
-	public void setProductTypeId(Long productTypeId) {
-		this.productTypeId = productTypeId;
+	public void setProductionTypeId(Long productionTypeId) {
+		this.productionTypeId = productionTypeId;
 	}
 
 	public String getProductType() {

@@ -74,8 +74,6 @@ public class Production implements Serializable {
 					@JoinColumn(name = "tradeMarkId", referencedColumnName = "tradeMarkId") })
 	private TradeMark tradeMark;
 
-	/******************************************************************************/
-
 	@ManyToOne
 	@JoinTable(name = "production_weight", joinColumns = {
 			@JoinColumn(name = "productionId", referencedColumnName = "productionId") }, inverseJoinColumns = {
@@ -299,7 +297,7 @@ public class Production implements Serializable {
 		this.productType = productType;
 	}
 
-	@OneToMany(mappedBy = "cartDetailId.product", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "cartDetailId.production", fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Set<CartDetail> productCart = new HashSet<CartDetail>();
 
@@ -311,7 +309,7 @@ public class Production implements Serializable {
 		this.productCart = productCart;
 	}
 
-	@OneToMany(mappedBy = "exportRecDetailId.product", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "exportRecDetailId.production", fetch = FetchType.LAZY)
 	@JsonIgnore
 	
 	private Set<ExportRecDetail> exportRecDetail = new HashSet<ExportRecDetail>();

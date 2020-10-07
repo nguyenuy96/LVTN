@@ -5,15 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.app.model.ProductStorageReception;
-import com.app.service.product.ProductStorageRecSrvc;
+import com.app.service.product.ProductStorageRecService;
 
 @CrossOrigin
 @RestController
@@ -21,19 +16,18 @@ import com.app.service.product.ProductStorageRecSrvc;
 public class ProductStorageRecController {
 
 	@Autowired
-	private ProductStorageRecSrvc prodStorageRecSrvc;
+	private ProductStorageRecService productStorageRecService;
 
-	@RequestMapping(method = RequestMethod.POST)
+	@PostMapping
 	public ResponseEntity<HttpStatus> saveProStorageRec(@RequestBody ProductStorageReception productStorageReception) {
-		prodStorageRecSrvc.saveProductStorageRec(productStorageReception);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		productStorageRecService.saveProductStorageRec(productStorageReception);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@RequestMapping(path = "/{productId}", method = RequestMethod.GET)
+	@GetMapping(path = "/{productId}")
 	public ResponseEntity<List<ProductStorageReception>> listProStorageRecByProduct(
-			@PathVariable("productId") int productId) {
-		List<ProductStorageReception> list = prodStorageRecSrvc.listProductStorageRec(productId);
-		return new ResponseEntity<List<ProductStorageReception>>(list, HttpStatus.OK);
+			@PathVariable("productId") Long productId) {
+		return new ResponseEntity<>(productStorageRecService.listProductStorageRec(productId), HttpStatus.OK);
 	}
 
 }

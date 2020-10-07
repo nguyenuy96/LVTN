@@ -1,6 +1,5 @@
 package com.app.service.impl;
 
-import java.util.List;
 
 import com.app.dao.*;
 import com.app.utils.Constants;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.app.exception.ExceptionHandle;
 import com.app.exception.ExceptionThrower;
@@ -23,7 +21,6 @@ import com.app.model.EmpProfDTO;
 import com.app.service.AccountService;
 
 @Service
-//@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
@@ -47,11 +44,11 @@ public class AccountServiceImpl implements AccountService {
 		checkUserBeforeSave(account);
 		Role role = roleDao.findById(account.getRole().getRoleId())
 				.orElseThrow(() -> new IllegalArgumentException("Role not found"));
-		if (Constants.CUSTOMER.equals(role.getRoleName())) {
-			checkCusProf(account.getCustomer());
-		} else {
-			checkEmpProf(account.getEmployee());
-		}
+//		if (Constants.CUSTOMER.equals(role.getRoleName())) {
+//			checkCusProf(account.getCustomer());
+//		} else {
+//			checkEmpProf(account.getEmployee());
+//		}
 		accountDao.save(account);
 	}
 
@@ -129,76 +126,6 @@ public class AccountServiceImpl implements AccountService {
 		account.setRole(validateRole(role));
 	}
 
-	private ModelMapper modelMapper = new ModelMapper();
-
-	public Account convertToAccount(Object obj) {
-		Account account = new Account();
-		modelMapper.map(obj, account);
-		return account;
-	}
-
-	public Customer convertToCustomer(Object obj) {
-		Customer customer = new Customer();
-		modelMapper.map(obj, customer);
-		return customer;
-	}
-
-	public Employee convertToEmployee(Object obj) {
-		Employee employee = new Employee();
-		modelMapper.map(obj, employee);
-		return employee;
-	}
-
-	public Employee saveEmpProf(EmpProfDTO empProfDTO, int accId) throws ExceptionHandle {
-		String address = empProfDTO.getAddress();
-		String gender = empProfDTO.getGender();
-		String identification = empProfDTO.getIdentification();
-		String name = empProfDTO.getFullname();
-		String nationality = empProfDTO.getNationality();
-		String phone = empProfDTO.getPhone();
-//		boolean validIdentification = userDao.checkIdentification(identification) ? false : true;
-		boolean validIdentification = true;
-		if (!validIdentification)
-			new ExceptionThrower().throwException(HttpStatus.CONFLICT, "Identification is used!");
-//		Employee modifyEmp = userDao.getEmpProfile(accId);
-		Employee modifyEmp = null;
-		if (address != null) {
-			modifyEmp.setAddress(address);
-		}
-		if (gender != null) {
-			modifyEmp.setGender(gender);
-		}
-		if (identification != null) {
-			modifyEmp.setIdentification(identification);
-		}
-		if (name != null) {
-			modifyEmp.setName(name);
-		}
-		if (nationality != null) {
-			modifyEmp.setNationality(nationality);
-		}
-		if (phone != null) {
-			modifyEmp.setPhoneNumber(phone);
-		}
-		return modifyEmp;
-	}
-
-	public Customer saveCusProf(CusProfDTO cusProfDTO, int accId) {
-//		Customer modifyCus = userDao.getCusProfile(accId);
-		Customer modifyCus = null;
-		String address = cusProfDTO.getAddress();
-		String name = cusProfDTO.getFullname();
-		String phone = cusProfDTO.getPhone();
-		if (address != null) {
-			modifyCus.setAddress(address);
-		}
-		if (name != null) {
-			modifyCus.setName(name);
-		}
-		if (phone != null) {
-			modifyCus.setPhoneNumber(phone);
-		}
-		return modifyCus;
-	}
+	private final ModelMapper modelMapper = new ModelMapper();
 
 }

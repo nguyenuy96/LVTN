@@ -3,8 +3,6 @@ package com.app.service.impl.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dao.ImageDao;
@@ -23,7 +21,6 @@ public class ProductImageServiceImpl implements ProductImageService {
 	@Autowired
 	private ImageDao imageDao;
 
-	@Transactional
 	@Override
 	public ProductionImage saveImage(MultipartFile multipartFile, String uploadDirectory) {
 		String imageName = multipartFile.getOriginalFilename();
@@ -32,7 +29,7 @@ public class ProductImageServiceImpl implements ProductImageService {
 
 		File imageFile = new File(uploadDirectory + "\\" + imageName);
 		boolean isExistedImage = productionImage.isPresent();
-		imageDao.findByImageName(imageName)
+		ProductionImage image = isExistedImage ? productionImage.get() : new ProductionImage();
 		if (!isExistedImage && !imageFile.exists()) {
 			try {
 				Files.copy(multipartFile.getInputStream(), path);
@@ -54,5 +51,4 @@ public class ProductImageServiceImpl implements ProductImageService {
 		}
 		return image; 
 	}
-
 }

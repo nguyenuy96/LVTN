@@ -8,29 +8,31 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "country")
 public class Country implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int countryId;
-	
+	private Long countryId;
+
+	@NotBlank
 	@Column(nullable = false, unique = true)
 	private String countryName;
 	
 	public Country() { }
 
-	public Country(int countryId, String countryName) {
+	public Country(Long countryId, String countryName) {
 		this.countryId = countryId;
 		this.countryName = countryName;
 	}
 	
-	public int getCountryId() {
+	public Long getCountryId() {
 		return countryId;
 	}
 
-	public void setCountryId(int countryId) {
+	public void setCountryId(Long countryId) {
 		this.countryId = countryId;
 	}
 	

@@ -14,7 +14,6 @@ import com.app.dao.AccountDao;
 import com.app.model.Account;
 
 @Service
-//@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private final AccountDao accountDao;
@@ -23,7 +22,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		this.accountDao = accountDao;
 	}
 
-	@Transactional
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Account account = accountDao.findByUserName(username)

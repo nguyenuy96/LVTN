@@ -3,15 +3,10 @@ package com.app.dao;
 import java.util.List;
 
 import com.app.model.ProductStorageReception;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ProductStorageDao {
-	
-	void saveProductStorage(ProductStorageReception productImport);
-	
-	List<ProductStorageReception> listProductStorage();
-	
-	ProductStorageReception getProductStorage(int productStorageId);
-	
-	List<ProductStorageReception> listProdStoreByProduct(int productId);
-
+@Repository
+public interface ProductStorageDao extends JpaRepository<ProductStorageReception, Long> {
+	List<ProductStorageReception> findAllByProduction(Long production);
 }

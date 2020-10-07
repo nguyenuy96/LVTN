@@ -3,22 +3,13 @@ package com.app.dao;
 import java.util.List;
 
 import com.app.model.Order;
+import org.aspectj.weaver.ast.Or;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface OrderDao {
-
-	void saveOrUpdateOrder(Order order);
-
-	List<Order> listOrder();
-
-	Order getOrder(int orderId);
-
-	Order getOrderByCart(int cartId);
-
-	List<Order> listOrderByOrderState(String orderState);
-
-	List<Order> listOrderByCustomer(int customerId, String orderState);
-
-	void approveOrder(Order order);
-	
-	List<Order> getOrderByCustomer(int customerId);
+@Repository
+public interface OrderDao extends JpaRepository<Order, Long> {
+	List<Order> findAllByOrderState(String orderState);
+	List<Order> findAllByCustomerAndOrderState(Long customerId, String orderState);
+	List<Order> findAllByCustomer(Long customerId);
 }
