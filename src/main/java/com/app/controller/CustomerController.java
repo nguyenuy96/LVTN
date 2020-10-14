@@ -2,6 +2,7 @@ package com.app.controller;
 
 import com.app.model.Customer;
 import com.app.service.CustomerService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
