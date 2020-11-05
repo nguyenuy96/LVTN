@@ -2,7 +2,7 @@ package com.app.service.impl;
 
 import com.app.dao.OrderDao;
 import com.app.model.Order;
-import com.app.service.product.OrderService;
+import com.app.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,11 +26,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> listOrderByCustomer(Long customerId, String orderState) {
-        return orderDao.findAllByCustomerAndOrderState(customerId, orderState);
+        return orderDao.findAllByContactAndOrderState(customerId, orderState);
     }
 
     @Override
     public List<Order> listOrderByCus(Long customerId) {
-        return orderDao.findAllByCustomer(customerId);
+        return orderDao.findAllByContact(customerId);
     }
 }

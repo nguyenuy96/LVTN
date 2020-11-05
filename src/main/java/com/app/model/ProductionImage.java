@@ -1,5 +1,9 @@
 package com.app.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -9,38 +13,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "image")
-public class ProductionImage implements Serializable {
+public class ProductionImage {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long imageId;
 
 	private String imageName;
-
-	public ProductionImage() {
-
-	}
-
-	public ProductionImage(Long imageId, String imageName) {
-		this.imageId = imageId;
-		this.imageName = imageName;
-	}
-
-	public Long getImageId() {
-		return imageId;
-	}
-
-	public void setImageId(Long imageId) {
-		this.imageId = imageId;
-	}
-
-	public String getImageName() {
-		return imageName;
-	}
-
-	public void setImageName(String imageName) {
-		this.imageName = imageName;
-	}
-
 }

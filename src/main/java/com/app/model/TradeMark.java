@@ -1,6 +1,8 @@
 package com.app.model;
 
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,9 +14,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "trademark")
-public class TradeMark implements Serializable {
+public class TradeMark {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,39 +34,7 @@ public class TradeMark implements Serializable {
 					@JoinColumn(name = "countryId", referencedColumnName = "countryId") })
 	private Country country;
 
-	public TradeMark() {}
-
 	public TradeMark(Long tradeMarkId) {
 		this.tradeMarkId = tradeMarkId;
 	}
-	public TradeMark(Long tradeMarkId, String tradeMark, Country country) {
-		this.tradeMarkId = tradeMarkId;
-		this.tradeMark = tradeMark;
-		this.country = country;
-	}
-
-	public Long getTradeMarkId() {
-		return tradeMarkId;
-	}
-
-	public void setTradeMarkId(Long tradeMarkId) {
-		this.tradeMarkId = tradeMarkId;
-	}
-
-	public String getTradeMark() {
-		return tradeMark;
-	}
-
-	public void setTradeMark(String tradeMark) {
-		this.tradeMark = tradeMark;
-	}
-
-	public Country getCountry() {
-		return country;
-	}
-
-	public void setCountry(Country country) {
-		this.country = country;
-	}
-
 }

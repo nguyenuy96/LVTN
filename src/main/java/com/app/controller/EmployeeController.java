@@ -1,8 +1,7 @@
 package com.app.controller;
 
-import com.app.model.Employee;
-import com.app.service.EmployeeService;
-import io.swagger.annotations.Api;
+import com.app.model.Contact;
+import com.app.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,20 +14,20 @@ import java.util.List;
 @RequestMapping(path = "/employee")
 public class EmployeeController {
     @Autowired
-    private EmployeeService employeeService;
+    private ContactService contactService;
 
     @GetMapping(path = "/{userName}")
-    public ResponseEntity<Employee> getEmployee(@PathVariable String userName) {
-        return new ResponseEntity<>(employeeService.getEmployee(userName), HttpStatus.OK);
+    public ResponseEntity<Contact> getEmployee(@PathVariable String userName) {
+        return new ResponseEntity<>(contactService.getContact(userName), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<Employee>> getAllEmployee() {
-        return new ResponseEntity<>(employeeService.getAllEmployee(), HttpStatus.OK);
+    public ResponseEntity<List<Contact>> getAllEmployee() {
+        return new ResponseEntity<>(contactService.getAllContact(), HttpStatus.OK);
     }
 
     @PatchMapping
-    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
-        return new ResponseEntity<>(employeeService.updateEmployeeProfile(employee), HttpStatus.OK);
+    public ResponseEntity<Contact> updateEmployee(@RequestBody Contact contact) {
+        return new ResponseEntity<>(contactService.updateContact(contact), HttpStatus.OK);
     }
 }

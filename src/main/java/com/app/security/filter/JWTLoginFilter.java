@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Collections;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,7 +27,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-			throws AuthenticationException, IOException, ServletException {
+			throws AuthenticationException, IOException {
 		Account accountCredentials = new ObjectMapper().readValue(request.getInputStream(), Account.class);
 		return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(
 				accountCredentials.getUserName(), accountCredentials.getPassword(), Collections.emptyList()));
@@ -36,7 +35,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-			FilterChain filterChain, Authentication authentication) throws IOException, ServletException {
+			FilterChain filterChain, Authentication authentication) {
 		TokenAuthenticationService.addAuthentication(response, authentication.getName());
 	}
 }

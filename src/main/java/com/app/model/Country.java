@@ -1,5 +1,9 @@
 package com.app.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -10,6 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "country")
 public class Country implements Serializable {
@@ -20,28 +27,4 @@ public class Country implements Serializable {
 	@NotBlank
 	@Column(nullable = false, unique = true)
 	private String countryName;
-	
-	public Country() { }
-
-	public Country(Long countryId, String countryName) {
-		this.countryId = countryId;
-		this.countryName = countryName;
-	}
-	
-	public Long getCountryId() {
-		return countryId;
-	}
-
-	public void setCountryId(Long countryId) {
-		this.countryId = countryId;
-	}
-	
-	public String getCountryName() {
-		return countryName;
-	}
-
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
-	}
-	
 }

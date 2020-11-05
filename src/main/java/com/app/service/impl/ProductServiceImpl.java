@@ -58,12 +58,12 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ListObject listObject() {
 		ListObject listObject = new ListObject();
-		listObject.setProductTypes(productTypeDao.findAll());
+		listObject.setProductionTypes(productTypeDao.findAll());
 		listObject.setPromotions(promotionDao.findAll());
 		listObject.setWarehouses(warehouseDao.findAll());
 		listObject.setTradeMarks(tradeMarkDao.findAll());
-		listObject.setAges(ageDao.findAll());
-		listObject.setWeights(weightDao.findAll());
+		listObject.setAgeOfUsages(ageDao.findAll());
+		listObject.setWeightOfUsages(weightDao.findAll());
 		return listObject;
 	}
 
@@ -84,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<Production> getProductByType(String productType) {
-		return productionDao.findAllByProductType(productType);
+		return productionDao.findAllByProductionType(productType);
 	}
 
 }

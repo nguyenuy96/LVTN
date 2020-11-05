@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrderDao extends JpaRepository<Order, Long> {
 	List<Order> findAllByOrderState(String orderState);
-	List<Order> findAllByCustomerAndOrderState(Long customerId, String orderState);
-	List<Order> findAllByCustomer(Long customerId);
+	List<Order> findAllByContactAndOrderState(Long contactId, String orderState);
+	List<Order> findAllByContact(Long contactId);
 }

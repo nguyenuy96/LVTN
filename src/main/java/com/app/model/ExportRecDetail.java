@@ -1,61 +1,27 @@
 package com.app.model;
 
-import java.io.Serializable;
+import lombok.Data;
 
 import javax.persistence.AssociationOverride;
 import javax.persistence.AssociationOverrides;
-import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+@Data
 @Entity
 @Table(name = "exporting_detail")
 @AssociationOverrides({
         @AssociationOverride(name = "exportRecDetailId.exportReceipt", joinColumns = @JoinColumn(name = "exportingRecId")),
         @AssociationOverride(name = "exportRecDetailId.production", joinColumns = @JoinColumn(name = "productionId"))})
-public class ExportRecDetail implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    private ExportRecDetailId exportRecDetailId = new ExportRecDetailId();
-    private Integer amount;
-
+public class ExportRecDetail {
     @EmbeddedId
-    public ExportRecDetailId getExportRecDetailId() {
-        return exportRecDetailId;
-    }
-
-    public void setExportRecDetailId(ExportRecDetailId exportRecDetailId) {
-        this.exportRecDetailId = exportRecDetailId;
-    }
-
+    private ExportRecDetailId exportRecDetailId = new ExportRecDetailId();
     @Transient
-    public ExportReceipt getExportReceipt() {
-        return getExportRecDetailId().getExportReceipt();
-    }
-
-
-    public void setExportReceipt(ExportReceipt exportReceipt) {
-        getExportRecDetailId().setExportReceipt(exportReceipt);
-    }
-
+    private ExportReceipt exportReceipt = exportRecDetailId.getExportReceipt();
     @Transient
-    public Production getProduction() {
-        return getExportRecDetailId().getProduction();
-    }
-
-    public void setProduction(Production production) {
-        getExportRecDetailId().setProduction(production);
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
+    private Production production = exportRecDetailId.getProduction();
+    private Integer amount;
 }

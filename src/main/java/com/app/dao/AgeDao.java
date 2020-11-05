@@ -1,10 +1,10 @@
 package com.app.dao;
 
-import com.app.model.Age;
+import com.app.model.AgeOfUsage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AgeDao extends JpaRepository<Age, Long> {
+public interface AgeDao extends JpaRepository<AgeOfUsage, Long> {
 
 }
