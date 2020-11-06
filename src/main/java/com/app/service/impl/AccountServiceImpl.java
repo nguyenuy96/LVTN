@@ -60,6 +60,14 @@ public class AccountServiceImpl implements AccountService {
 		return accountDao.findAll();
 	}
 
+	@Override
+	public void disableAccount(Long id) {
+		Account account = accountDao.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException(String.format("Not found user with id [%d]", id)));
+		account.setActive(false);
+		accountDao.save(account);
+	}
+
 	public Role getRole(Role role) {
 		String roleName = role.getRoleName();
 		if (roleName == null) {

@@ -5,27 +5,21 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.app.model.AgeOfUsage;
 import com.app.service.AgeService;
 
-@CrossOrigin
 @RestController
 @RequestMapping(path = "/age")
-public class AgeController {
+public class AgeOfUsageController {
 	@Autowired
 	private AgeService ageService;
 
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<HttpStatus> addAge(@RequestBody AgeOfUsage ageOfUsage) {
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public void addAge(@RequestBody AgeOfUsage ageOfUsage) {
 		ageService.saveAge(ageOfUsage);
-		return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)

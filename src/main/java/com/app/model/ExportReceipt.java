@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -30,22 +29,14 @@ public class ExportReceipt {
 	private Long exportingRecId;
 
 	@ManyToOne
-	@JoinTable(name = "warehouse_of_exporting", joinColumns = {
-			@JoinColumn(name = "exportingRecId", referencedColumnName = "exportingRecId") }, inverseJoinColumns = {
-					@JoinColumn(name = "warehouseId", referencedColumnName = "warehouseId") })
+	@JoinColumn(name = "warehouse_id")
 	private Warehouse warehouse;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinTable(name = "exporting_owner", joinColumns = {
-			@JoinColumn(name = "exportingRecId", referencedColumnName = "exportingRecId") }, inverseJoinColumns = {
-					@JoinColumn(name = "employeeId", referencedColumnName = "employeeId") })
+
+	@ManyToOne
+	@JoinColumn(name = "contact_id")
 	private Contact contact;
-	
+
 	@OneToMany(mappedBy = "exportRecDetailId.exportReceipt", fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Set<ExportRecDetail> exportRecDetail = new HashSet<>();
-
-	public ExportReceipt(Long exportingRecId) {
-		this.exportingRecId = exportingRecId;
-	}
 }

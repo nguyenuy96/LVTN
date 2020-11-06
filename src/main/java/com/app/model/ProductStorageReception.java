@@ -5,12 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -27,37 +25,18 @@ public class ProductStorageReception {
 	private Long productStorageReceptionId;
 	
 	@ManyToOne
-	@JoinTable(name = "production_of_warehouse", joinColumns = {
-			@JoinColumn(name = "productStorageReceptionId", referencedColumnName = "productStorageReceptionId") }, inverseJoinColumns = {
-					@JoinColumn(name = "warehouseId", referencedColumnName = "warehouseId") })
+	@JoinColumn(name = "warehouse_id")
 	private Warehouse warehouse;
 
 	@OneToOne
-	@JoinTable(name = "production_storage", joinColumns = {
-			@JoinColumn(name = "productStorageReceptionId", referencedColumnName = "productStorageReceptionId") }, inverseJoinColumns = {
-					@JoinColumn(name = "productionId", referencedColumnName = "productionId") })
+	@JoinColumn(name = "production_id")
 	private Production production;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinTable(name = "account_of_storage_reception", joinColumns = {
-			@JoinColumn(name = "productStorageReceptionId", referencedColumnName = "productStorageReceptionId") }, inverseJoinColumns = {
-					@JoinColumn(name = "accountId", referencedColumnName = "accountId") })
+	@ManyToOne
+	@JoinColumn(name = "account_id")
 	private Account account;
 
 	private double amount;
 
 	private String importDate;
-
-	public ProductStorageReception(Long productStorageReceptionId) {
-		this.productStorageReceptionId = productStorageReceptionId;
-	}
-
-	public ProductStorageReception(Long productStorageReceptionId, Account account, double amount, String importDate, Production production, Warehouse warehouse) {
-		this.productStorageReceptionId = productStorageReceptionId;
-		this.account = account;
-		this.amount = amount;
-		this.importDate = importDate;
-		this.production = production;
-		this.warehouse = warehouse;
-	}
 }

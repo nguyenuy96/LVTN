@@ -30,6 +30,8 @@ public class Account {
 
 	private String oldPassword;
 
+	private boolean isActive = true;
+
 	@ManyToOne
 	@JoinColumn(name = "role_id")
 	private Role role;

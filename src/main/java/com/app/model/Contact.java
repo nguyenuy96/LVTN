@@ -12,11 +12,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Contact")
+@Table(name = "contact")
 public class Contact implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long employeeId;
+	private Long contactId;
 
 	private String name;
 
@@ -30,11 +30,11 @@ public class Contact implements Serializable {
 
 	private String address;
 
-	private boolean isActive = true;
-
 	@OneToOne
+	@JoinColumn(name = "account_id")
 	private Account account;
 
 	@OneToOne
+	@JoinColumn(name = "order_id")
 	private Order order;
 }

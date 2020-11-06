@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -48,9 +47,7 @@ public class Production implements Serializable {
 	private Date expiryDate;
 
 	@OneToOne
-	@JoinTable(name = "production_of_use", joinColumns = {
-			@JoinColumn(name = "productionId", referencedColumnName = "productionId") }, inverseJoinColumns = {
-					@JoinColumn(name = "productionUserId", referencedColumnName = "productionUserId") })
+	@JoinColumn(name = "productionUserId")
 	private ProductionUser productionUser;
 
 	@Column(length = 1000)

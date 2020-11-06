@@ -10,9 +10,9 @@ INSERT INTO role (role_name, search_name)
 
 SELECT @role_id := role_id FROM role WHERE role_name = 'Master';
 
-INSERT INTO account (user_name, password, changed_password_time, role_id)
+INSERT INTO account (user_name, password, changed_password_time, role_id, is_active)
     VALUES
-        ('master', '$2y$12$T0l3.ELcGL.RXyq7Lbk3a.jVrIjFL5H7nXer70/HGzmZVN7zKedky', 0, @role_id)
+        ('master', '$2y$12$T0l3.ELcGL.RXyq7Lbk3a.jVrIjFL5H7nXer70/HGzmZVN7zKedky', 0, @role_id, true)
     ON DUPLICATE KEY UPDATE
         user_name = VALUES(user_name),
         role_id = @role_id;

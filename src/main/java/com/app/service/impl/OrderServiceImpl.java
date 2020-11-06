@@ -23,14 +23,4 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> listOrderByState(String orderState) {
         return orderDao.findAllByOrderState(orderState);
     }
-
-    @Override
-    public List<Order> listOrderByCustomer(Long customerId, String orderState) {
-        return orderDao.findAllByContactAndOrderState(customerId, orderState);
-    }
-
-    @Override
-    public List<Order> listOrderByCus(Long customerId) {
-        return orderDao.findAllByContact(customerId);
-    }
 }

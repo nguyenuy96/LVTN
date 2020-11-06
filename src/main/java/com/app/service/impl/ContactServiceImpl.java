@@ -19,27 +19,35 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public Contact getContact(String userName) {
-        Account employeeAccount = accountDao.findByUserName(userName)
+        Account account = accountDao.findByUserName(userName)
                 .orElseThrow(() -> new IllegalArgumentException("Non-existed User"));
-        return contactDao.findById(employeeAccount.getAccountId())
+        return contactDao.findById(account.getAccountId())
                 .orElseThrow(() -> new IllegalArgumentException("Non-existed employee"));
     }
 
     @Override
-    public List<Contact> getAllContact() {
+    public List<Contact> getAllContacts() {
         return contactDao.findAll();
     }
 
     @Override
     public Contact updateContact(Contact request) {
-        Contact contact = contactDao.findById(request.getEmployeeId())
+        Contact contact = contactDao.findById(request.getContactId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid employee"));
-        contact.setAddress(request.getAddress());
-        contact.setName(request.getName());
-        contact.setPhoneNumber(request.getPhoneNumber());
-        contact.setGender(request.getGender());
-        contact.setIdentification(request.getIdentification());
-        contact.setNationality(request.getNationality());
+        contact.setAddress(request.getAddress() != null ? request.getAddress() : contact.getAddress());
+        contact.setName(request.getName() != null ? request.getName() : contact.getName());
+        contact.setPhoneNumber(request.getPhoneNumber() != null ? request.getPhoneNumber() : contact.getPhoneNumber());
+        contact.setGender(request.getGender() != null ? request.getGender() : contact.getGender());
+        contact.setIdentification(request.getIdentification() != null ? request.getIdentification() : contact.getIdentification());
+        contact.setNationality(request.getNationality() != null ? request.getNationality() : contact.getNationality());
         return contactDao.save(contact);
+    }
+
+    @Override
+    public void saveContact(Contact contact) {
+        Account account = accountDao.findById(contact.getAccount().getAccountId())
+                .orElseThrow(() -> new IllegalArgumentException("Non-existed User"));
+        contact.setAccount(account);
+        contactDao.save(contact);
     }
 }

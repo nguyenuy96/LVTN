@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -17,7 +16,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "order1")
+@Table(name = "production_order")
 public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,12 +35,6 @@ public class Order {
 	private String orderState;
 
 	@OneToOne
-	@JoinTable(name = "contact_id")
-	private Contact contact;
-
-	@OneToOne
-	@JoinTable(name = "orders_in_cart", joinColumns = {
-			@JoinColumn(name = "orderId", referencedColumnName = "orderId") }, inverseJoinColumns = {
-					@JoinColumn(name = "cartId", referencedColumnName = "cartId") })
+	@JoinColumn(name = "card_id")
 	private Cart cart;
 }

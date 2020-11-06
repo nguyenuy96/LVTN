@@ -12,7 +12,7 @@ import com.app.model.AgeOfUsage;
 import com.app.service.AgeService;
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-public class AgeServiceImpl implements AgeService{
+public class AgeOfUsageServiceImpl implements AgeService{
 
 	@Autowired
 	private AgeDao ageDao;

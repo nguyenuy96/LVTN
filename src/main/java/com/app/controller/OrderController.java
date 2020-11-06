@@ -28,17 +28,4 @@ public class OrderController {
 		List<Order> list = orderService.listOrderByState(orderState);
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
-
-	@GetMapping(path = "/owner/{customerId}/{orderState}")
-	public ResponseEntity<List<Order>> listWaitingOrderBuCusId(@PathVariable(value = "customerId") Long customerId,
-			@PathVariable(value = "orderState") String orderState) {
-		return new ResponseEntity<>(orderService.listOrderByCustomer(customerId, orderState), HttpStatus.OK);
-	}
-	
-	@GetMapping(path = "/owner/{customerId}")
-	public ResponseEntity<List<Order>> listOrderByCus(@PathVariable(value = "customerId") Long customerId) {
-		List<Order> list = orderService.listOrderByCus(customerId);
-		return new ResponseEntity<List<Order>>(list, HttpStatus.OK);
-	}
-
 }
