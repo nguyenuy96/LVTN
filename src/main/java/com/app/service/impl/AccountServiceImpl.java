@@ -2,13 +2,15 @@ package com.app.service.impl;
 
 
 import com.app.dao.*;
+import com.app.dto.AccountDTO;
+import com.app.dto.AccountReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.app.model.Account;
 import com.app.model.Role;
-import com.app.model.ModifiedPassword;
+import com.app.dto.ModifiedPassword;
 import com.app.service.AccountService;
 
 import java.util.List;
@@ -29,8 +31,14 @@ public class AccountServiceImpl implements AccountService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
-	public void addNewUser(Account account) {
-		validateAccount(account);
+	public void addNewUser(AccountReq request) {
+		accountDao.findByUserName(request.getUserName()).ifPresent(e -> {
+			throw new IllegalArgumentException("Existed user");
+		});
+		Account account = new Account();
+		account.setUserName(request.getUserName());
+		account.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
+		account.setRole(getRole(request.getRoleId()));
 		accountDao.save(account);
 	}
 
@@ -50,9 +58,10 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account getAccountByUsername(String userName) {
-		return accountDao.findByUserName(userName)
+	public AccountDTO getAccountByUsername(String userName) {
+		Account account = accountDao.findByUserName(userName)
 				.orElseThrow(() -> new IllegalArgumentException(String.format("Not found user [%s]", userName)));
+		return account.convert2AccountDTO();
 	}
 
 	@Override
@@ -68,30 +77,8 @@ public class AccountServiceImpl implements AccountService {
 		accountDao.save(account);
 	}
 
-	public Role getRole(Role role) {
-		String roleName = role.getRoleName();
-		if (roleName == null) {
-			throw new IllegalArgumentException("Role is required!");
-		}
-		return roleDao.findByRoleName(roleName).orElseThrow(() -> new IllegalArgumentException(
-				String.format("Role [%s] not found", roleName)));
-	}
-
-	public void validateAccount(Account account) {
-		String userName = account.getUserName();
-		if(userName == null) {
-			throw new IllegalArgumentException("Username is required");
-		}
-
-		String password = account.getPassword();
-		if(password == null) {
-			throw new IllegalArgumentException("Password is required");
-		}
-
-		accountDao.findByUserName(userName).ifPresent(e -> {
-			throw new IllegalArgumentException("Existed user");
-		});
-		account.setPassword(bCryptPasswordEncoder.encode(password));
-		account.setRole(getRole(account.getRole()));
+	public Role getRole(Long roleId) {
+		return roleDao.findById(roleId).orElseThrow(() -> new IllegalArgumentException(
+				String.format("Role with id = [%d] not found", roleId)));
 	}
 }

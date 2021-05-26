@@ -1,6 +1,6 @@
 package com.app.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.app.dto.AccountDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,6 @@ public class Account {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false, unique = true)
-	@JsonIgnore
 	private Long accountId;
 
 	@Column(nullable = false, unique = true)
@@ -36,7 +35,11 @@ public class Account {
 	@JoinColumn(name = "role_id")
 	private Role role;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "contact_id")
 	private Contact contact;
+
+	public AccountDTO convert2AccountDTO() {
+		return new AccountDTO(userName, role, contact);
+	}
 }

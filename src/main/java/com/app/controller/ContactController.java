@@ -1,5 +1,6 @@
 package com.app.controller;
 
+import com.app.dto.ContactReq;
 import com.app.model.Contact;
 import com.app.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class ContactController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createNewContact(@RequestBody Contact contact) {
-        contactService.saveContact(contact);
+    public void createNewContact(@RequestBody ContactReq request) {
+        contactService.saveContact(request);
     }
 }

@@ -1,12 +1,13 @@
 package com.app.controller;
 
+import com.app.dto.AccountDTO;
+import com.app.dto.AccountReq;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import com.app.model.Account;
-import com.app.model.ModifiedPassword;
+import com.app.dto.ModifiedPassword;
 import com.app.service.AccountService;
 
 import javax.validation.Valid;
@@ -19,9 +20,9 @@ public class AccountController {
 	@Autowired
 	private AccountService accountService;
 
-	@GetMapping(path = "/{userName}")
+	@GetMapping(path = "/{user_name}")
 	@ResponseStatus(HttpStatus.OK)
-	public Account getAccountByUserName(@PathVariable String userName) {
+	public AccountDTO getAccountByUserName(@PathVariable(value = "user_name") String userName) {
 		return accountService.getAccountByUsername(userName);
 	}
 
@@ -33,8 +34,8 @@ public class AccountController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public void addNewAccount(@RequestBody Account account) {
-		accountService.addNewUser(account);
+	public void addNewAccount(@RequestBody AccountReq request) {
+		accountService.addNewUser(request);
 	}
 
 	@PatchMapping

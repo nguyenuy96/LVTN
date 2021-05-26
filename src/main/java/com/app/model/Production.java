@@ -47,7 +47,7 @@ public class Production implements Serializable {
 	private Date expiryDate;
 
 	@OneToOne
-	@JoinColumn(name = "productionUserId")
+	@JoinColumn(name = "production_user_id")
 	private ProductionUser productionUser;
 
 	@Column(length = 1000)
@@ -97,32 +97,6 @@ public class Production implements Serializable {
 
 	public Production(Long productionId) {
 		this.productionId = productionId;
-	}
-
-	public Production(Long productionId, String productionName, String ingredient, Date manufDate, Date expiryDate,
-					  ProductionUser productionUser, ProductionImage image, String useGuide, Float net, String note, String guarantee,
-					  String unitPrice, String preservation, String outstdFeatures, String description, TradeMark tradeMark,
-					  WeightOfUsage weightOfUsage, AgeOfUsage ageOfUsage, Promotion promotion, ProductionType productionType) {
-		this.productionId = productionId;
-		this.productionName = productionName;
-		this.ingredient = ingredient;
-		this.manufDate = manufDate;
-		this.expiryDate = expiryDate;
-		this.productionUser = productionUser;
-		this.image = image;
-		this.useGuide = useGuide;
-		this.net = net;
-		this.note = note;
-		this.guarantee = guarantee;
-		this.unitPrice = unitPrice;
-		this.preservation = preservation;
-		this.outstdFeatures = outstdFeatures;
-		this.description = description;
-		this.tradeMark = tradeMark;
-		this.weightOfUsage = weightOfUsage;
-		this.ageOfUsage = ageOfUsage;
-		this.promotion = promotion;
-		this.productionType = productionType;
 	}
 
 	@OneToMany(mappedBy = "cartDetailId.production", fetch = FetchType.LAZY)

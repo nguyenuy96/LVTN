@@ -7,6 +7,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.app.dto.LoginRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,7 +29,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException, IOException {
-		Account accountCredentials = new ObjectMapper().readValue(request.getInputStream(), Account.class);
+		LoginRequest accountCredentials = new ObjectMapper().readValue(request.getInputStream(), LoginRequest.class);
 		return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(
 				accountCredentials.getUserName(), accountCredentials.getPassword(), Collections.emptyList()));
 	}

@@ -31,10 +31,15 @@ public class Contact implements Serializable {
 	private String address;
 
 	@OneToOne
-	@JoinColumn(name = "account_id")
-	private Account account;
-
-	@OneToOne
 	@JoinColumn(name = "order_id")
 	private Order order;
+
+	public void setContact(String name, String gender, String phoneNumber, String nationality, String identification, String address) {
+		this.name = name;
+		this.gender = gender;
+		this.phoneNumber = phoneNumber;
+		this.nationality = nationality;
+		this.identification = identification;
+		this.address = address;
+	}
 }
