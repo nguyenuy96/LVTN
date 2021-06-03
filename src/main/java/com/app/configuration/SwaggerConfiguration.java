@@ -3,6 +3,8 @@ package com.app.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.*;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
@@ -18,27 +20,27 @@ import java.util.List;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfiguration {
+public class SwaggerConfiguration implements WebMvcConfigurer {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-//                .apiInfo(apiInfo())
-//                .securityContexts(Collections.singletonList(securityContext()))
-//                .securitySchemes(Collections.singletonList(apiKey()))
+                .apiInfo(apiInfo())
+                .securityContexts(Collections.singletonList(securityContext()))
+                .securitySchemes(Collections.singletonList(apiKey()))
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build();
     }
 
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("swagger-ui.html")
-//                .addResourceLocations("classpath:/META-INF/resources/");
-//
-//        registry.addResourceHandler("/webjars/**")
-//                .addResourceLocations("classpath:/META-INF/resources/webjars/");
-//    }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
 
     private ApiKey apiKey() {
         return new ApiKey("JWT", "Authorization", "header", new ArrayList<>());
@@ -72,8 +74,6 @@ public class SwaggerConfiguration {
     public SwaggerResourcesProvider swaggerResourcesProvider() {
         return () -> {
             SwaggerResource wsResource = new SwaggerResource();
-            wsResource.setName("Documentation");
-            wsResource.setSwaggerVersion("2.0");
             wsResource.setLocation("/swagger.yaml");
 
             List<SwaggerResource> resources = new ArrayList<>();
