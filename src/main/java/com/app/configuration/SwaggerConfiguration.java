@@ -2,44 +2,46 @@ package com.app.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.context.annotation.Primary;
 import springfox.documentation.builders.*;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.SwaggerResource;
+import springfox.documentation.swagger.web.SwaggerResourcesProvider;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Configuration
-//@EnableSwagger2
-public class SwaggerConfiguration implements WebMvcConfigurer {
+@EnableSwagger2
+public class SwaggerConfiguration {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .securityContexts(Collections.singletonList(securityContext()))
-                .securitySchemes(Collections.singletonList(apiKey()))
+//                .apiInfo(apiInfo())
+//                .securityContexts(Collections.singletonList(securityContext()))
+//                .securitySchemes(Collections.singletonList(apiKey()))
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build();
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("swagger-ui.html")
+//                .addResourceLocations("classpath:/META-INF/resources/");
+//
+//        registry.addResourceHandler("/webjars/**")
+//                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+//    }
 
     private ApiKey apiKey() {
-        return new ApiKey("JWT", "Authorization", "header");
+        return new ApiKey("JWT", "Authorization", "header", new ArrayList<>());
     }
 
     private SecurityContext securityContext() {
@@ -59,9 +61,24 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
                 "Some custom description of API.",
                 "1.0",
                 "Terms of service",
-                new Contact("Sallo Szrajbman", "www.baeldung.com", "salloszraj@gmail.com"),
+                null,
                 "License of API",
                 "API license URL",
                 Collections.emptyList());
+    }
+
+    @Primary
+    @Bean
+    public SwaggerResourcesProvider swaggerResourcesProvider() {
+        return () -> {
+            SwaggerResource wsResource = new SwaggerResource();
+            wsResource.setName("Documentation");
+            wsResource.setSwaggerVersion("2.0");
+            wsResource.setLocation("/swagger.yaml");
+
+            List<SwaggerResource> resources = new ArrayList<>();
+            resources.add(wsResource);
+            return resources;
+        };
     }
 }

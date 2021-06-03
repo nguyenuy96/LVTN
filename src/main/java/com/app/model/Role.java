@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Data
 @NoArgsConstructor
@@ -22,4 +23,8 @@ public class Role {
 
 	@Column
 	private String searchName;
+
+	@OneToOne
+	@JoinColumn(name = "privilege_id", nullable = false)
+	private Privilege privilege;
 }

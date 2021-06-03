@@ -1,9 +1,27 @@
-INSERT INTO role (role_name, search_name)
+DELETE FROM account;
+DELETE FROM role;
+DELETE FROM privilege;
+
+INSERT INTO privilege (name)
     VALUES
-        ('Master', 'Master'),
-        ('Administrator', 'Administrator'),
-        ('Employee', 'Employee'),
-        ('Normal', 'Normal')
+        ('WRITE'),
+        ('WRITE_SCOPE'),
+        ('WRITE_SCOPE1'),
+        ('READ')
+    ON DUPLICATE KEY UPDATE
+        name = VALUES(name);
+
+SELECT @privilege_write := privilege_id FROM privilege WHERE name = 'WRITE';
+SELECT @privilege_write_scope := privilege_id FROM privilege WHERE name = 'WRITE_SCOPE';
+SELECT @privilege_write_scope1 := privilege_id FROM privilege WHERE name = 'WRITE_SCOPE1';
+SELECT @privilege_write_read := privilege_id FROM privilege WHERE name = 'READ';
+
+INSERT INTO role (role_name, search_name, privilege_id)
+    VALUES
+        ('Master', 'Master', @privilege_write),
+        ('Administrator', 'Administrator', @privilege_write_scope),
+        ('Employee', 'Employee', @privilege_write_scope1),
+        ('Normal', 'Normal', @privilege_write_read)
     ON DUPLICATE KEY UPDATE
         role_name = VALUES(role_name),
         search_name = VALUES(search_name);

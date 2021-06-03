@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -37,6 +38,6 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
 			FilterChain filterChain, Authentication authentication) {
-		TokenAuthenticationService.addAuthentication(response, authentication.getName());
+		TokenAuthenticationService.addAuthentication(response, authentication);
 	}
 }

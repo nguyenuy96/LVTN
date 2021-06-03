@@ -1,0 +1,7 @@
+paths:
+  /animals:
+    post:
+      summary: Creates an animal.
+      responses:
+        '201':
+          description: Created.
