@@ -28,6 +28,8 @@ securityDefinitions:
 paths:
   /authentication:
     post:
+      tags:
+        - Login
       summary: Return token
       parameters:
         - in: body
@@ -45,8 +47,23 @@ paths:
         200:
           description: OK
 
-  /users/{userId}:
+  /users:
+    description: aaaa
+    post:
+      tags:
+        - User
+      summary: Creates a new user.
+      parameters:
+        - in: body
+          name: user
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        200:
+          description: OK
     get:
+      tags:
+        - User
       summary: Returns a user by ID.
       parameters:
         - in: path
@@ -55,18 +72,6 @@ paths:
           type: integer
           minimum: 1
           description: Parameter description in Markdown.
-      responses:
-        200:
-          description: OK
-
-  /users:
-    post:
-      summary: Creates a new user.
-      parameters:
-        - in: body
-          name: user
-          schema:
-            $ref: '#/definitions/User'
       responses:
         200:
           description: OK
