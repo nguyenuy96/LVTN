@@ -1,5 +1,6 @@
 package com.app.model;
 
+import com.app.dto.ResponseContact;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -3,17 +3,26 @@ info:
   title: Sample API
   description: API description in Markdown.
   version: 1.0.0
-host: localhost:8888
 basePath: /api
 schemes:
   - http
 securityDefinitions:
   #  BasicAuth:
   #    type: basic
-  ApiKeyAuth:
+  #  JWT:
+  #    type: apiKey
+  #    in: header
+  #    name: Authorization
+
+  JWT:
     type: apiKey
-    in: header
-    name: X-API-Key
+    in: Header
+    name: Authorization
+
+#  cookieAuth:
+#    type: apiKey
+#    in: cookie
+#    name: JSESSIONID
 #  OAuth2:
 #    type: oauth2
 #    flow: accessCode
@@ -26,6 +35,60 @@ securityDefinitions:
 
 
 paths:
+  /account:
+    post:
+      tags:
+        - Account
+      summary: Creates a new user.
+      parameters:
+        - in: body
+          description: role_name must be belong one of these 'Administrator', 'Empployee', 'Normal'
+          name: createdAccount
+          schema:
+            $ref: '#/definitions/CreatedAccount'
+      responses:
+        200:
+          description: OK
+    get:
+      tags:
+        - Account
+      summary: Get all users
+      responses:
+        200:
+          description: A User object
+  #          schema:
+  #            type: array
+  #            items:
+  #              $ref: '#/definitions/responses/ResponseAccount'
+
+  #        '401':
+  #          $ref: '#/definitions/responses/Unauthorized'
+
+  /account/{user_name}:
+    get:
+      tags:
+        - Account
+      summary: Returns a user by ID.
+      parameters:
+        - in: path
+          name: user_name
+          required: true
+          type: string
+          minimum: 1
+      responses:
+        200:
+          description: Return an account with given username
+          schema:
+            $ref: '#/definitions/ResponseAccount'
+  #        '400':
+  #          description: Bad request. User ID must be an integer and larger than 0.
+  #        '401':
+  #          description: Authorization information is missing or invalid.
+  #        '404':
+  #          description: A user with the specified ID was not found.
+  #        '5XX':
+  #          description: Unexpected error.
+
   /authentication:
     post:
       tags:
@@ -38,8 +101,10 @@ paths:
             properties:
               user_name:
                 type: string
+                minimum: 6
               password:
                 type: string
+                minimum: 6
             required:
               - user_name
               - password
@@ -47,42 +112,103 @@ paths:
         200:
           description: OK
 
-  /users:
-    description: aaaa
-    post:
-      tags:
-        - User
-      summary: Creates a new user.
-      parameters:
-        - in: body
-          name: user
-          schema:
-            $ref: '#/definitions/User'
-      responses:
-        200:
-          description: OK
-    get:
-      tags:
-        - User
-      summary: Returns a user by ID.
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          type: integer
-          minimum: 1
-          description: Parameter description in Markdown.
-      responses:
-        200:
-          description: OK
 definitions:
-  User:
+  CreatedAccount:
     properties:
-      id:
-        type: integer
-      name:
+      user_name:
         type: string
+      password:
+        type: string
+      role_name:
+        type: string
+
     # Both properties are required
     required:
-      - id
-      - name
+      - user_name
+      - password
+      - role_name
+
+  ResponseAccount:
+    type: object
+    properties:
+      userName:
+        type: string
+      roleName:
+        type: string
+      isActive:
+        type: boolean
+      contact:
+        $ref: '#/definitions/Contact'
+      createdDate:
+        type: string
+      createdBy:
+        type: string
+      modifiedDate:
+        type: string
+      modifiedBy:
+        type: string
+    example:
+      userName: uynguyen
+      roleName: Administrator
+      isActive: true
+      contact:
+        name: Nguyen Huu Uy
+        gender: Male
+        phone_number: 0964474561
+        nationality: VietNam
+        identification: 371705684
+        addrss: 56 Yen The, Tan Binh District, HCM City
+      createdDate: ''
+      createdBy: uynguyen
+      modifiedDate: ''
+      modifiedBy: uynguyen
+
+    #  ResponseAccountArray:
+    #    pro:
+    #      type: array
+    #      properties:
+    #        schema:
+    #          $ref: '#/definitions/ResponseAccount'
+
+  Contact:
+    type: object
+    properties:
+      name:
+        type: string
+      gender:
+        type: string
+      phone_number:
+        type: string
+      nationality:
+        type: string
+      identification:
+        type: string
+      address:
+        type: string
+#  responses:
+#    NotFound:
+#      description: The specified resource was not found
+#      content:
+#        application/json:
+#          schema:
+#            $ref: '#/definitions/error/Error'
+#    Unauthorized:
+#      description: Unauthorized
+#      content:
+#        application/json:
+#          schema:
+#            $ref: '#/definitions/error/Error'
+#  error:
+#    Error:
+#      type: object
+#      properties:
+#        code:
+#          type: string
+#        message:
+#          type: string
+#      required:
+#        - code
+#        - message
+
+security:
+  - JWT: []

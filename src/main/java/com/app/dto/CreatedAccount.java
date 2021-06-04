@@ -7,7 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class AccountReq {
+public class CreatedAccount {
     @JsonProperty("user_name")
     @NotBlank
     @Min(6)
@@ -18,6 +18,6 @@ public class AccountReq {
     private String password;
 
     @NotBlank
-    @JsonProperty("role_id")
-    private Long roleId;
+    @JsonProperty("role_name")
+    private String roleName;
 }
